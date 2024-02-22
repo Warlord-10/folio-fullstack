@@ -3,11 +3,9 @@ import React, { useState, useEffect } from 'react'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 
-
-
-// import Dropdown from './DropDown';
 import ProjectDetail from './ProjectDetail';
 import CodeEditorPanel from './CodeEditorPanel';
+import Dropdown from './DropDown';
 
 
 
@@ -47,6 +45,14 @@ function CodeScreen({ data }) {
             console.log(response.data);
         } catch (error) {
             console.log(error)   
+        }
+    }
+    const uploadNewFiles = async (folderId) => {
+        try {
+            const response = await axios.post(requests.uploadFile(folderId));
+            console.log("uploaded");
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -99,21 +105,24 @@ function CodeScreen({ data }) {
         <div className='main flex bg-[#0d0a15] text-white font-mono'>
             <div className='componentTree p-3 border-2 border-white w-1/4 flex flex-col'>
                 <h1 className='text-2xl underline mb-3 font-bold'>Files</h1>
-                {/* {currProject.root && <Dropdown fid={currProject.root}/>} */}
-
+                {
+                    <Dropdown 
+                        repoId={data} 
+                        fileFunctions={{ setFileId}}
+                        folderFunctions={{ setFolderId}}
+                    />
+                }
             </div>
 
             <div className='codeEditor p-3 border-2 w-full flex flex-col'>
                 {currRepo &&
-                    <>
-                        <ProjectDetail
-                            repoData={currRepo}
-                            fileFunctions={{ setFileId, createFile, updateFile, deleteFile }}
-                            folderFunctions={{ setFolderId, createFolder, updateFolder, deleteFolder }}
-                        />
-                    </>
+                    <ProjectDetail
+                        repoData={currRepo}
+                        fileFunctions={{ setFileId, createFile, updateFile, deleteFile, uploadNewFiles }}
+                        folderFunctions={{ setFolderId, createFolder, updateFolder, deleteFolder }}
+                    />
                 }
-                <CodeEditorPanel fileId={fileId} updateFileFunction={updateFile} deleteFileFunction={deleteFile} />
+                <CodeEditorPanel fileId={fileId} updateFileFunction={updateFile} deleteFileFunction={deleteFile} closeFileFunction={setFileId}/>
 
             </div>
         </div>

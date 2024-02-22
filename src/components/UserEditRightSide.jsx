@@ -52,6 +52,10 @@ function UserEditRightSide({data}) {
                 </div>
             </div>
 
+            {/* <div>
+                <iframe src="http://localhost:3005/test/65c88ea2c1ddaeba86f9aeff/65c88ebdc1ddaeba86f9af02/index.html" frameborder="0"></iframe>
+            </div> */}
+
             {newProjectData !== false &&
                 <form 
                     className='border-2 border-black mt-5 mb-5 relative pl-2 pr-2 text-black'
@@ -89,12 +93,6 @@ function UserEditRightSide({data}) {
                                 className='p-2 border-2 border-black rounded-md'
                             />
                         </div>
-                        {/* <input
-                              onChange={(e) => setNewProjectData({ ...newProjectData, files: [...e.target.files] })}
-                              type='file'
-                              multiple
-                          /> */}
-
                         <button
                             className='p-1 bg-green-500 rounded-md hover:bg-green-700'
                             type='submit'>

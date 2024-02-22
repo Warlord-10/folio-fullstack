@@ -1,10 +1,28 @@
 "use client"
 import React, { useState } from 'react'
+import axios from "@/Networking/Axios";
+import requests from '@/Networking/Requests';
 
 
 function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
     const [creatingNew, setCreatingNew] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
+    const uploadNewFiles = async (e) => {
+        try {
+            e.preventDefault()
+            const fd = new FormData();
+            console.log(selectedFiles);
+            selectedFiles.forEach((f) => {
+                fd.append('file', f);
+            });
+    
+            const response = await axios.post(requests.uploadFile(repoData._id), fd)
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // functions to display files and folders
     function FileDetailTab(fileData, key) {
@@ -76,8 +94,8 @@ function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
                 {creatingNew &&
                     <form
                         action={creatingNew === "file"
-                            ? (e) => {fileFunctions.createFile({ name: e.get("name"), parent: repoData._id }); setCreatingNew(false)}
-                            : (e) => {folderFunctions.createFolder({ name: e.get("name"), parent: repoData._id }); setCreatingNew(false)}
+                            ? (e) => { fileFunctions.createFile({ name: e.get("name"), parent: repoData._id }); setCreatingNew(false) }
+                            : (e) => { folderFunctions.createFolder({ name: e.get("name"), parent: repoData._id }); setCreatingNew(false) }
                         }
                         className='flex p-2 justify-between items-center'>
                         <div className='flex gap-2'>
@@ -105,13 +123,22 @@ function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
                         </div>
                     </form>
                 }
-                <label className='flex p-2 hover:bg-[#120e1daf] justify-between items-center cursor-pointer'>
-                    <input className='hidden' type='file' multiple />
-                    Upload File
-                </label>
+                <form className='flex justify-between px-2' onSubmit={uploadNewFiles}>
+                    <div className='flex items-center gap-x-2'>
+                        <label className='flex p-2 hover:bg-[#120e1daf] justify-between items-center cursor-pointer rounded-md border-2 border-white'>
+                            Upload File
+                            <input
+                                name="file"
+                                className='hidden'
+                                type='file'
+                                multiple
+                                onChange={(e) => setSelectedFiles([...e.target.files])} />
+                        </label>
+                        <h1>{selectedFiles.length} Files selected</h1>
+                    </div>
+                    <button className='hover:bg-[#120e1daf] p-2 rounded-md border-2 border-white' type='submit'>Upload</button>
+                </form>
             </div>
-
-
         </div>
     )
 }

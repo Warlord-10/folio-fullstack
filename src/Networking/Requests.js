@@ -12,6 +12,9 @@ const getDeleteUpdateUserById = (uid)=>{
         return `/user/s/`
     }
 }
+const getUserProfilePage = (uid)=>{
+    return `/user/page/${uid}`
+}
 
 
 const getDeleteUserAllProjects = (uid)=>{
@@ -22,6 +25,9 @@ const getUpdateDeleteProjectById = (pid)=>{
 }
 const createUserProject = ()=>{
     return '/projects/s'
+}
+const transpileProject = (pid)=>{
+    return `/projects/transpile/${pid}`
 }
 
 
@@ -58,10 +64,12 @@ export default {
     userSignIn, 
     userSignUp, 
     getDeleteUpdateUserById,
+    getUserProfilePage,
 
     getDeleteUserAllProjects,
     getUpdateDeleteProjectById,
     createUserProject,
+    transpileProject,
 
     getUpdateDeleteFolderById,
     createFolder,
