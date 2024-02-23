@@ -10,34 +10,36 @@ import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
 
 
-async function page() {
-  try {
-    const response = await axios.get(requests.getUserProfilePage("65c88ebdc1ddaeba86f9af02"));
+function originalFolio() {
+  return (
+    <div className='bg-[#030014]'>
+      {/* <StarsCanvas /> */}
+      <Navbar />
+      <div className='parallax'>
+        <Banner />
+        <ProjectSection />
+        <Footer />
+        {/* <Par /> */}
+      </div>
+    </div>
+  )
+}
 
+
+async function page({ params }) {
+  try {
+    const response = await axios.get(requests.getUserProfilePage(params.id));
+    console.log(response.data)
     return (
       <>
         <div id='userPageRoot'></div>
-        <Script src="http://127.0.0.1:3005/test/65c88ea2c1ddaeba86f9aeff/65c88ebdc1ddaeba86f9af02/bundle.js" strategy="afterInteractive"/>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <Script src={`http://127.0.0.1:3005/${response.data.link}`} strategy="afterInteractive" />
       </>
     );
-
-
   } catch (error) {
-    console.log(error)
-    return (
-      <div className='bg-[#030014]'>
-        {/* <StarsCanvas /> */}
-        <Navbar />
-        <div className='parallax'>
-          <Banner />
-          <ProjectSection />
-          <Footer />
-          {/* <Par /> */}
-        </div>
-      </div>
-    )
+    return originalFolio();
   }
-
 }
 
 export default page

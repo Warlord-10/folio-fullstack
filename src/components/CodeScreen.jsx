@@ -27,14 +27,6 @@ function CodeScreen({ data }) {
             console.log(error)
         }
     }
-    const updateFile = async (fileId, dataToSend) => {
-        try {
-            const responseUpdate = await axios.patch(requests.updateDeleteFile(fileId), dataToSend);
-            console.log("updated: ", responseUpdate.data);
-        } catch (error) {
-            console.log(error)
-        }
-    }
     const deleteFile = async (fileId) => {
         try {
             const response = await axios.delete(requests.updateDeleteFile(fileId));
@@ -118,7 +110,7 @@ function CodeScreen({ data }) {
                 {currRepo &&
                     <ProjectDetail
                         repoData={currRepo}
-                        fileFunctions={{ setFileId, createFile, updateFile, deleteFile, uploadNewFiles }}
+                        fileFunctions={{ setFileId, createFile, updateFile, deleteFile }}
                         folderFunctions={{ setFolderId, createFolder, updateFolder, deleteFolder }}
                     />
                 }

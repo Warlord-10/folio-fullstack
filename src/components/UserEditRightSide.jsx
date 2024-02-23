@@ -22,10 +22,13 @@ function UserEditRightSide({data}) {
             console.error("Project creation falied!", error);
         }
     }
-    const deleteProject = async (e, pid) => {
-        e.preventDefault()
-        const response = await axios.delete(requests.getUpdateDeleteProjectById(pid));
-        setProjectData(projectData.filter((comp) => comp._id !== pid));
+    const deleteProject = async (pid) => {
+        try {
+            const response = await axios.delete(requests.getUpdateDeleteProjectById(pid));
+            setProjectData(projectData.filter((comp) => comp._id !== pid));
+        } catch (error) {
+            console.log(error)
+        }
     }
     
 
