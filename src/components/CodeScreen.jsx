@@ -27,6 +27,14 @@ function CodeScreen({ data }) {
             console.log(error)
         }
     }
+    const updateFile = async (fileId, dataToSend) => {
+        try {
+            const responseUpdate = await axios.patch(requests.updateDeleteFile(fileId), dataToSend);
+            console.log("updated: ", responseUpdate.data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const deleteFile = async (fileId) => {
         try {
             const response = await axios.delete(requests.updateDeleteFile(fileId));
@@ -39,10 +47,19 @@ function CodeScreen({ data }) {
             console.log(error)   
         }
     }
-    const uploadNewFiles = async (folderId) => {
+    const uploadNewFiles = async (data) => {
         try {
-            const response = await axios.post(requests.uploadFile(folderId));
-            console.log("uploaded");
+            const fd = new FormData();
+            data.forEach((f) => {
+                fd.append('file', f);
+            });
+    
+            const response = await axios.post(requests.uploadFile(folderId), fd)
+            setCurrRepo({
+                ...currRepo,
+                files: [...currRepo.files, response.data]
+            });
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
@@ -110,7 +127,7 @@ function CodeScreen({ data }) {
                 {currRepo &&
                     <ProjectDetail
                         repoData={currRepo}
-                        fileFunctions={{ setFileId, createFile, updateFile, deleteFile }}
+                        fileFunctions={{ setFileId, createFile, updateFile, deleteFile, uploadNewFiles }}
                         folderFunctions={{ setFolderId, createFolder, updateFolder, deleteFolder }}
                     />
                 }

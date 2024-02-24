@@ -25,7 +25,7 @@ function UserEditLeftSide({ data }) {
     }
     const deleteUser = async (e) => {
         try {
-            await axios.delete(requests.getDeleteUserById(null));
+            await axios.delete(requests.getDeleteUpdateUserById(userData._id));
             return redirect("/auth/login");
         } catch (error) {
             console.log(error)
@@ -37,10 +37,11 @@ function UserEditLeftSide({ data }) {
             {isUserEdit
                 ? <form action={updateUser} className='border-2 border-white text-black rounded-md flex flex-col p-5'>
                     <label>
-                        {/* "https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/a/9/4/a940fe649d1d5bb4355b3dc5ccdee540bb7d2929.png" */}
-                        <img className='rounded-full object-contain cursor-pointer' src={userData.avatar}
+                        <img
+                            className='rounded-full object-contain cursor-pointer border-2 border-gray-600'
+                            src={userData.avatar ? userData.avatar : "https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/a/9/4/a940fe649d1d5bb4355b3dc5ccdee540bb7d2929.png"}
                         />
-                        <input type='file' className='hidden' name='avatar'/>
+                        <input type='file' className='hidden' name='avatar' />
                     </label>
                     <h1 className='text-white text-lg'>Name: </h1>
                     <input
@@ -81,8 +82,9 @@ function UserEditLeftSide({ data }) {
                 </form>
 
                 : <>
-                    <img className='rounded-full object-contain'
-                        src={userData.avatar}
+                    <img
+                        className='rounded-full object-contain border-2 border-gray-600'
+                        src={userData.avatar ? userData.avatar : "https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/a/9/4/a940fe649d1d5bb4355b3dc5ccdee540bb7d2929.png"}
                     />
                     <h1 className='text-3xl text-left mt-5'>{userData.name}</h1>
                     <h1 className='text-lg text-left text-gray-600'>{userData.email}</h1>

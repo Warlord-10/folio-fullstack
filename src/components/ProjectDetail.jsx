@@ -8,22 +8,6 @@ function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
     const [creatingNew, setCreatingNew] = useState(false);
     const [selectedFiles, setSelectedFiles] = useState([]);
 
-    const uploadNewFiles = async (e) => {
-        try {
-            e.preventDefault()
-            const fd = new FormData();
-            console.log(selectedFiles);
-            selectedFiles.forEach((f) => {
-                fd.append('file', f);
-            });
-    
-            const response = await axios.post(requests.uploadFile(repoData._id), fd)
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     // functions to display files and folders
     function FileDetailTab(fileData, key) {
         return (
@@ -123,7 +107,7 @@ function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
                         </div>
                     </form>
                 }
-                <form className='flex justify-between px-2' onSubmit={uploadNewFiles}>
+                <form className='flex justify-between px-2' action={ (e)=>{fileFunctions.uploadNewFiles(selectedFiles); setSelectedFiles([])} }>
                     <div className='flex items-center gap-x-2'>
                         <label className='flex p-2 hover:bg-[#120e1daf] justify-between items-center cursor-pointer rounded-md border-2 border-white'>
                             Upload File
