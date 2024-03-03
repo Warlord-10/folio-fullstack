@@ -8,7 +8,7 @@ import { setCookie } from 'cookies-next';
 
 
 
-function page() {
+export default function Page() {
     const router = useRouter();
     const [apiResponse, setApiResponse] = useState(null);
 
@@ -98,7 +98,3 @@ function page() {
         </div>
     )
 }
-
-
-
-export default page

@@ -41,13 +41,13 @@ export default function Home() {
           <div className='text-reveal border-2 border-white rounded-lg text-white flex flex-col text-[1.5rem] gap-1 p-5'>
             <p>
               <span>
-                // Welcome to Folio! <br></br>
-                // Built with passion and innovation. <br></br>
+                {"// Welcome to Folio! "}<br></br>
+                {"// Built with passion and innovation. "}<br></br>
                 {"function greetUser(name) { "} <br></br>
                 {"return `Hello, ${name}! Welcome to Folio. Let's innovate!`;"} <br></br>
                 {"}"} <br></br>
-                const userName = "New User"; <br></br>
-                console.log(greetUser(userName)); <br></br>
+                {'const userName = "New User"; '}<br></br>
+                {'console.log(greetUser(userName)); '}<br></br>
               </span>
             </p>
           </div>

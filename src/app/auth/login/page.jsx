@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { setCookie } from 'cookies-next';
 
 
-export default function page() {
+export default function Page() {
     const router = useRouter();
     const [apiResponse, setApiResponse] = useState(null);
 
