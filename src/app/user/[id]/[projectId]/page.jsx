@@ -6,9 +6,8 @@ export default async function page({params}) {
   
   try {
     const response = await axios.get(requests.getUpdateDeleteProjectById(params.projectId))
-    console.log("Project data: ", response.data)
     return (
-      <CodeScreen data={response.data.root}/> // passing the root folder id
+      <CodeScreen projectData={response.data} data={response.data.root}/> // passing the root folder id
     )
   } catch (error) {
     <div>error</div>

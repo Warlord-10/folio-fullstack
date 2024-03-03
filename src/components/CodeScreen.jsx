@@ -9,7 +9,7 @@ import Dropdown from './DropDown';
 
 
 
-function CodeScreen({ data }) {
+function CodeScreen({ projectData, data }) {
     const [folderId, setFolderId] = useState(data) // id of the folder currently inside
     const [currRepo, setCurrRepo] = useState({}); // data of the folder currently inside
     const [fileId, setFileId] = useState(null); // id of the file viewing
@@ -18,21 +18,17 @@ function CodeScreen({ data }) {
     const createFile = async (data) => {
         try {
             const response = await axios.post(requests.createFile(), data);
-            console.log("new file: ", response.data);
             setCurrRepo({
                 ...currRepo,
                 files: [...currRepo.files, response.data]
             });
         } catch (error) {
-            console.log(error)
         }
     }
     const updateFile = async (fileId, dataToSend) => {
         try {
             const responseUpdate = await axios.patch(requests.updateDeleteFile(fileId), dataToSend);
-            console.log("updated: ", responseUpdate.data);
         } catch (error) {
-            console.log(error)
         }
     }
     const deleteFile = async (fileId) => {
@@ -42,9 +38,7 @@ function CodeScreen({ data }) {
                 ...currRepo,
                 files: currRepo.files.filter((comp) => comp._id !== fileId)
             });
-            console.log(response.data);
         } catch (error) {
-            console.log(error)   
         }
     }
     const uploadNewFiles = async (data) => {
@@ -53,36 +47,30 @@ function CodeScreen({ data }) {
             data.forEach((f) => {
                 fd.append('file', f);
             });
-    
+
             const response = await axios.post(requests.uploadFile(folderId), fd)
             setCurrRepo({
                 ...currRepo,
                 files: [...currRepo.files, response.data]
             });
-            console.log(response);
         } catch (error) {
-            console.log(error);
         }
     }
 
     const createFolder = async (data) => {
         try {
             const response = await axios.post(requests.createFolder(), data);
-            console.log("new folder: ", response.data);
             setCurrRepo({
                 ...currRepo,
                 folders: [...currRepo.folders, response.data]
             });
         } catch (error) {
-            console.log(error)
         }
     }
     const updateFolder = async (folderId, dataToSend) => {
         try {
             const responseUpdate = await axios.patch(requests.getUpdateDeleteFolderById(folderId), dataToSend);
-            console.log("updated: ", responseUpdate.data);
         } catch (error) {
-            console.log(error)
         }
     }
     const deleteFolder = async (folderId) => {
@@ -92,9 +80,7 @@ function CodeScreen({ data }) {
                 ...currRepo,
                 folders: currRepo.folders.filter((comp) => comp._id !== folderId)
             });
-            console.log(response.data);
         } catch (error) {
-            console.log(error)
         }
     }
 
@@ -103,7 +89,6 @@ function CodeScreen({ data }) {
         const fetchFolderData = async () => {
             const repoResponse = await axios.get(requests.getUpdateDeleteFolderById(folderId));
             setCurrRepo(repoResponse.data);
-            console.log(repoResponse.data);
             return repoResponse.data;
         }
         fetchFolderData();
@@ -115,15 +100,15 @@ function CodeScreen({ data }) {
             <div className='componentTree p-3 border-2 border-white w-1/4 flex flex-col'>
                 <h1 className='text-2xl underline mb-3 font-bold'>Files</h1>
                 {
-                    <Dropdown 
-                        repoId={data} 
-                        fileFunctions={{ setFileId}}
-                        folderFunctions={{ setFolderId}}
+                    <Dropdown
+                        repoId={data}
+                        fileFunctions={{ setFileId }}
+                        folderFunctions={{ setFolderId }}
                     />
                 }
             </div>
 
-            <div className='codeEditor p-3 border-2 w-full flex flex-col'>
+            <div className='codeEditor p-3 border-2 w-full flex flex-col gap-2'>
                 {currRepo &&
                     <ProjectDetail
                         repoData={currRepo}
@@ -131,7 +116,19 @@ function CodeScreen({ data }) {
                         folderFunctions={{ setFolderId, createFolder, updateFolder, deleteFolder }}
                     />
                 }
-                <CodeEditorPanel fileId={fileId} updateFileFunction={updateFile} deleteFileFunction={deleteFile} closeFileFunction={setFileId}/>
+
+                {fileId === null && currRepo.parent === null && projectData.banner
+                    ? <div className='overflow-hidden rounded-md border-2 border-white'>
+                        <img src={`${requests.publicFiles()}${projectData.banner}`} />
+                    </div>
+                    : <CodeEditorPanel
+                        fileId={fileId}
+                        updateFileFunction={updateFile}
+                        deleteFileFunction={deleteFile}
+                        closeFileFunction={setFileId}
+                    />
+                }
+
 
             </div>
         </div>

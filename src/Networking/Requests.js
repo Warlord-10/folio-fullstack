@@ -1,3 +1,17 @@
+
+const publicFiles = ()=>{
+    if(process.env.NODE_ENV === "development"){
+        return `${process.env.NEXT_PUBLIC_DEV_URL}public/`
+    }
+    return `${process.env.NEXT_PUBLIC_PROD_URL}public/`
+}
+const userBundles = ()=>{
+    if(process.env.NODE_ENV === "development"){
+        return `${process.env.NEXT_PUBLIC_DEV_URL}test/`
+    }
+    return `${process.env.NEXT_PUBLIC_PROD_URL}test/`
+}
+
 const userSignIn = ()=>{
     return `/auth/login`
 }
@@ -61,6 +75,9 @@ const testApi = ()=>{
 }
 
 export default {
+    publicFiles,
+    userBundles,
+
     userSignIn, 
     userSignUp, 
     getDeleteUpdateUserById,

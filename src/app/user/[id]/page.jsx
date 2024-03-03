@@ -29,12 +29,11 @@ function originalFolio() {
 async function page({ params }) {
   try {
     const response = await axios.get(requests.getUserProfilePage(params.id));
-    console.log(response.data)
     return (
       <>
+        <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
         <div id='userPageRoot'></div>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <Script src={`http://127.0.0.1:3005/${response.data.link}`} strategy="afterInteractive" />
+        <Script src={`${requests.userBundles()}${await response.data}`} strategy="afterInteractive" />
       </>
     );
   } catch (error) {

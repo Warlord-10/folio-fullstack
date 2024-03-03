@@ -3,10 +3,13 @@ import Link from 'next/link'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { setCookie } from 'cookies-next';
 
 
 export default function page() {
     const router = useRouter();
+    const [apiResponse, setApiResponse] = useState(null);
 
     const signInFunction = async (e) => {
         try {
@@ -15,9 +18,32 @@ export default function page() {
                 password: e.get("password")
             }
             const response = await axios.post(requests.userSignIn(), dataToSend);
-            router.push(`/profile/${response.data._id}`)
+            setCookie("accessToken", response.data.accessToken, {
+                maxAge: 60*60,
+                sameSite: "none",
+                secure: true
+            })
+            setCookie("refreshToken", response.data.refreshToken, {
+                maxAge: 60*60*24,
+                sameSite: "none",
+                secure: true
+            })
+            setApiResponse(
+                <div className='text-green-500 text-sm flex justify-center'>
+                    Login Successful
+                </div>
+            );
+
+            router.push(`/profile/${response.data.user._id}`)
         } catch (error) {
-            console.error('Error making PUT request:', error);
+            setApiResponse(
+                <div className='text-red-500 text-sm flex justify-center'>
+                    {error.response.data}
+                </div>
+            )
+            setTimeout(() => {
+                setApiResponse(null);
+            }, 2000);
         }
     };
 
@@ -46,6 +72,7 @@ export default function page() {
                         placeholder='Password'>
                     </input>
                 </div>
+                {apiResponse}
                 <button className='text-white border-white border-2 rounded-md hover:border-4'>
                     Sign In
                 </button>

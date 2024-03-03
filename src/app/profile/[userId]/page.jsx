@@ -5,16 +5,15 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 
-export default async function Page() {
+export default async function Page({ params }) {
     const cookieStore = cookies();
     try {
         const jwt = cookieStore.get("accessToken");
-        const response = await axios.get(requests.getDeleteUpdateUserById(null), {
+        const response = await axios.get(requests.getDeleteUpdateUserById(params.userId), {
             headers: {
                 "Cookie": `${jwt.name}=${jwt.value}`
             }
         });
-    
         return <UserEditScreen data = {await response.data}/>
     } catch (error) {
         return redirect("/auth/login")

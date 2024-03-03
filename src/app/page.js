@@ -1,113 +1,173 @@
-import Image from "next/image";
+import React from 'react'
+import "./homePage.css"
+import CodeEditorHomePage from '@/components/CodeEditorHomePage';
+import Link from 'next/link';
+
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className=''>
+
+      {/* <div className='navbar h-20 sub-group text-white items-center flex p-2 text-xl gap-5'>
+        <Link
+          href="/"
+          className='rounded-md p-2 hover:bg-gray-900'
+          >Folio
+        </Link>
+        <Link 
+          href="/auth/login"
+          className='rounded-md p-2 hover:bg-gray-900'
+          >Login
+        </Link>
+      </div> */}
+
+
+      <div className='page page-1 flex justify-evenly py-10 bg-black'>
+        <div className='mt-10 flex flex-col gap-5'>
+          <h1 className='text-[15rem] font-[Anta] leading-[1] text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500'>FOLIO</h1>
+          <h1 className='text-2xl font-mono text-white'> Where Your Ideas Take Shape</h1>
+        </div>
+        <CodeEditorHomePage styles={"mt-10 codeEditor"} />
+      </div>
+
+
+
+      <div className='page-2 bg-black font-[Anta] text-[25rem] overflow-clip'>
+        <div className='page-2-card-1 sticky top-0 font-[Anta] text-[25rem] bg-black p-5'>
+          <h1 className='text-center text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900'>CODE</h1>
+        </div>
+
+        <div className='page-2-card-2 backdrop-blur-xl h-[100vh] p-5 flex justify-end sticky top-0'>
+          <div className='text-reveal border-2 border-white rounded-lg text-white flex flex-col text-[1.5rem] gap-1 p-5'>
+            <p>
+              <span>
+                // Welcome to Folio! <br></br>
+                // Built with passion and innovation. <br></br>
+                {"function greetUser(name) { "} <br></br>
+                {"return `Hello, ${name}! Welcome to Folio. Let's innovate!`;"} <br></br>
+                {"}"} <br></br>
+                const userName = "New User"; <br></br>
+                console.log(greetUser(userName)); <br></br>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div className='p-5 sticky top-[100px] max-w-[40%]  h-[100vh]'>
+          <p className='slide-up-panel text-center text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900 text-[3rem]'>
+            Welcome to the future of coding!
+            Folio features an intuitive, inbuilt code editor that
+            puts the power of programming right at your fingertips.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div className='page page-3 p-5 font-[Anta] text-[25rem] bg-black overflow-clip'>
+        <h1 className='text-center text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900'>CREATE</h1>
+      </div>
+
+
+      <div className='page page-4 font-[Anta] bg-black flex overflow-clip'>
+        <div className='relative text-white perspective'>
+          <div className='glowing-text text-[10rem] p-5'>
+            <span className='hover:text-red-600'>D</span>
+            <span className='hover:text-teal-600'>E</span>
+            <span className='hover:text-yellow-400'>S</span>
+            <span className='hover:text-purple-800'>I</span>
+            <span className='hover:text-pink-900'>G</span>
+            <span className='hover:text-violet-600'>N</span>
+          </div>
+          <h1 className='leading-[1] text-[10rem] p-5 bg-violet-950'>YOUR</h1>
+          <h1 className='hanging-text text-[10rem] p-5'>PORTFOLIO</h1>
+        </div>
+        {/* <h1 className='text-[2rem]'>
+                display your projects, <br></br>
+                share your coding journey <br></br>
+                and highlight your skills.
+              </h1> */}
+
+        <div className='card-holder text-[2rem] text-white top-10'>
+          <div className='inner-card flex flex-col gap-3'>
+            <h1 className='p-3'>Portfolio</h1>
+            <img src='https://i.pinimg.com/736x/e4/e0/d1/e4e0d1639ac7e36f52c9f6e0c2ac3b3d.jpg' />
+          </div>
+          <div className='inner-card flex flex-col gap-3'>
+            <h1 className='p-3'>Projects</h1>
+            <img src='https://blog.hubspot.com/hubfs/Google%20Drive%20Integration/dark%20website%20themes_22023-Mar-21-2023-01-31-00-1346-PM.jpeg' />
+          </div>
+        </div>
+
+      </div>
+
+
+
+      <div className='sticky top-0 page page-5 font-[Anta] bg-black overflow-clip p-3'>
+        <div className='rounded-md border-2 border-white w-[60%] overflow-hidden'>
+          <div className='h-[80px] bg-[#0d0a15] border-b-2 border-white text-white text-[2rem] p-3'>
+            Folio
+          </div>
+
+          <div className='flex flex-col bg-[#0d0a15]'>
+            <div className='p-2 flex justify-between gap-x-5 hover:bg-[#120e1daf]'>
+              <h1 className='items-center flex text-white gap-3'>
+                <img src='/folderIcon.svg' />
+                ...
+              </h1>
+              <div className='flex gap-3'>
+                <img src='/editIcon.svg' />
+                <img src='/trashIcon.svg' />
+              </div>
+            </div>
+            <div className='p-2 flex justify-between gap-x-5 hover:bg-[#120e1daf]'>
+              <h1 className='items-center flex text-white gap-3'>
+                <img src='/folderIcon.svg' />
+                src
+              </h1>
+              <div className='flex gap-3'>
+                <img src='/editIcon.svg' />
+                <img src='/trashIcon.svg' />
+              </div>
+            </div>
+            <div className='p-2 flex justify-between gap-x-5 hover:bg-[#120e1daf]'>
+              <h1 className='items-center flex text-white gap-3'>
+                <img src='/folderIcon.svg' />
+                app
+              </h1>
+              <div className='flex gap-3'>
+                <img src='/editIcon.svg' />
+                <img src='/trashIcon.svg' />
+              </div>
+            </div>
+            <div className='p-2 flex justify-between gap-x-5 hover:bg-[#120e1daf]'>
+              <h1 className='items-center flex text-white gap-3'>
+                <img src='/folderIcon.svg' />
+                public
+              </h1>
+              <div className='flex gap-3'>
+                <img src='/editIcon.svg' />
+                <img src='/trashIcon.svg' />
+              </div>
+            </div>
+            <div className='p-2 flex justify-between gap-x-5 hover:bg-[#120e1daf]'>
+              <h1 className='items-center flex text-white gap-3'>
+                <img src='/folderIcon.svg' />
+                components
+              </h1>
+              <div className='flex gap-3'>
+                <img src='/editIcon.svg' />
+                <img src='/trashIcon.svg' />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className='text-[8rem] text-white p-5 absolute right-0 top-0 backdrop-blur-md leading-[1]'>
+          <h1 className=''>MANAGE</h1>
+          <h1 className=''>YOUR</h1>
+          <h1>PROJECTS</h1>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }

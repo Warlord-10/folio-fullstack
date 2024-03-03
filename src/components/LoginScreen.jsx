@@ -36,9 +36,7 @@ function LoginScreen() {
                 sessionStorage.setItem("USER_ID", response.data.user._id);
                 // navigate(`/${response.data.user.firstName}`);
             }
-            console.log('PUT request successful:', response.data);
         } catch (error) {
-            console.error('Error making PUT request:', error);
         }
     };
 
@@ -58,9 +56,7 @@ function LoginScreen() {
                 sessionStorage.setItem("USER_ID", response.data.user._id);
                 // navigate(`/${response.data.user._id}`);
             }
-            console.log('PUT request successful:', response.data);
         } catch (error) {
-            console.error('Error making PUT request:', error);
         }
     };
 

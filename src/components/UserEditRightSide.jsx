@@ -15,19 +15,32 @@ function UserEditRightSide({data}) {
                 description: e.get("about")
             }
             const response = await axios.post(requests.createUserProject(), dataToSend);
-            console.log(response.data)
             setProjectData([...projectData, response.data.pid])
             setNewProjectData(false);
         } catch (error) {
             console.error("Project creation falied!", error);
         }
     }
+    const updateProject = async (e, id) => {
+        const dataToSend = new FormData()
+        dataToSend.append("title", e.get("title"))
+        dataToSend.append("description", e.get("description"))
+        dataToSend.append("file", e.get("banner"))
+        const response = await axios.patch(requests.getUpdateDeleteProjectById(id), dataToSend)
+        
+        const updatedProjectData = projectData.map(item => {
+            if (item._id === id) {
+                return response.data;
+            }
+            return item;
+        });
+        setProjectData(updatedProjectData);
+    }
     const deleteProject = async (pid) => {
         try {
             const response = await axios.delete(requests.getUpdateDeleteProjectById(pid));
             setProjectData(projectData.filter((comp) => comp._id !== pid));
         } catch (error) {
-            console.log(error)
         }
     }
     
@@ -42,7 +55,7 @@ function UserEditRightSide({data}) {
             {/* Holds all the projects details */}
             <div className="projectMenu grid grid-cols-2 gap-2 self-start w-full">
                 {projectData.map((m) => (
-                    <Project key={m._id} data={m} deleteFunction={deleteProject} />
+                    <Project key={m._id} data={m} deleteFunction={deleteProject} updateFunction={updateProject}/>
                 ))}
 
                 {/* button to add new project */}

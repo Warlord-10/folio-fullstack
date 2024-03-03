@@ -3,10 +3,14 @@ import Link from 'next/link'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation'
+import { useState } from 'react';
+import { setCookie } from 'cookies-next';
+
 
 
 function page() {
     const router = useRouter();
+    const [apiResponse, setApiResponse] = useState(null);
 
     const signUpFunction = async (e) => {
         try {
@@ -17,10 +21,31 @@ function page() {
             }
             // Make a PUT request using Axios
             const response = await axios.post(requests.userSignUp(), dataToSend);
-            console.log('PUT request successful:', response.data);
+            setCookie("accessToken", response.data.accessToken, {
+                maxAge: 60*60,
+                sameSite: "none",
+                secure: true
+            })
+            setCookie("refreshToken", response.data.refreshToken, {
+                maxAge: 60*60*24,
+                sameSite: "none",
+                secure: true
+            })
+            setApiResponse(
+                <div className='text-green-500 text-sm flex justify-center'>
+                    Sign Up Successful
+                </div>
+            );
             router.push(`/profile/${response.data._id}`)
         } catch (error) {
-            console.error('Error making PUT request:', error);
+            setApiResponse(
+                <div className='text-red-500 text-sm flex justify-center'>
+                    {error.response.data}
+                </div>
+            )
+            setTimeout(() => {
+                setApiResponse(null);
+            }, 2000);
         }
     };
 
@@ -57,6 +82,7 @@ function page() {
                         placeholder='Password'>
                     </input>
                 </div>
+                {apiResponse}
                 <button className='text-white border-white border-2 rounded-md'> 
                     Sign Up
                 </button>

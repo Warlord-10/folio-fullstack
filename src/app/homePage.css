@@ -1,0 +1,153 @@
+/* Global CSS */
+.globalPerspective {
+    perspective: 800px;
+    scroll-behavior: smooth;
+}
+
+.page {
+    height: 100vh;
+}
+
+
+/* CSS of Page-1 */
+.page-1 {
+    perspective: 800px;
+}
+.codeEditor {
+    transform: rotate3d(0, 1, 0, -35deg);
+    font-size: x-large;
+    overflow: hidden;
+}
+.line:hover {
+    background-color: #110a30;
+    cursor: pointer;
+    font-weight: bolder;
+    scale: 1.05;
+}
+
+
+/* CSS of Page-2 */
+.page-2-card-1 > h1{
+    animation: scale-up linear both;
+    animation-timeline: view(block);
+    animation-range: contain 0% cover 100%;
+}
+@keyframes scale-up {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(3);
+    }
+}
+
+
+.text-reveal span {
+    color: rgba(124, 121, 121, 0.2);
+    background-clip: text;
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(45deg, white, white);
+    animation: scroll-reveal linear forwards;
+    animation-timeline: view();
+    animation-range-start: contain;
+}
+@keyframes scroll-reveal {
+    to {
+        background-size: 100% 100%;
+    }
+}
+
+
+
+/* CSS of Page-3 */
+.page-3 > *{
+    /* transform: translateX(100%); */
+    animation: linear move both;
+    animation-timeline: view();
+    animation-range: cover;
+}
+@keyframes move {
+    0% {
+        transform: translateX(100%)
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+
+/* CSS of Page-4 */
+.card-holder{
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    position: relative;
+}
+.inner-card {
+    width: 400px;
+    border: white solid 2px;
+    overflow: hidden;
+    border-radius: 1rem;
+    position: absolute;
+    top: 0;
+    transform-style: preserve-3d;
+    background-color: rgb(39, 1, 39);
+    rotate: y -25deg;
+}
+
+.inner-card:nth-child(1) {
+    transform: translateZ(0px) translateX(0px);
+}
+.inner-card:nth-child(2) {
+    transform: translateZ(-100px) translateX(20px);
+}
+.inner-card:nth-child(3) {
+    transform: translateZ(-200px) translateX(40px);
+}
+
+
+.glowing-text{
+    line-height: 1;
+}
+.glowing-text > *:hover{
+    text-shadow: 0 0 1rem currentColor;
+}
+.glowing-text{
+    animation: linear move-in both;
+    animation-timeline: view();
+    animation-range: cover contain 50%;
+}
+@keyframes move-in {
+    from{
+        translate: -100%;
+    }
+    to{
+        translate: 0;
+    }
+}
+
+.perspective{
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+.hanging-text{
+    line-height: 1;
+    animation: linear 5s hang-down both;
+    animation-timeline: view();
+    animation-range: cover contain 20%;
+}
+@keyframes hang-down {
+    from{
+        rotate: x -90deg;
+    }
+    to{
+        rotate: x 0;
+    }
+}

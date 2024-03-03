@@ -107,9 +107,10 @@ function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
                         </div>
                     </form>
                 }
+
                 <form className='flex justify-between px-2' action={ (e)=>{fileFunctions.uploadNewFiles(selectedFiles); setSelectedFiles([])} }>
                     <div className='flex items-center gap-x-2'>
-                        <label className='flex p-2 hover:bg-[#120e1daf] justify-between items-center cursor-pointer rounded-md border-2 border-white'>
+                        <label className='flex p-2 justify-between items-center cursor-pointer rounded-md border-2 border-white hover:bg-gray-600'>
                             Upload File
                             <input
                                 name="file"
@@ -120,7 +121,7 @@ function ProjectDetail({ repoData, fileFunctions, folderFunctions }) {
                         </label>
                         <h1>{selectedFiles.length} Files selected</h1>
                     </div>
-                    <button className='hover:bg-[#120e1daf] p-2 rounded-md border-2 border-white' type='submit'>Upload</button>
+                    <button className='hover:bg-gray-600 p-2 rounded-md border-2 border-white' type='submit'>Upload</button>
                 </form>
             </div>
         </div>

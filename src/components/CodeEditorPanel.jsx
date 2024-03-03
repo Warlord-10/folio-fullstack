@@ -19,7 +19,6 @@ function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, close
         const fetchFileData = async () => {
             const responseDetail = await axios.get(requests.getFileDetail(fileId));
             const responseData = await axios.get(requests.getFileData(fileId));
-            // console.log(responseDetail.data, responseData.data);
             setCurrFile({ detail: responseDetail.data, data: responseData.data });
             return responseDetail.data;
         }
@@ -39,16 +38,35 @@ function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, close
 
                 {isEdit
                     ? <div className='flex divide-x border-2 border-gray-500 rounded-md'>
-                        <button className='p-2 hover:bg-gray-600' onClick={() => setIsEdit(false)}>Cancel Changes</button>
-                        <button className='p-2 hover:bg-green-600' onClick={() => updateFileFunction(fileId, { data: currFile.data })}>Save Changes</button>
+                        <button
+                            className='p-2 hover:bg-gray-600'
+                            onClick={() => setIsEdit(false)}>
+                            Cancel Changes
+                        </button>
+                        <button
+                            className='p-2 hover:bg-green-600'
+                            onClick={() => updateFileFunction(fileId, { data: currFile.data })}>Save Changes
+                        </button>
                     </div>
                     : <div className='flex border-2 border-gray-500 rounded-md divide-x'>
-                        <button className="p-2 hover:bg-gray-600" onClick={() => setIsEdit(true)}>Edit</button>
-                        <button className='p-2 hover:bg-gray-600' onClick={() => deleteFileFunction(fileId)}>Delete</button>
-                        <button className='p-2 hover:bg-gray-600'>Download</button>
-                        <button className='p-2 hover:bg-gray-600 px-5' onClick={() =>
-                            {closeFileFunction(null); setCurrFile({ detail: "", data: "" })}
-                        }>X</button>
+                        <button
+                            className="p-2 hover:bg-gray-600"
+                            onClick={() => setIsEdit(true)}>
+                            Edit
+                        </button>
+                        <button
+                            className='p-2 hover:bg-gray-600'>
+                            Download
+                        </button>
+                        <button
+                            className='p-2 hover:bg-gray-600'
+                            onClick={() => { deleteFileFunction(fileId); closeFileFunction(null) }}> Delete
+                        </button>
+                        <button
+                            className='p-2 hover:bg-gray-600 px-5'
+                            onClick={() => { closeFileFunction(null); setCurrFile({ detail: "", data: "" }) }
+                            }> X
+                        </button>
                     </div>
                 }
             </div>}
