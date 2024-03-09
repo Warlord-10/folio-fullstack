@@ -1,15 +1,35 @@
+"use client"
 import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
 import CodeScreen from "@/components/CodeScreen";
+import { useEffect, useState } from "react";
 
-export default async function page({params}) {
-  
+export default function page({params}) {
+  const [projectData, setProjectData] = useState(null);
+  const [userPermission, setUserPermission] = useState(null);
+
+  useEffect(()=>{
+    const fetchProjectData = async ()=>{
+      const response = await axios.get(requests.getUpdateDeleteProjectById(params.projectId))
+      setProjectData(response.data.data)
+      setUserPermission(response.data.PERMISSION)
+    }
+    fetchProjectData()
+  }, [params])
+
   try {
-    const response = await axios.get(requests.getUpdateDeleteProjectById(params.projectId))
     return (
-      <CodeScreen projectData={response.data} data={response.data.root}/> // passing the root folder id
+      <>
+        { projectData &&
+          <CodeScreen 
+            projectData={projectData} 
+            data={projectData.root} 
+            permission={userPermission}
+          /> // passing the root folder id
+        }
+      </>
     )
   } catch (error) {
-    <div>error</div>
+
   }
 }

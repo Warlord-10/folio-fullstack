@@ -3,7 +3,7 @@ import Link from 'next/link'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { setCookie } from 'cookies-next';
 
 
@@ -47,6 +47,19 @@ export default function Page() {
         }
     };
 
+    
+    useEffect(()=>{
+        async function autoSignIn(){
+            try {
+                const response = await axios.get(requests.getDeleteUpdateUserById(null))
+                console.log("auto: ", response.data)
+                router.push(`/profile/${response.data._id}`)
+            } catch (error) {
+                
+            }
+        }
+        // autoSignIn();
+    }, [])
 
     return (
         // bg-gradient-to-br from-purple-950 via-black to-purple-950
@@ -87,4 +100,5 @@ export default function Page() {
             </form>
         </div>
     )
+    
 }

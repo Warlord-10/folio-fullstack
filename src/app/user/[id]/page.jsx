@@ -32,8 +32,8 @@ async function page({ params }) {
     return (
       <>
         <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
-        <div id='userPageRoot'></div>
         <Script src={`${requests.userBundles()}${await response.data}`} strategy="afterInteractive" />
+        <div id='userPageRoot'></div>
       </>
     );
   } catch (error) {

@@ -3,14 +3,10 @@ import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
 import Link from "next/link";
 
-function Project({ data, deleteFunction, updateFunction }) {
+function Project({ data, deleteFunction, updateFunction, permission }) {
   const [isProjectEdit, setIsProjectEdit] = useState(false);
 
-  const transpileProject = async (e) => {
-    e.preventDefault();
-    const response = await axios.get(requests.transpileProject(data._id))
-  }
-
+  
   return (
     <div className='border-white border-2 p-3 rounded-md hover:shadow-lg'>
       {isProjectEdit
@@ -39,6 +35,7 @@ function Project({ data, deleteFunction, updateFunction }) {
             <input
               type='file'
               name='banner'
+              accept='image/*'
             />
           </label>
     
@@ -51,23 +48,20 @@ function Project({ data, deleteFunction, updateFunction }) {
         : <Link className="project flex flex-col justify-between gap-3 h-full" href={`/user/${data.owner}/${data._id}`}>
           <h1 className='heading font-bold text-3xl'>{data.title}</h1>
           <h1 className='description font-medium'>{data.description}</h1>
-          <div className='flex justify-between pt-2 mt-2'>
-            <button
-              onClick={(e) => { e.preventDefault(); deleteFunction(data._id) }}
-              className='bg-red-500 rounded-md p-1 hover:bg-red-800 px-5'>
-              Delete
-            </button>
-            <button
-              onClick={transpileProject}
-              className="p-2 hover:bg-yellow-500 rounded-md">
-              Transpile
-            </button>
-            <button
-              onClick={(e) => { e.preventDefault(); setIsProjectEdit(true) }}
-              className='bg-green-500 rounded-md p-1 hover:bg-green-800 px-5'>
-              Edit
-            </button>
-          </div>
+          {permission==="OWNER" &&
+            <div className='flex justify-between pt-2 mt-2'>
+              <button
+                onClick={(e) => { e.preventDefault(); deleteFunction(data._id) }}
+                className='bg-red-500 rounded-md p-1 hover:bg-red-800 px-5'>
+                Delete
+              </button>
+              <button
+                onClick={(e) => { e.preventDefault(); setIsProjectEdit(true) }}
+                className='bg-green-500 rounded-md p-1 hover:bg-green-800 px-5'>
+                Edit
+              </button>
+            </div>
+          }
         </Link>
       }
     </div>

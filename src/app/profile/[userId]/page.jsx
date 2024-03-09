@@ -1,22 +1,49 @@
+"use client"
 import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
-import UserEditScreen from "@/components/UserEditScreen";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import Navbar from "@/components/Navbar";
+import UserEditLeftSide from "@/components/UserEditLeftSide";
+import UserEditRightSide from "@/components/UserEditRightSide";
+import { useEffect, useState } from "react";
+
+// {
+//     headers:{
+//         cookie: `accessToken=${cookieStore.get("accessToken").value}; refreshToken=${cookieStore.get("refreshToken").value}`
+//     }
+// }
 
 
-export default async function Page({ params }) {
-    const cookieStore = cookies();
+export default function Page({ params }) {
+    const [userData, setUserData] = useState(null);
+    const [userPermission, setUserPermission] = useState(null);
+
+    useEffect(()=>{
+        const fetchData = async ()=>{
+            const response = await axios.get(requests.getDeleteUpdateUserById(params.userId));
+            console.log(response.data)
+            setUserData(response.data.data)
+            setUserPermission(response.data.PERMISSION)
+        }
+        fetchData();
+    }, [params])
+
+
     try {
-        const jwt = cookieStore.get("accessToken");
-        const response = await axios.get(requests.getDeleteUpdateUserById(params.userId), {
-            headers: {
-                "Cookie": `${jwt.name}=${jwt.value}`
-            }
-        });
-        return <UserEditScreen data = {await response.data}/>
+        return (
+            <>
+                <Navbar isLogged={userPermission==="OWNER"?true:false}/>
+                <div className='userEditScreen flex p-2 font-mono bg-[#171323] text-white justify-center min-h-[100vh] gap-5'>
+                    {userData &&
+                        <>
+                            <UserEditLeftSide data={userData} permission={userPermission}/>
+                            <UserEditRightSide data={userData} permission={userPermission}/>
+                        </>
+                    }
+                </div>
+            </>
+        )
     } catch (error) {
-        return redirect("/auth/login")
+        console.log(error)
     }
 }
 

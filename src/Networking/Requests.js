@@ -1,4 +1,5 @@
 
+// Static files
 const publicFiles = ()=>{
     if(process.env.NODE_ENV === "development"){
         return `${process.env.NEXT_PUBLIC_DEV_URL}public/`
@@ -12,6 +13,8 @@ const userBundles = ()=>{
     return `${process.env.NEXT_PUBLIC_PROD_URL}test/`
 }
 
+
+// User
 const userSignIn = ()=>{
     return `/auth/login`
 }
@@ -31,20 +34,22 @@ const getUserProfilePage = (uid)=>{
 }
 
 
+// Projects
 const getDeleteUserAllProjects = (uid)=>{
     return `/projects/${uid}`
 }
 const getUpdateDeleteProjectById = (pid)=>{
     return `/projects/s/${pid}`
 }
-const createUserProject = ()=>{
-    return '/projects/s'
+const createUserProject = (uid)=>{
+    return `/projects/s/${uid}`
 }
-const transpileProject = (pid)=>{
-    return `/projects/transpile/${pid}`
+const transpileProject = (uid)=>{
+    return `/projects/transpile/${uid}`
 }
 
 
+// Folders
 const getUpdateDeleteFolderById = (fid)=>{
     return `repo/folder/${fid}`
 } 
@@ -53,6 +58,7 @@ const createFolder = ()=>{
 }
 
 
+// Files
 const createFile = ()=>{
     return `repo/file`
 }
@@ -70,6 +76,7 @@ const uploadFile = (fid)=>{
 }
 
 
+// Test
 const testApi = ()=>{
     return `/user/test`
 }

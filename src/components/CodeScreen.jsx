@@ -9,7 +9,7 @@ import Dropdown from './DropDown';
 
 
 
-function CodeScreen({ projectData, data }) {
+function CodeScreen({ projectData, data, permission }) {
     const [folderId, setFolderId] = useState(data) // id of the folder currently inside
     const [currRepo, setCurrRepo] = useState({}); // data of the folder currently inside
     const [fileId, setFileId] = useState(null); // id of the file viewing
@@ -26,9 +26,14 @@ function CodeScreen({ projectData, data }) {
         }
     }
     const updateFile = async (fileId, dataToSend) => {
+        let msg = ""
         try {
             const responseUpdate = await axios.patch(requests.updateDeleteFile(fileId), dataToSend);
+            msg = <h1 className='text-green-500'>Successfully Saved</h1>
         } catch (error) {
+            msg = <h1 className='text-red-500'>Error Occurred</h1>
+        } finally{
+            return msg;
         }
     }
     const deleteFile = async (fileId) => {
@@ -38,6 +43,7 @@ function CodeScreen({ projectData, data }) {
                 ...currRepo,
                 files: currRepo.files.filter((comp) => comp._id !== fileId)
             });
+            setFileId(null);
         } catch (error) {
         }
     }
@@ -114,6 +120,7 @@ function CodeScreen({ projectData, data }) {
                         repoData={currRepo}
                         fileFunctions={{ setFileId, createFile, updateFile, deleteFile, uploadNewFiles }}
                         folderFunctions={{ setFolderId, createFolder, updateFolder, deleteFolder }}
+                        permission={permission}
                     />
                 }
 
@@ -126,6 +133,7 @@ function CodeScreen({ projectData, data }) {
                         updateFileFunction={updateFile}
                         deleteFileFunction={deleteFile}
                         closeFileFunction={setFileId}
+                        permission={permission}
                     />
                 }
 

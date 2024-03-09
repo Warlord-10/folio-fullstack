@@ -12,8 +12,24 @@ import "ace-builds/src-noconflict/ext-language_tools"
 
 function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, closeFileFunction }) {
     const [isEdit, setIsEdit] = useState(false);
-    const [responseData, setResponseData] = useState({ type: null, msg: null });
+    const [responseData, setResponseData] = useState(null);
     const [currFile, setCurrFile] = useState({ detail: "", data: "" }); // data of the file currently editing
+
+
+    const localFileUpdateFunction = ()=>{
+        const response = updateFileFunction(fileId, { data: currFile.data })
+        setResponseData(response);
+        setTimeout(() => {
+            setResponseData(null);
+        }, 2000);
+    }
+    const localFileDeleteFunction = ()=>{
+        deleteFileFunction(fileId)
+    }
+    const localCloseFileFunction = ()=>{
+        closeFileFunction(null); 
+    }
+
 
     useEffect(() => {
         const fetchFileData = async () => {
@@ -25,6 +41,9 @@ function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, close
         if (fileId !== null) {
             fetchFileData();
         }
+        else{
+            setCurrFile({ detail: "", data: "" })
+        }
     }, [fileId])
 
     return (
@@ -32,7 +51,7 @@ function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, close
             {currFile.detail && <div className='codeEditorNavbar flex p-2 border-b-2 justify-between items-center'>
                 <div>
                     <h1 className='text-xl'>{currFile.detail.name}</h1>
-                    {responseData.type == "update" && <h1 className='text-green-500'>{responseData.msg}</h1>}
+                    {responseData}
                     <h1 className='text-gray-500 text-sm'>Updated At: {currFile.detail.updatedAt}</h1>
                 </div>
 
@@ -45,27 +64,28 @@ function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, close
                         </button>
                         <button
                             className='p-2 hover:bg-green-600'
-                            onClick={() => updateFileFunction(fileId, { data: currFile.data })}>Save Changes
+                            onClick={localFileUpdateFunction}>
+                                Save Changes
                         </button>
                     </div>
                     : <div className='flex border-2 border-gray-500 rounded-md divide-x'>
                         <button
                             className="p-2 hover:bg-gray-600"
                             onClick={() => setIsEdit(true)}>
-                            Edit
+                                Edit
                         </button>
-                        <button
+                        {/* <button
                             className='p-2 hover:bg-gray-600'>
                             Download
-                        </button>
+                        </button> */}
                         <button
                             className='p-2 hover:bg-gray-600'
-                            onClick={() => { deleteFileFunction(fileId); closeFileFunction(null) }}> Delete
+                            onClick={localFileDeleteFunction}> 
+                                Delete
                         </button>
                         <button
                             className='p-2 hover:bg-gray-600 px-5'
-                            onClick={() => { closeFileFunction(null); setCurrFile({ detail: "", data: "" }) }
-                            }> X
+                            onClick={localCloseFileFunction}> X
                         </button>
                     </div>
                 }
