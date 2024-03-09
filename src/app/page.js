@@ -7,21 +7,6 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <div className=''>
-
-      {/* <div className='navbar h-20 sub-group text-white items-center flex p-2 text-xl gap-5'>
-        <Link
-          href="/"
-          className='rounded-md p-2 hover:bg-gray-900'
-          >Folio
-        </Link>
-        <Link 
-          href="/auth/login"
-          className='rounded-md p-2 hover:bg-gray-900'
-          >Login
-        </Link>
-      </div> */}
-
-
       <div className='page page-1 flex justify-evenly py-10 bg-black'>
         <div className='mt-10 flex flex-col gap-5'>
           <h1 className='text-[15rem] font-[Anta] leading-[1] text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500'>FOLIO</h1>
@@ -120,30 +105,31 @@ export default function Home() {
               </div>
               index.jsx:
             </div>
+
             <div className='p-4'>
               <h1>
-                <span className='text-red-500'>import</span> React from <span className='text-yellow-500'>'react'</span>
+                <span className='text-red-500'>import</span> React from <span className='text-yellow-500'>{`'react'`}</span>
               </h1>
               <h1>
-                <span className='text-red-500'>import</span> ReactDOM from <span className='text-yellow-500'>'react-dom/client'</span>
+                <span className='text-red-500'>import</span> ReactDOM from <span className='text-yellow-500'>{`'react-dom/client'`}</span>
               </h1>
               <h1>
-                <span className='text-red-500'>import</span> {"{ renderToString }"} from <span className='text-yellow-500'>'react-dom/server'</span>
+                <span className='text-red-500'>import</span> {`{ renderToString }`} from <span className='text-yellow-500'>{`'react-dom/server'`}</span>
               </h1>
               <h1>
-                <span className='text-red-500'>import</span> Home from <span className='text-yellow-500'>"./Home.jsx"</span>
+                <span className='text-red-500'>import</span> Home from <span className='text-yellow-500'>{`'./Home.jsx'`}</span>
               </h1>
               <h1>
-                <span className='text-cyan-500'>const</span> rootElement = <span className='text-blue-500'>document</span>.<span className='text-green-500'>getElementById</span><span className='text-yellow-500'>{"('userPageRoot')"}</span>
+                <span className='text-cyan-500'>const</span> rootElement = <span className='text-blue-500'>document</span>.<span className='text-green-500'>getElementById</span><span className='text-yellow-500'>{`('userPageRoot')`}</span>
               </h1>
               <h1>
-                <span className='text-cyan-500'>const</span> rootString = <span className='text-green-500'>renderToString</span>{"(<Home />)"}
+                <span className='text-cyan-500'>const</span> rootString = <span className='text-green-500'>renderToString</span>{`(<Home />)`}
               </h1>
               <h1>
                 <span className='text-blue-500'>rootElement</span>.innerHTML = rootString
               </h1>
               <h1>
-                <span className='text-cyan-500'>const</span> root = <span className='text-blue-500'>ReactDOM</span>.<span className='text-green-500'>hydrateRoot</span>{"(rootElement, <Home />)"}
+                <span className='text-cyan-500'>const</span> root = <span className='text-blue-500'>ReactDOM</span>.<span className='text-green-500'>hydrateRoot</span>{`(rootElement, <Home />)`}
               </h1>
             </div>
           </div>
