@@ -4,7 +4,7 @@ import requests from "@/Networking/Requests";
 import CodeScreen from "@/components/CodeScreen";
 import { useEffect, useState } from "react";
 
-export default function page({params}) {
+export default function Page({params}) {
   const [projectData, setProjectData] = useState(null);
   const [userPermission, setUserPermission] = useState(null);
 
