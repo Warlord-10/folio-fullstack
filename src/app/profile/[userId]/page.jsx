@@ -20,7 +20,6 @@ export default function Page({ params }) {
     useEffect(()=>{
         const fetchData = async ()=>{
             const response = await axios.get(requests.getDeleteUpdateUserById(params.userId));
-            console.log(response.data)
             setUserData(response.data.data)
             setUserPermission(response.data.PERMISSION)
         }
@@ -43,7 +42,6 @@ export default function Page({ params }) {
             </>
         )
     } catch (error) {
-        console.log(error)
     }
 }
 

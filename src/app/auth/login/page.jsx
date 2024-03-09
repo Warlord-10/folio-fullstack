@@ -52,7 +52,6 @@ export default function Page() {
         async function autoSignIn(){
             try {
                 const response = await axios.get(requests.getDeleteUpdateUserById(null))
-                console.log("auto: ", response.data)
                 router.push(`/profile/${response.data._id}`)
             } catch (error) {
                 
