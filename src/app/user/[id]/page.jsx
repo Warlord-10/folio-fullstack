@@ -26,7 +26,7 @@ function originalFolio() {
 }
 
 
-async function page({ params }) {
+export default async function Page({ params }) {
   try {
     const response = await axios.get(requests.getUserProfilePage(params.id));
     return (
@@ -40,5 +40,3 @@ async function page({ params }) {
     return originalFolio();
   }
 }
-
-export default page
