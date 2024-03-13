@@ -3,9 +3,13 @@ import React, { useState } from 'react'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function UserEditLeftSide({ data, permission }) {
+    const router = useRouter();
+
     const [isUserEdit, setIsUserEdit] = useState(false);
+
     const [userData, setUserData] = useState(data);
     const [defaultPage, setDefaultPage] = useState(data.userPageProject);
     const [res, setRes] = useState(null);
@@ -50,7 +54,7 @@ function UserEditLeftSide({ data, permission }) {
     const deleteUser = async (e) => {
         try {
             await axios.delete(requests.getDeleteUpdateUserById(userData._id));
-            return redirect("/auth/login");
+            router.replace("/")
         } catch (error) {
         }
     }
