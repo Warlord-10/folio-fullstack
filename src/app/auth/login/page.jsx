@@ -23,7 +23,7 @@ export default function Page() {
                 </div>
             );
 
-            router.push(`/profile/${response.data.user._id}`)
+            router.push(`/profile/${response.data._id}`)
         } catch (error) {
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>

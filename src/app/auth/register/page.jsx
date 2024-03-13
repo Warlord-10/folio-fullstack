@@ -21,6 +21,7 @@ export default function Page() {
             }
             // Make a PUT request using Axios
             const response = await axios.post(requests.userSignUp(), dataToSend);
+            console.log(response)
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
                     Sign Up Successful

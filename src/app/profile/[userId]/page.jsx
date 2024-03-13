@@ -31,7 +31,7 @@ export default function Page({ params }) {
     try {
         return (
             <>
-                <Navbar isLogged={hasCookie("accessToken")}/>
+                <Navbar />
                 <div className='userEditScreen flex p-2 font-mono bg-[#171323] text-white justify-center min-h-[100vh] gap-5'>
                     {userData &&
                         <>
