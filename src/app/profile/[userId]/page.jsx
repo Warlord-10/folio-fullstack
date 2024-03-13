@@ -4,6 +4,7 @@ import requests from "@/Networking/Requests";
 import Navbar from "@/components/Navbar";
 import UserEditLeftSide from "@/components/UserEditLeftSide";
 import UserEditRightSide from "@/components/UserEditRightSide";
+import { hasCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 
 // {
@@ -30,7 +31,7 @@ export default function Page({ params }) {
     try {
         return (
             <>
-                <Navbar isLogged={userPermission==="OWNER"?true:false}/>
+                <Navbar isLogged={hasCookie("accessToken")}/>
                 <div className='userEditScreen flex p-2 font-mono bg-[#171323] text-white justify-center min-h-[100vh] gap-5'>
                     {userData &&
                         <>

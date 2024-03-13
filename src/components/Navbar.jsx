@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import React from 'react'
-import { redirect } from 'next/navigation'
 import { deleteCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar({isLogged=false}) {
-
+  const router = useRouter();
   const SignOut = async ()=>{
     deleteCookie("accessToken")
     deleteCookie("refreshToken")
+    router.replace("/")
   }
 
   return (

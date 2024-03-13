@@ -21,16 +21,6 @@ export default function Page() {
             }
             // Make a PUT request using Axios
             const response = await axios.post(requests.userSignUp(), dataToSend);
-            setCookie("accessToken", response.data.accessToken, {
-                maxAge: 60*60,
-                sameSite: "none",
-                secure: true
-            })
-            setCookie("refreshToken", response.data.refreshToken, {
-                maxAge: 60*60*24,
-                sameSite: "none",
-                secure: true
-            })
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
                     Sign Up Successful

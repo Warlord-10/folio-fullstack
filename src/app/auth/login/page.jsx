@@ -4,7 +4,6 @@ import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { setCookie } from 'cookies-next';
 
 
 export default function Page() {
@@ -18,16 +17,6 @@ export default function Page() {
                 password: e.get("password")
             }
             const response = await axios.post(requests.userSignIn(), dataToSend);
-            setCookie("accessToken", response.data.accessToken, {
-                maxAge: 60*60,
-                sameSite: "none",
-                secure: true
-            })
-            setCookie("refreshToken", response.data.refreshToken, {
-                maxAge: 60*60*24,
-                sameSite: "none",
-                secure: true
-            })
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
                     Login Successful
