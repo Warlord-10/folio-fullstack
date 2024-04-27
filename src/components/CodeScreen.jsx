@@ -102,7 +102,7 @@ function CodeScreen({ projectData, data, permission }) {
 
 
     return (
-        <div className='main flex bg-[#0d0a15] text-white font-mono'>
+        <div className='main flex bg-[#0d0a15] text-white font-mono min-h-[100%]'>
             <div className='componentTree p-3 border-2 border-white w-1/4 flex flex-col'>
                 <h1 className='text-2xl underline mb-3 font-bold'>Files</h1>
                 {
