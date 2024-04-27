@@ -90,6 +90,9 @@ function CodeScreen({ projectData, data, permission }) {
         }
     }
 
+    const handleImageError = (event) => {
+        event.target.style.display = 'none'; // Hide the image on error
+    };
 
     useEffect(() => {
         const fetchFolderData = async () => {
@@ -102,7 +105,7 @@ function CodeScreen({ projectData, data, permission }) {
 
 
     return (
-        <div className='main flex bg-[#0d0a15] text-white font-mono min-h-[100%]'>
+        <div className='main flex bg-[#0d0a15] text-white font-mono min-h-[100vh]'>
             <div className='componentTree p-3 border-2 border-white w-1/4 flex flex-col'>
                 <h1 className='text-2xl underline mb-3 font-bold'>Files</h1>
                 {
@@ -124,9 +127,10 @@ function CodeScreen({ projectData, data, permission }) {
                     />
                 }
 
-                {fileId === null && currRepo.parent === null && projectData.banner
-                    ? <div className='overflow-hidden rounded-md border-2 border-white'>
-                        <img src={`${requests.publicFiles()}${projectData.banner}`} />
+                {fileId === null && currRepo.parent === null && projectData.banner !== null
+                    ? <div >
+                        <img src={`${requests.publicFiles()}${projectData.banner}`} className='overflow-hidden rounded-md border-2 border-white'
+                        onError={handleImageError}/>
                     </div>
                     : <CodeEditorPanel
                         fileId={fileId}
