@@ -28,7 +28,7 @@ function originalFolio() {
 
 export default async function Page({ params }) {
   try {
-    const response = await axios.get(requests.getUserProfilePage(params.id));
+    const response = await axios.get(requests.getUserProfilePage(params.userId));
     return (
       <>
         <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />

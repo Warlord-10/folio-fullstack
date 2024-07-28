@@ -3,7 +3,7 @@ import Link from 'next/link'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 
 export default function Page() {
@@ -22,8 +22,9 @@ export default function Page() {
                     Login Successful
                 </div>
             );
-
+            
             router.push(`/profile/${response.data._id}`)
+            
         } catch (error) {
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>

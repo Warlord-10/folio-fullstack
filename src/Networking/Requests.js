@@ -21,31 +21,35 @@ const userSignIn = ()=>{
 const userSignUp = ()=>{
     return `/auth/register`
 }
+const getSession = ()=>{
+    return `/auth/session`
+}
+const userSignOut = ()=>{
+    return `/auth/logout`
+}
 const getDeleteUpdateUserById = (uid)=>{
-    if(uid !== null){
-        return `/user/s/${uid}`
-    }
-    else{
-        return `/user/s/`
-    }
+    return `/user/s/${uid}`
 }
 const getUserProfilePage = (uid)=>{
     return `/user/page/${uid}`
 }
+const getSearchUser = (name)=>{
+    return `/user/find/?name=${name}`
+}
 
 
 // Projects
-const getDeleteUserAllProjects = (uid)=>{
-    return `/projects/${uid}`
+const getDeleteUserAllProjects = ()=>{
+    return `/projects`
 }
 const getUpdateDeleteProjectById = (pid)=>{
     return `/projects/s/${pid}`
 }
-const createUserProject = (uid)=>{
-    return `/projects/s/${uid}`
+const createUserProject = ()=>{
+    return `/projects/s`
 }
-const transpileProject = (uid)=>{
-    return `/projects/transpile/${uid}`
+const transpileProject = ()=>{
+    return `/projects/transpile`
 }
 
 
@@ -87,8 +91,11 @@ export default {
 
     userSignIn, 
     userSignUp, 
+    getSession,
+    userSignOut,
     getDeleteUpdateUserById,
     getUserProfilePage,
+    getSearchUser,
 
     getDeleteUserAllProjects,
     getUpdateDeleteProjectById,

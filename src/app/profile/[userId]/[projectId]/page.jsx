@@ -15,7 +15,7 @@ export default function Page({params}) {
       setUserPermission(response.data.PERMISSION)
     }
     fetchProjectData()
-  }, [params])
+  }, [params.projectId])
 
   try {
     return (

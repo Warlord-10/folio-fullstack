@@ -1,48 +1,43 @@
 "use client"
 import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
-import Navbar from "@/components/Navbar";
 import UserEditLeftSide from "@/components/UserEditLeftSide";
 import UserEditRightSide from "@/components/UserEditRightSide";
-import { hasCookie } from "cookies-next";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-// {
-//     headers:{
-//         cookie: `accessToken=${cookieStore.get("accessToken").value}; refreshToken=${cookieStore.get("refreshToken").value}`
-//     }
-// }
+import UserDataContext from "@/utils/UserDataContext";
+import UserProjectContext from "@/utils/UserProjectContext";
 
 
 export default function Page({ params }) {
     const [userData, setUserData] = useState(null);
     const [userPermission, setUserPermission] = useState(null);
+    const [projectData, setProjectData] = useState(null);
 
-    useEffect(()=>{
-        const fetchData = async ()=>{
+    useEffect(() => {
+        const fetchData = async () => {
             const response = await axios.get(requests.getDeleteUpdateUserById(params.userId));
+            
             setUserData(response.data.data)
             setUserPermission(response.data.PERMISSION)
+            setProjectData(response.data.data.projects)
         }
         fetchData();
     }, [params])
 
 
-    try {
-        return (
-            <>
-                <Navbar />
-                <div className='userEditScreen flex p-2 font-mono bg-[#171323] text-white justify-center min-h-[100vh] gap-5'>
-                    {userData &&
-                        <>
-                            <UserEditLeftSide data={userData} permission={userPermission}/>
-                            <UserEditRightSide data={userData} permission={userPermission}/>
-                        </>
-                    }
+    if(!userData) return null;
+    return(
+        <UserDataContext.Provider value={{userData, setUserData, userPermission, setUserPermission}}>
+            <UserProjectContext.Provider value={{projectData, setProjectData}}>
+
+                <div className='userEditScreen flex font-mono bg-[#171323] text-white justify-center min-h-[100vh] gap-5'>
+                    <UserEditLeftSide/>
+                    <UserEditRightSide/>
                 </div>
-            </>
-        )
-    } catch (error) {
-    }
+
+            </UserProjectContext.Provider>
+        </UserDataContext.Provider>
+    );
 }
 

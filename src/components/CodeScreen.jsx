@@ -17,6 +17,9 @@ function CodeScreen({ projectData, data, permission }) {
 
     const createFile = async (data) => {
         try {
+            if (!data.name || data.name.trim() === '') {
+                throw new Error('Invalid file name');
+            }
             const response = await axios.post(requests.createFile(), data);
             setCurrRepo({
                 ...currRepo,
@@ -65,6 +68,9 @@ function CodeScreen({ projectData, data, permission }) {
 
     const createFolder = async (data) => {
         try {
+            if (!data.name || data.name.trim() === '') {
+                throw new Error('Invalid folder name');
+            }
             const response = await axios.post(requests.createFolder(), data);
             setCurrRepo({
                 ...currRepo,

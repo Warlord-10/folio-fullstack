@@ -3,7 +3,7 @@ import Link from 'next/link'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { setCookie } from 'cookies-next';
 
 
@@ -21,13 +21,14 @@ export default function Page() {
             }
             // Make a PUT request using Axios
             const response = await axios.post(requests.userSignUp(), dataToSend);
-            console.log(response)
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
                     Sign Up Successful
                 </div>
             );
+            
             router.push(`/profile/${response.data._id}`)
+
         } catch (error) {
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>

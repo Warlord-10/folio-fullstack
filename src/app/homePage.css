@@ -1,13 +1,10 @@
-/* Global CSS */
-.globalPerspective {
-    perspective: 800px;
+.main-home-page-container{
     scroll-behavior: smooth;
 }
 
 .page {
     height: 100vh;
 }
-
 
 /* CSS of Page-1 */
 .page-1 {
@@ -44,14 +41,15 @@
 
 
 .text-reveal span {
-    color: rgba(124, 121, 121, 0.2);
+    color: rgba(124, 121, 121, 0.0);
     background-clip: text;
     background-size: 0% 100%;
     background-repeat: no-repeat;
     background-image: linear-gradient(45deg, white, white);
     animation: scroll-reveal linear forwards;
     animation-timeline: view();
-    animation-range-start: contain;
+    animation-range-start: 75vh;
+    animation-range-end: 150vh;
 }
 @keyframes scroll-reveal {
     to {
@@ -70,13 +68,11 @@
 }
 @keyframes move {
     0% {
-        transform: translateX(100%)
+        transform: translateX(100%);
     }
-
     50% {
         transform: translateX(0);
     }
-
     100% {
         transform: translateX(-100%);
     }
@@ -86,8 +82,8 @@
 
 /* CSS of Page-4 */
 .card-holder{
-    perspective: 1000px;
-    transform-style: preserve-3d;
+    /* perspective: 500px; */
+    /* transform-style: preserve-3d; */
     position: relative;
 }
 .inner-card {
@@ -96,10 +92,11 @@
     overflow: hidden;
     border-radius: 1rem;
     position: absolute;
-    top: 0;
-    transform-style: preserve-3d;
+    top: 50px;
+    right: 25%;
+    /* transform-style: preserve-3d; */
     background-color: rgb(39, 1, 39);
-    rotate: y -25deg;
+    /* rotate: y -25deg; */
 }
 
 .inner-card:nth-child(1) {
@@ -150,4 +147,12 @@
     to{
         rotate: x 0;
     }
+}
+
+
+.sample{
+    color: transparent;
+    -webkit-text-stroke: #110a30 2px;
+    background-color: green;
+    background-clip: text;
 }
