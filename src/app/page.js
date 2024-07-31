@@ -16,14 +16,12 @@ export default function Home() {
       <Page2 />
       <Page3 />
       <Page4 />
-      {/* <div className='h-[100vh] bg-green-400'></div> */}
-      {/* <div className='h-[100vh] bg-gray-400'></div> */}
       <Page5 />
-      {/* <Page6 /> */}
+      <Page6 />
 
-      <div className='page bg-blue-300'>
-        <div className='sample text-[25rem] font-[Anta] font-extrabold'>HOST</div>
-      </div>
+      
+
+      
     </div>
   );
 }

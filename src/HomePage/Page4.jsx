@@ -4,8 +4,8 @@ function Page4() {
     return (
         <div className='page-4 font-[Anta]'>
 
-            <div className='grid grid-cols-2 page sticky top-0'>
-                <div className='page text-white perspective bg-blue-400 flex flex-col justify-center z-20'>
+            <div className='grid grid-cols-2 page sticky top-0 bg-black'>
+                <div className='page text-white perspective  flex flex-col justify-center z-20'>
                     <h1 className='leading-[1] text-[10rem] p-5 bg-violet-950'>YOUR</h1>
                     <div className='glowing-text text-[10rem] p-5'>
                         <span className='hover:text-red-600'>P</span>
@@ -19,7 +19,7 @@ function Page4() {
                         <span className='text-violet-600'>O</span>
                     </div>
                 </div>
-                <div className='card-holder text-[2rem] bg-blue-800 z-10'>
+                <div className='card-holder text-[2rem]  z-10'>
                     <div className='inner-card flex flex-col gap-3'>
                         <h1 className='p-3'>Portfolio</h1>
                         <img src='https://i.pinimg.com/736x/e4/e0/d1/e4e0d1639ac7e36f52c9f6e0c2ac3b3d.jpg' />

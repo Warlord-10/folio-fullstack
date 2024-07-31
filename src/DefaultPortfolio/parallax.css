@@ -13,63 +13,25 @@
     border: white solid 2px;
     transform: translate3d(1500px, 0, -2000px) rotateY(30deg);
 }
-.parallax-layer{
-    position: absolute;
-    inset: 0;
-}
-.parallax-0{
-    transform: translateZ(0);
-    scale: 1;
-}
-.parallax-1{
-    transform: translateZ(-800px);
-    scale: 2;
-}
-.parallax-2{
-    transform: translateZ(-1600px);
-    scale: 3;
-}
-.parallax-3{
-    transform: translateZ(-2400px);
-    scale: 4;
-}
-.parallax-4{
-    transform: translateZ(-3200px);
-    scale: 5;
-}
-
-
-
-#id-blackhole{
-    /* top: -85%; */
-    /* scale: 3; */
-    /* transform: translateZ(-3200px) rotate(180deg); */
-}
-#about-me{
-    top: 40%;
-    left: 10%;
-}
-#planet-1{
-    left: 0px;
-}
-.footer{
-    position: absolute;
-    transform: rotateX(90deg);
-    width: 100%;
-    height: 100vh;
-    bottom: -50%;
-}
-
-#test{
-    animation-timeline: view;
-    animation-range-start: cover;
-    /* animation: perspective-change 10s ease-in-out forwards; */
-}
 @keyframes perspective-change{
     to{
         transform: translate3d(1500px, 0, -2000px) rotateY(30deg);
     }
 }
+
+@keyframes text-slide-right{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(50%);
+    }
+}
+#about-me{
+    animation: text-slide-right 1s ease-out forwards;
+    animation-timeline: view();
+}
+
 
 
   
