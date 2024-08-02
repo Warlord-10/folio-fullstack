@@ -49,8 +49,7 @@ export default function Navbar() {
               >
                 <img
                   className="h-full aspect-square rounded-full"
-                  src={`${requests.publicFiles() + sessionData.avatar}`}
-                  onClick={null}
+                  src={sessionData.avatar ? `${requests.publicFiles() + sessionData.avatar}` : "https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/a/9/4/a940fe649d1d5bb4355b3dc5ccdee540bb7d2929.png"}
                 />
               </Link>
 
