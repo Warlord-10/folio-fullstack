@@ -9,12 +9,11 @@ function Dropdown({repoId, fileFunctions, folderFunctions}) {
     setVisible(!visible);
   };
 
-  const fetchFolderData = async ()=>{
-    const response = await axios.get(requests.getUpdateDeleteFolderById(repoId))
-    setRepoData(response.data)
-  }
-
   useEffect(()=>{
+    const fetchFolderData = async ()=>{
+      const response = await axios.get(requests.getUpdateDeleteFolderById(repoId))
+      setRepoData(response.data)
+    }
     fetchFolderData(repoId)
   }, [repoId])
 

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useContext } from 'react';
+import { useState } from 'react';
 
 
 export default function Page() {
@@ -37,18 +37,6 @@ export default function Page() {
         }
     };
 
-    
-    useEffect(()=>{
-        async function autoSignIn(){
-            try {
-                const response = await axios.get(requests.getDeleteUpdateUserById(null))
-                router.push(`/profile/${response.data._id}`)
-            } catch (error) {
-                
-            }
-        }
-        // autoSignIn();
-    }, [])
 
     return (
         // bg-gradient-to-br from-purple-950 via-black to-purple-950

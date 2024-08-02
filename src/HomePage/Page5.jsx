@@ -56,7 +56,7 @@ const root = ReactDOM.hydrateRoot(rootElement, <Home />)
 
                 <div className='text-[3rem] font-semibold font-mono text-center text-white'>
                     <h1>From Code, to Host.</h1>
-                    <h1 className='text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900 font-extrabold'>It's Simple!!</h1>
+                    <h1 className='text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900 font-extrabold'>It&apos;s Simple!!</h1>
                     <h1>With just a click</h1>
                 </div>
             
