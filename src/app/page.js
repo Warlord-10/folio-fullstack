@@ -6,6 +6,8 @@ import Page3 from '@/HomePage/Page3';
 import Page4 from '@/HomePage/Page4';
 import Page5 from '@/HomePage/Page5';
 import Page6 from '@/HomePage/Page6';
+import Page7 from '@/HomePage/Page7';
+import SearchBar from '@/components/SearchBar';
 
 
 
@@ -18,10 +20,7 @@ export default function Home() {
       <Page4 />
       <Page5 />
       <Page6 />
-
-      
-
-      
+      <Page7 />
     </div>
   );
 }

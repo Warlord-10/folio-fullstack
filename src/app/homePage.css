@@ -1,4 +1,9 @@
-.main-home-page-container{
+/* Testing only */
+.give-border {
+    border: 2px solid red;
+}
+
+.main-home-page-container {
     scroll-behavior: smooth;
 }
 
@@ -9,12 +14,15 @@
 /* CSS of Page-1 */
 .page-1 {
     perspective: 800px;
+    background-image: url('/wallpaperflare.com_wallpaper.jpg');
 }
+
 .codeEditor {
     transform: rotate3d(0, 1, 0, -35deg);
     font-size: x-large;
     overflow: hidden;
 }
+
 .line:hover {
     background-color: #110a30;
     cursor: pointer;
@@ -24,227 +32,244 @@
 
 
 /* CSS of Page-2 */
-.page-2-card-1 > h1{
-    animation: scale-up linear both;
-    animation-timeline: view(block);
-    animation-range: contain 0% cover 100%;
-}
-@keyframes scale-up {
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(3);
-    }
-}
-
-
-.text-reveal span {
-    color: rgba(124, 121, 121, 0.0);
-    background-clip: text;
-    background-size: 0% 100%;
-    background-repeat: no-repeat;
-    background-image: linear-gradient(45deg, white, white);
-    animation: scroll-reveal linear forwards;
-    animation-timeline: view();
-    animation-range-start: 75vh;
-    animation-range-end: 150vh;
-}
 @keyframes scroll-reveal {
     to {
         background-size: 100% 100%;
     }
 }
+.text-reveal span {
+    color: rgba(124, 121, 121, 0.0);
+    background-clip: text;
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(45deg, rgba(59, 57, 57, 0), white, rgba(59, 57, 57, 0));
+    animation: scroll-reveal linear forwards;
+    animation-timeline: view();
+    animation-range-start: 75vh;
+    animation-range-end: 150vh;
+}
+
+
+@keyframes scroll-right {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-62%);
+    }
+}
+.page-2-card-4>h1 {
+    animation: linear scroll-right both;
+    animation-timeline: view();
+    animation-range-start: contain;
+    animation-range-end: contain;
+}
 
 
 
 /* CSS of Page-3 */
-.page-3 > *{
-    /* transform: translateX(100%); */
-    animation: linear move both;
-    animation-timeline: view();
-    animation-range: cover;
-}
 @keyframes move {
     0% {
         transform: translateX(100%);
     }
+
     50% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(-100%);
     }
+}
+.page-3>h1 {
+    animation: linear move both;
+    animation-timeline: view();
+    animation-range: cover;
+    color: rgba(124, 121, 121, 0.0);
+    background-image: url("/macbook.jpg");
 }
 
 
 
 /* CSS of Page-4 */
-.card-holder{
-    /* perspective: 500px; */
-    /* transform-style: preserve-3d; */
+@keyframes move-in {
+    from {
+        translate: -100%;
+    }
+
+    to {
+        translate: 0;
+    }
+}
+.card-holder {
+    perspective: 1200px; /* Increased perspective for more depth */
+    transform-style: preserve-3d;
     position: relative;
+    display: flex;
+    gap: 2rem; /* Added gap for spacing between cards */
 }
 .inner-card {
     width: 400px;
     border: white solid 2px;
     overflow: hidden;
     border-radius: 1rem;
-    position: absolute;
-    top: 50px;
-    right: 25%;
-    /* transform-style: preserve-3d; */
+    position: relative; /* Changed to relative for proper positioning */
     background-color: rgb(39, 1, 39);
-    /* rotate: y -25deg; */
+    transform-style: preserve-3d;
+    transform: rotateY(-15deg) translateZ(50px); /* Adjusted rotation and translation for a better 3D effect */
+    transition: transform 0.5s, box-shadow 0.5s; /* Added smooth transition */
+    box-shadow: 0 10px 20px white;
+}
+.inner-card:hover {
+    transform: rotateY(0deg) translateZ(100px); /* Hover effect for interaction */
+    box-shadow: 0 20px 40px white; /* Enhanced shadow on hover */
+}
+.inner-card h1 {
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background for text */
+    backdrop-filter: blur(5px); /* Blur effect for background */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Border for separation */
+}
+.inner-card img {
+    width: 100%;
+    height: auto;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+/* Positioning the cards to create a staggered 3D effect */
+.card-holder .inner-card:nth-child(1) {
+    transform: rotateY(-15deg) translateZ(50px) translateY(-20px);
 }
 
-.inner-card:nth-child(1) {
-    transform: translateZ(0px) translateX(0px);
-}
-.inner-card:nth-child(2) {
-    transform: translateZ(-100px) translateX(20px);
-}
-.inner-card:nth-child(3) {
-    transform: translateZ(-200px) translateX(40px);
+.card-holder .inner-card:nth-child(2) {
+    transform: rotateY(15deg) translateZ(100px) translateY(20px);
 }
 
 
-.glowing-text{
-    line-height: 1;
-}
-.glowing-text > *:hover{
-    text-shadow: 0 0 1rem currentColor;
-}
-.glowing-text{
+.glowing-text {
     animation: linear move-in both;
     animation-timeline: view();
     animation-range: cover contain 50%;
 }
-@keyframes move-in {
-    from{
-        translate: -100%;
-    }
-    to{
-        translate: 0;
-    }
+.glowing-text>*:hover {
+    text-shadow: 0 0 1rem currentColor;
 }
-
-.perspective{
-    perspective: 1000px;
-    transform-style: preserve-3d;
-}
-@keyframes hang-down {
-    from{
-        rotate: x -90deg;
-    }
-    to{
-        rotate: x 0;
-    }
-}
-.hanging-text{
-    line-height: 1;
-    animation: linear 5s hang-down both;
-    animation-timeline: view();
-    animation-range: cover contain 20%;
-}
-
-
-.sample{
-    color: transparent;
-    -webkit-text-stroke: #110a30 2px;
-    background-color: green;
-    background-clip: text;
-}
-
 
 
 
 /* Page 5 */
+@keyframes jumpUp {
+    0% {
+        opacity: 0;
+        height: 50px;
+        width: 50px;
+    }
+
+    50% {
+        opacity: 50%;
+        height: 75px;
+        width: 75px;
+    }
+
+    100% {
+        opacity: 100%;
+        height: 50px;
+        width: 50px;
+        visibility: visible;
+    }
+}
 @keyframes expandToCapsule {
-    0%{
-        overflow: hidden;
+    0% {
         border-radius: 5px;
     }
+
     to {
-        width: 50%; 
-        border-radius: 50px; /* Becomes a pill/capsule shape */
-        overflow: hidden;
+        width: 50%;
+        border-radius: 50px;
     }
 }
 @keyframes adjustHeight {
     to {
         border-radius: 10px;
-        height: 50%; /* Height adjusts to fit child */
-    }
-}
-@keyframes jumpUp{
-    0%{
-        opacity: 0;
-        height: 50px;
-        width: 50px;
-    }
-    50%{
-        opacity: 50%;
-        height: 75px;
-        width: 75px;
-    }
-    100%{
-        opacity: 100%;
-        height: 50px;
-        width: 50px;
+        height: 400px;
     }
 }
 .capsule{
+    visibility: hidden;
+}
+.capsule-animate{
     width: 50px;
     height: 50px;
     border-radius: 100%;
     overflow: hidden;
-    opacity: 0;
 
-    animation-name: jumpUp ,expandToCapsule, adjustHeight;
+    animation-name: jumpUp, expandToCapsule, adjustHeight;
     animation-delay: 1s, 1.80s, 2.5s;
-    animation-duration: 0.75s, 0.5s, 0.5s;
+    animation-duration: 0.75s, 0.5s, 0.75s;
     animation-timing-function: ease-in-out, ease-in-out, ease-in-out;
     animation-fill-mode: forwards, forwards, forwards;
 }
 
 
+
+
 /* page 6 */
-@keyframes translate-down{
-    from{
-        top: 0;
+@keyframes fade-out-and-jump {
+    from {
+        opacity: 0;
     }
-    to{
-        top: 35%;
+
+    50% {
+        scale: 1.1;
+    }
+
+    to {
+        visibility: visible;
+        opacity: 1;
     }
 }
-@keyframes content-drop-down{
-    from{
+
+@keyframes translate-down {
+    from {
+        top: 0;
+    }
+
+    to {
+        top: 120%;
+    }
+}
+
+@keyframes content-drop-down {
+    from {
         height: 0;
     }
-    to{
+
+    to {
         height: 256px;
     }
 }
-@keyframes text-fade-out{
-    from{
+
+@keyframes text-fade-out {
+    from {
         opacity: 0;
     }
-    to{
+
+    to {
         opacity: 1;
-    }    
+    }
 }
-.page-6-file-manager{
-    position: absolute;
+
+.page-6 .page-6-file-manager {
+    /* position: absolute; */
     top: 0;
-    animation-name: translate-down;
-    animation-delay: 1.5s;
-    animation-duration: 1s;
+    animation-name: fade-out-and-jump, translate-down;
+    animation-delay: 0s, 1.75s;
+    animation-duration: 1s, 0.75s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
-.page-6-file-manager-content{
+
+.page-6 .page-6-file-manager-content {
     height: 0;
     overflow: hidden;
     animation-name: content-drop-down;
@@ -253,7 +278,8 @@
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
-.page-6-text-content{
+
+.page-6 .page-6-text-content {
     opacity: 0;
     animation-name: text-fade-out;
     animation-delay: 1.5s;
@@ -262,3 +288,82 @@
     animation-fill-mode: forwards;
 }
 
+
+
+@keyframes translate-up {
+    from {
+        /* position: absolute; */
+        top: 35%;
+    }
+    to {
+        /* position: absolute; */
+        top: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes content-lift-up {
+    from {
+        height: 256px;
+    }
+    to {
+        height: 0;
+    }
+}
+
+@keyframes text-fade-in {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.page-6-reverse .page-6-file-manager {
+    animation-name: translate-up;
+    animation-duration: 0.75s;
+    animation-delay: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.page-6-reverse .page-6-file-manager-content {
+    animation-name: content-lift-up;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.page-6-reverse .page-6-text-content {
+    animation-name: text-fade-in;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+
+/* Page-7 */
+.page-7 {
+    background-image: url('https://wallpapers.com/images/hd/simple-black-1920-x-1080-background-u8bzxetnquzl8uv1.jpg');
+}
+
+@keyframes tilt {
+    0%,
+    50%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(0.5deg);
+    }
+
+    75% {
+        transform: rotate(-0.5deg);
+    }
+}
+
+.animate-tilt {
+    animation: tilt 10s infinite linear;
+}

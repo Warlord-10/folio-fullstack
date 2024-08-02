@@ -1,19 +1,27 @@
-/* animation to increase the width of the search bar */
-@keyframes increaseWidth {
-    0% {width: 100%;}
-    100% {width: 600px;}
-}           
-@keyframes decreaseWidth {
-    0% {width: 600px;}
-    100% {width: 100%;}
+.search-bar-parent {
+    transition: width 0.3s ease-in-out;
 }
 
-.search-bar:focus{
-    animation: increaseWidth 0.5s ease-out forwards;
-    background-color: #f8f8f8;
-    color: #110a30;
-    font-weight: bolder;
+.search-bar {
+    transition: all 0.3s ease-in-out;
 }
-.search-bar:not(:focus){
-    animation: decreaseWidth 0.5s ease-out forwards;
+
+.search-bar:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.search-list {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

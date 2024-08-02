@@ -19,7 +19,7 @@ function Page4() {
                         <span className='text-violet-600'>O</span>
                     </div>
                 </div>
-                <div className='card-holder text-[2rem]  z-10'>
+                <div className='card-holder text-[2rem] z-10 flex justify-between items-center'>
                     <div className='inner-card flex flex-col gap-3'>
                         <h1 className='p-3'>Portfolio</h1>
                         <img src='https://i.pinimg.com/736x/e4/e0/d1/e4e0d1639ac7e36f52c9f6e0c2ac3b3d.jpg' />
