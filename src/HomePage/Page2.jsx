@@ -12,15 +12,15 @@ function Page2() {
           </p>
         </div>
 
-        <div className='h-[100vh] page-2-card-3 flex sticky top-0'></div>
+        <div className='page page-2-card-3 flex sticky top-0'></div>
 
-        <div className='h-[100vh] page-2-card-4 sticky top-0 bg-black'>
-          <h1 className='text-white w-[300vw] h-full'>Unleash your <span className='text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900 font-extrabold'>Creativity</span></h1>
+        <div className='cloud-transition page page-2-card-4 text-[20rem] sticky top-0 bg-black w-screen flex flex-col justify-center'>
+          <h1 className='text-center text-white w-max'>Unleash your 
+            <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#8B0000] to-[#000080] font-extrabold'> Creativity</span>
+          </h1>
         </div>
 
-        <div className='page-2-card-5 h-[200vh] flex sticky top-0'>
-
-        </div>
+        <div className='page-2-card-5 h-[200vh] flex sticky top-0'></div>
     </div>
   )
 }

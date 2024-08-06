@@ -7,7 +7,6 @@ import UserDataContext from '@/utils/UserDataContext';
 import UserProjectContext from '@/utils/UserProjectContext';
 
 function ProjectCard({ currentProjectIndex }) {
-  // getting all the projects
   const { projectData, setProjectData} = useContext(UserProjectContext);
   const {userData, userPermission} = useContext(UserDataContext);
 
@@ -19,41 +18,45 @@ function ProjectCard({ currentProjectIndex }) {
       const response = await axios.delete(requests.getUpdateDeleteProjectById(pid));
       setProjectData(projectData.filter((comp) => comp._id !== pid));
     } catch (error) {
-
+      console.error("Failed to delete project", error);
     }
   }
 
   return (
-    <div className='border-white border-2 p-3 rounded-md hover:shadow-lg'>
+    <div className='bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-300'>
       {isProjectEdit
         ? <ProjectEditComponent 
             currentProjectData={currentProjectData}
             setIsProjectEdit={setIsProjectEdit}
-        />
-
+          />
         : <Link 
-          className="project flex flex-col justify-between gap-3 h-full" 
-          href={`/profile/${userData._id}/${currentProjectData._id}`}>
-          <h1 className='heading font-bold text-3xl'>{currentProjectData.title}</h1>
-          <h1 className='description font-medium'>{currentProjectData.description}</h1>
-
-          {userPermission === "OWNER" &&
-            <div className='flex justify-between pt-2 mt-2'>
-              <button
-                onClick={(e) => { e.preventDefault(); deleteProject(currentProjectData._id) }}
-                className='bg-red-500 rounded-md p-1 hover:bg-red-800 px-5'>
-                Delete
-              </button>
-              <button
-                onClick={(e) => { e.preventDefault(); setIsProjectEdit(true) }}
-                className='bg-green-500 rounded-md p-1 hover:bg-green-800 px-5'>
-                Edit
-              </button>
+            className="flex flex-col justify-between h-full p-6" 
+            href={`/profile/${userData._id}/${currentProjectData._id}`}>
+            <div>
+              <h1 className='text-2xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>
+                {currentProjectData.title}
+              </h1>
+              <p className='text-gray-300 mb-4'>{currentProjectData.description}</p>
             </div>
-          }
-        </Link>
+
+            {userPermission === "OWNER" &&
+              <div className='flex justify-end space-x-2 mt-4'>
+                <button
+                  onClick={(e) => { e.preventDefault(); deleteProject(currentProjectData._id) }}
+                  className='bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-200'>
+                  Delete
+                </button>
+                <button
+                  onClick={(e) => { e.preventDefault(); setIsProjectEdit(true) }}
+                  className='bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-200'>
+                  Edit
+                </button>
+              </div>
+            }
+          </Link>
       }
     </div>
   )
 }
+
 export default ProjectCard;

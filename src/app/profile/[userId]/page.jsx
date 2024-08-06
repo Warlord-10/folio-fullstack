@@ -31,7 +31,7 @@ export default function Page({ params }) {
         <UserDataContext.Provider value={{userData, setUserData, userPermission, setUserPermission}}>
             <UserProjectContext.Provider value={{projectData, setProjectData}}>
 
-                <div className='userEditScreen flex font-mono bg-[#171323] text-white justify-center min-h-[100vh] gap-5'>
+                <div className='userEditScreen flex font-mono bg-gray-950 text-white justify-center min-h-[100vh] gap-5'>
                     <UserEditLeftSide/>
                     <UserEditRightSide/>
                 </div>

@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-      <html lang="en">
+      <html lang="en" className="overflow-x-hidden bg-black">
           <head>
             <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
           </head>

@@ -2,33 +2,99 @@
 .give-border {
     border: 2px solid red;
 }
-
 .main-home-page-container {
     scroll-behavior: smooth;
 }
-
 .page {
     height: 100vh;
 }
 
+
+
 /* CSS of Page-1 */
 .page-1 {
-    perspective: 800px;
     background-image: url('/wallpaperflare.com_wallpaper.jpg');
 }
-
-.codeEditor {
-    transform: rotate3d(0, 1, 0, -35deg);
-    font-size: x-large;
-    overflow: hidden;
-}
-
 .line:hover {
-    background-color: #110a30;
     cursor: pointer;
     font-weight: bolder;
     scale: 1.05;
 }
+
+
+@keyframes glow {
+    0%,
+    100% {
+        text-shadow:
+            0 0 10px rgba(168, 85, 247, 0.5),
+            0 0 20px rgba(168, 85, 247, 0.3);
+    }
+    50% {
+        text-shadow:
+            0 0 20px rgba(168, 85, 247, 0.8),
+            0 0 30px rgba(168, 85, 247, 0.5);
+    }
+}
+.glow-effect {
+    animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+.floating {
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: white;
+    }
+}
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid white;
+    white-space: nowrap;
+    letter-spacing: .15em;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.animate-fadeIn {
+    animation: fadeIn 1s ease-out forwards;
+}
+
 
 
 /* CSS of Page-2 */
@@ -49,21 +115,53 @@
     animation-range-end: 150vh;
 }
 
-
 @keyframes scroll-right {
     from {
         transform: translateX(0);
     }
 
     to {
-        transform: translateX(-62%);
+        transform: translateX(calc(-100% + 100vw));
     }
 }
 .page-2-card-4>h1 {
+    padding-left: 2rem;
+    padding-right: 2rem;
     animation: linear scroll-right both;
     animation-timeline: view();
-    animation-range-start: contain;
-    animation-range-end: contain;
+    animation-range-start: contain 20%;
+    animation-range-end: contain 80%;
+}
+
+
+@keyframes cloudEffect {
+    0%,
+    100% {
+        background-position: 0% 100%;
+    }
+
+    50% {
+        background-position: 100% 0%;
+    }
+}
+
+.cloud-transition {
+    background: black;
+}
+.cloud-transition::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: radial-gradient(ellipse at center,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 1) 100%);
+    background-size: 200% 200%;
+    background-position: center bottom;
+    animation: cloudEffect 5s ease-in-out infinite;
 }
 
 
@@ -102,40 +200,56 @@
         translate: 0;
     }
 }
+
 .card-holder {
-    perspective: 1200px; /* Increased perspective for more depth */
+    perspective: 1200px;
+    /* Increased perspective for more depth */
     transform-style: preserve-3d;
     position: relative;
     display: flex;
-    gap: 2rem; /* Added gap for spacing between cards */
+    gap: 2rem;
+    /* Added gap for spacing between cards */
 }
+
 .inner-card {
     width: 400px;
     border: white solid 2px;
     overflow: hidden;
     border-radius: 1rem;
-    position: relative; /* Changed to relative for proper positioning */
+    position: relative;
+    /* Changed to relative for proper positioning */
     background-color: rgb(39, 1, 39);
     transform-style: preserve-3d;
-    transform: rotateY(-15deg) translateZ(50px); /* Adjusted rotation and translation for a better 3D effect */
-    transition: transform 0.5s, box-shadow 0.5s; /* Added smooth transition */
+    transform: rotateY(-15deg) translateZ(50px);
+    /* Adjusted rotation and translation for a better 3D effect */
+    transition: transform 0.5s, box-shadow 0.5s;
+    /* Added smooth transition */
     box-shadow: 0 10px 20px white;
 }
+
 .inner-card:hover {
-    transform: rotateY(0deg) translateZ(100px); /* Hover effect for interaction */
-    box-shadow: 0 20px 40px white; /* Enhanced shadow on hover */
+    transform: rotateY(0deg) translateZ(100px);
+    /* Hover effect for interaction */
+    box-shadow: 0 20px 40px white;
+    /* Enhanced shadow on hover */
 }
+
 .inner-card h1 {
-    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background for text */
-    backdrop-filter: blur(5px); /* Blur effect for background */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Border for separation */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Semi-transparent background for text */
+    backdrop-filter: blur(5px);
+    /* Blur effect for background */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    /* Border for separation */
 }
+
 .inner-card img {
     width: 100%;
     height: auto;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
+
 /* Positioning the cards to create a staggered 3D effect */
 .card-holder .inner-card:nth-child(1) {
     transform: rotateY(-15deg) translateZ(50px) translateY(-20px);
@@ -151,6 +265,7 @@
     animation-timeline: view();
     animation-range: cover contain 50%;
 }
+
 .glowing-text>*:hover {
     text-shadow: 0 0 1rem currentColor;
 }
@@ -178,6 +293,7 @@
         visibility: visible;
     }
 }
+
 @keyframes expandToCapsule {
     0% {
         border-radius: 5px;
@@ -188,16 +304,19 @@
         border-radius: 50px;
     }
 }
+
 @keyframes adjustHeight {
     to {
         border-radius: 10px;
         height: 400px;
     }
 }
-.capsule{
+
+.capsule {
     visibility: hidden;
 }
-.capsule-animate{
+
+.capsule-animate {
     width: 50px;
     height: 50px;
     border-radius: 100%;
@@ -295,6 +414,7 @@
         /* position: absolute; */
         top: 35%;
     }
+
     to {
         /* position: absolute; */
         top: 0;
@@ -306,6 +426,7 @@
     from {
         height: 256px;
     }
+
     to {
         height: 0;
     }
@@ -315,6 +436,7 @@
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
@@ -349,6 +471,7 @@
 }
 
 @keyframes tilt {
+
     0%,
     50%,
     100% {

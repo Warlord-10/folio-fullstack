@@ -10,7 +10,7 @@ const scp = Source_Code_Pro({
 
 function CodeEditorHomePage({styles}) {
     return (
-        <div className={`border-4 border-white rounded-lg ${styles} relative backdrop-blur-sm`}>
+        <div className={`border-4 border-white rounded-lg ${styles} relative text-[1.5rem] backdrop-blur-sm bg-black opacity-80`}>
 
             <div className='bg-white p-2 font-mono'>
                 Folio.jsx

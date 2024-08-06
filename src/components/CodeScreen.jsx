@@ -111,19 +111,21 @@ function CodeScreen({ projectData, data, permission }) {
 
 
     return (
-        <div className='main flex bg-[#0d0a15] text-white font-mono min-h-[100vh]'>
-            <div className='componentTree p-3 border-2 border-white w-1/4 flex flex-col'>
-                <h1 className='text-2xl underline mb-3 font-bold'>Files</h1>
-                {
-                    <Dropdown
-                        repoId={data}
-                        fileFunctions={{ setFileId }}
-                        folderFunctions={{ setFolderId }}
-                    />
-                }
+        <div className='main flex text-white font-mono min-h-[100vh] justify-around'>
+            <div className='componentTree p-2 w-1/4 flex flex-col'>
+                <div className='h-full p-3 border-2 border-purple-600 rounded-lg font-mono bg-gray-900 shadow-lg'>
+                    <h1 className='text-2xl mb-3 font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>Files</h1>
+                    {
+                        <Dropdown
+                            repoId={data}
+                            fileFunctions={{ setFileId }}
+                            folderFunctions={{ setFolderId }}
+                        />
+                    }
+                </div>
             </div>
 
-            <div className='codeEditor p-3 border-2 w-full flex flex-col gap-2'>
+            <div className='codeEditor w-3/4 flex flex-col gap-2 p-2 '>
                 {currRepo &&
                     <ProjectDetail
                         repoData={currRepo}
@@ -134,8 +136,8 @@ function CodeScreen({ projectData, data, permission }) {
                 }
 
                 {fileId === null && currRepo.parent === null && projectData.banner !== null
-                    ? <div >
-                        <img src={`${requests.publicFiles()}${projectData.banner}`} className='overflow-hidden rounded-md border-2 border-white'
+                    ? <div className='flex justify-center overflow-hidden border-2 border-purple-600 rounded-lg font-mono bg-gray-900 shadow-lg'>
+                        <img src={`${requests.publicFiles()}${projectData.banner}`} className='w-full'
                         onError={handleImageError}/>
                     </div>
                     : <CodeEditorPanel
@@ -146,8 +148,6 @@ function CodeScreen({ projectData, data, permission }) {
                         permission={permission}
                     />
                 }
-
-
             </div>
         </div>
     )

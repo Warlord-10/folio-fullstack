@@ -19,7 +19,7 @@ export default function Page({params}) {
 
   try {
     return (
-      <>
+      <div className="bg-gray-950">
         { projectData &&
           <CodeScreen 
             projectData={projectData} 
@@ -27,7 +27,7 @@ export default function Page({params}) {
             permission={userPermission}
           /> // passing the root folder id
         }
-      </>
+      </div>
     )
   } catch (error) {
 

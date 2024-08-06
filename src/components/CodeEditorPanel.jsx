@@ -47,44 +47,40 @@ function CodeEditorPanel({ fileId, updateFileFunction, deleteFileFunction, close
     }, [fileId])
 
     return (
-        <div className={isEdit ? 'border-4 border-green-500 rounded-md mt-2 overflow-hidden' : 'rounded-md border-2 mt-2 overflow-hidden'}>
-            {currFile.detail && <div className='codeEditorNavbar flex p-2 border-b-2 justify-between items-center'>
+        <div className={`${isEdit ? 'border-4 border-green-500' : 'border-2 border-gray-700'} rounded-md mt-2 overflow-hidden bg-gray-900`}>
+            {currFile.detail && <div className='codeEditorNavbar flex p-2 border-b-2 border-gray-700 justify-between items-center'>
                 <div>
-                    <h1 className='text-xl'>{currFile.detail.name}</h1>
+                    <h1 className='text-xl text-white'>{currFile.detail.name}</h1>
                     {responseData}
-                    <h1 className='text-gray-500 text-sm'>Updated At: {currFile.detail.updatedAt}</h1>
+                    <h1 className='text-gray-400 text-sm'>Updated At: {currFile.detail.updatedAt}</h1>
                 </div>
 
                 {isEdit
-                    ? <div className='flex divide-x border-2 border-gray-500 rounded-md'>
+                    ? <div className='flex divide-x border-2 border-gray-600 rounded-md'>
                         <button
-                            className='p-2 hover:bg-gray-600'
+                            className='p-2 hover:bg-gray-700 text-white'
                             onClick={() => setIsEdit(false)}>
                             Cancel Changes
                         </button>
                         <button
-                            className='p-2 hover:bg-green-600'
+                            className='p-2 hover:bg-green-700 text-white'
                             onClick={localFileUpdateFunction}>
-                                Save Changes
+                            Save Changes
                         </button>
                     </div>
-                    : <div className='flex border-2 border-gray-500 rounded-md divide-x'>
+                    : <div className='flex border-2 border-gray-600 rounded-md divide-x'>
                         <button
-                            className="p-2 hover:bg-gray-600"
+                            className="p-2 hover:bg-gray-700 text-white"
                             onClick={() => setIsEdit(true)}>
-                                Edit
+                            Edit
                         </button>
-                        {/* <button
-                            className='p-2 hover:bg-gray-600'>
-                            Download
-                        </button> */}
                         <button
-                            className='p-2 hover:bg-gray-600'
+                            className='p-2 hover:bg-gray-700 text-white'
                             onClick={localFileDeleteFunction}> 
-                                Delete
+                            Delete
                         </button>
                         <button
-                            className='p-2 hover:bg-gray-600 px-5'
+                            className='p-2 hover:bg-gray-700 text-white px-5'
                             onClick={localCloseFileFunction}> X
                         </button>
                     </div>

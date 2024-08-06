@@ -12,13 +12,12 @@ function UserEditRightSide() {
     const [isCreatingNewProject, setIsCreatingNewProject] = useState(false);
 
     return (
-        <div className='p-3 flex flex-col w-[60%]'>
-            <div className='flex justify-between p-2'>
-                <h1 className='text-4xl underline underline-offset-2'>Your Projects</h1>
+        <div className='p-6 flex flex-col w-full lg:w-[60%] bg-gray-950 rounded-lg shadow-lg'>
+            <div className='flex justify-between items-center mb-6'>
+                <h1 className='text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>Your Projects</h1>
             </div>
 
-            {/* Holds all the projects details */}
-            <div className="projectMenu grid grid-cols-2 gap-2 self-start w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {projectData.map((m, index) => (
                     <ProjectCard
                         key={m._id}
@@ -26,19 +25,17 @@ function UserEditRightSide() {
                     />
                 ))}
 
-                {/* button to add new project */}
                 {userPermission === "OWNER" &&
                     <div
-                        className='border-dashed border-2 border-black flex justify-center items-center cursor-pointer rounded-md p-2'
+                        className='border-2 border-dashed border-purple-500 rounded-lg p-6 flex justify-center items-center cursor-pointer hover:bg-gray-800 transition duration-300'
                         onClick={() => setIsCreatingNewProject(true)} >
-                        <svg xmlns="http://www.w3.org/2000/svg" height="64" width="64" viewBox="0 0 576 512">
-                            <path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384v38.6C310.1 219.5 256 287.4 256 368c0 59.1 29.1 111.3 73.7 143.3c-3.2 .5-6.4 .7-9.7 .7H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zm48 96a144 144 0 1 1 0 288 144 144 0 1 1 0-288zm16 80c0-8.8-7.2-16-16-16s-16 7.2-16 16v48H368c-8.8 0-16 7.2-16 16s7.2 16 16 16h48v48c0 8.8 7.2 16 16 16s16-7.2 16-16V384h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H448V304z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                     </div>
                 }
             </div>
-            {
-                isCreatingNewProject===true && 
+            {isCreatingNewProject && 
                 <CreateNewProjectComponent 
                     setIsCreatingNewProject={setIsCreatingNewProject}
                 />
