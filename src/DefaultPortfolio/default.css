@@ -1,86 +1,13 @@
-/* Animated glowing border */
-.animated_border {
-    position: relative;
-    box-sizing: border-box;
-    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
-    background-size: 400%;
-}
-
-.animated_border:hover {
-    animation: animate 8s linear infinite;
-}
-
-.animated_border::before {
-    content: "";
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    bottom: -5px;
-    left: -5px;
-    z-index: -1;
-    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
-    background-size: 400%;
-    border-radius: 10px;
-    opacity: 0;
-    transition: .5s;
-}
-
-.animated_border:hover::before {
-    filter: blur(10px);
-    opacity: 1;
-    animation: animate 8s linear infinite;
-}
-
-@keyframes animate {
-    0% {
-        background-position: 0%;
-    }
-
+@keyframes float {
+    0%,
     100% {
-        background-position: 400%;
-    }
-}
-
-
-/* Project grid animations */
-#project-card:hover:nth-child(3n+1) {
-    animation: tiltright 0.3s ease-in;
-    animation-fill-mode: forwards;
-}
-
-@keyframes tiltright {
-    to {
-        transform: rotate3d(0, 1, 0, 15deg);
-    }
-}
-
-#project-card:hover:nth-child(3n+3) {
-    animation: tiltleft 0.3s ease-in;
-    animation-fill-mode: forwards;
-}
-
-@keyframes tiltleft {
-    to {
-        transform: rotate3d(0, 1, 0, -15deg);
-    }
-}
-
-#project-holder {
-    perspective: 800px;
-    animation: pop-up ease-in-out forwards;
-    animation-timeline: view();
-    animation-range-start: cover;
-    animation-range-end: cover 30%;
-}
-
-@keyframes pop-up {
-    0% {
-        scale: 0.5;
-        opacity: 0;
+        transform: translateY(0);
     }
 
-    100% {
-        scale: 1;
-        opacity: 1;
+    50% {
+        transform: translateY(-20px);
     }
+}
+#about-me{
+    animation: float 3s ease-in-out infinite;
 }

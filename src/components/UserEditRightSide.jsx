@@ -4,6 +4,7 @@ import ProjectCard from './ProjectCard';
 import UserDataContext from '@/utils/UserDataContext';
 import CreateNewProjectComponent from './CreateNewProjectComponent';
 import UserProjectContext from '@/utils/UserProjectContext';
+import PopUpBox from './PopUpBox';
 
 function UserEditRightSide() {
     const { userData, userPermission } = useContext(UserDataContext);
@@ -36,9 +37,9 @@ function UserEditRightSide() {
                 }
             </div>
             {isCreatingNewProject && 
-                <CreateNewProjectComponent 
-                    setIsCreatingNewProject={setIsCreatingNewProject}
-                />
+                <PopUpBox toClose={setIsCreatingNewProject} heading="Create New Project" customStyle={{height: "fit-content"}}> 
+                    <CreateNewProjectComponent />
+                </PopUpBox>
             }
         </div>
     )

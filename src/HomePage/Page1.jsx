@@ -1,6 +1,5 @@
 import React from 'react'
 import CodeEditorHomePage from '@/components/CodeEditorHomePage'
-// import './Page1.css'
 
 function Page1() {
   return (

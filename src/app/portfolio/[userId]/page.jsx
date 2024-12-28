@@ -6,16 +6,26 @@ import "@/DefaultPortfolio/default.css"
 import Script from 'next/script'
 import requests from "@/Networking/Requests";
 import StarsCanvas from '@/DefaultPortfolio/StarBackground'
+import ProjectsPage from '@/DefaultPortfolio/projectPage'
+import TechStackPage from '@/DefaultPortfolio/techStackPage'
+import ComplexAnimationPage from '@/DefaultPortfolio/animationPage'
+import Footer from '@/DefaultPortfolio/footer'
+import IntroPage from '@/DefaultPortfolio/introPage'
+import Home from '@/DefaultPortfolio/test'
 
 
 function originalFolio() {
   return (
     <div className='bg-[#030014]'>
-      <StarsCanvas />
+      {/* <IntroPage /> */}
+      {/* <StarsCanvas /> */}
       <Navbar />
       <Banner />
-      <div className='parallax'>
-      </div>
+      <ProjectsPage />
+      <ComplexAnimationPage />
+      <TechStackPage />
+      <Footer />
+      <Home />
     </div>
   )
 }
