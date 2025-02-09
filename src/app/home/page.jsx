@@ -8,9 +8,9 @@ import { cookies } from 'next/headers'
 async function Page() {
   const cookieStore = cookies()
 
-  const res = await axios.get(requests.fetchPortfolios_v2(1), {
+  const res = await axios.get(requests.fetchPortfolios_v2(), {
     headers: {
-      Cookie: cookieStore.getAll().map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
+      Cookie: cookieStore.toString()
     }
   })
 

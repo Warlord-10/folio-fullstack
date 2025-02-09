@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
 
-
 export default function LogoutButton() {
   const router = useRouter();
 

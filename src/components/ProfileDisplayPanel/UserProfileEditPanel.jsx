@@ -2,17 +2,22 @@ import React, { useContext, useState } from "react"
 import axios from "@/Networking/Axios"
 import requests from "@/Networking/Requests"
 import { X, Upload, Trash2, Code } from "lucide-react"
+import { useRouter } from 'next/navigation';
+
 
 function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) {
+    const router = useRouter();
+
     const [defaultPage, setDefaultPage] = useState(userData.user_portfolio)
     const [res, setRes] = useState(null)
     const [avatarPreview, setAvatarPreview] = useState(
         userData.avatar_path
             ? requests.publicFiles(userData.avatar_path)
-            : "https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/a/9/4/a940fe649d1d5bb4355b3dc5ccdee540bb7d2929.png",
+            : "/default.jpg",
     )
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
+    
     const updateUser = async (e) => {
         e.preventDefault()
         try {
@@ -54,6 +59,7 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             await axios.delete(requests.getDeleteUpdateUserById(userData._id))
             setRes(<span className="text-green-400 font-semibold">Account Deleted Successfully</span>)
             // Handle post-deletion logic (e.g., logout, redirect)
+            router.replace("/home")
         } catch (error) {
             setRes(<span className="text-red-400 font-semibold">Error Deleting Account</span>)
         } finally {

@@ -4,7 +4,6 @@ import axios from "@/Networking/Axios";
 import requests from '@/Networking/Requests';
 import { useRouter } from 'next/navigation'
 import { useState, useContext } from 'react';
-import { setCookie } from 'cookies-next';
 
 
 
@@ -20,16 +19,16 @@ export default function Page() {
                 password: e.get("password")
             }
 
-            const response = await axios.post(requests.userSignUp(), dataToSend);
-            localStorage.setItem("user", JSON.stringify(response.data.user));
+            const response = await axios.post(requests.userSignUp(), dataToSend).then(res => res.data);
+            localStorage.setItem("user", JSON.stringify(response.user));
 
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
-                    {response.data.message}
+                    {response.message}
                 </div>
             );
             
-            router.push(`/profile/${response.data._id}`)
+            router.push(`/profile/${response.user._id}`)
 
         } catch (error) {
             setApiResponse(
