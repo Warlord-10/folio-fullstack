@@ -1,6 +1,6 @@
 const Copilot = require('monacopilot');
 
-const copilot = new Copilot.Copilot(process.env.NEXT_PUBLIC_GROQ_API_KEY, {
+const copilot = new Copilot.Copilot(process.env.GROQ_API_KEY, {
     provider: 'groq',
     model: 'llama-3-70b',
 });

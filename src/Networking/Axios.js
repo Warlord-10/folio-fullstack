@@ -3,7 +3,7 @@ const user = "hello"
 
 
 const instance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL, 
+    baseURL: process.env.BASE_URL, 
     withCredentials: true,
     headers: {
         Authorization: "Bearer " + user,

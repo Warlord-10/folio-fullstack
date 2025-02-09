@@ -23,7 +23,7 @@ export default function TreeNode({ name, level, currPath, redirectUrl }) {
     setIsLoading(true)
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + requests.getFolder_v2(params.userId, params.projectName, path),
+        process.env.BASE_URL + requests.getFolder_v2(params.userId, params.projectName, path),
         {
           method: 'GET',
           next: { revalidate: 60 },
