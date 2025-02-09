@@ -14,14 +14,14 @@ export default async function Page({ params }) {
 
     // Caching for 1 minutes only
     const [userData, projectData] = await Promise.all([
-        await fetch(process.env.BASE_URL + requests.getDeleteUpdateUserById(params.userId), {
+        await fetch(process.env.NEXT_PUBLIC_BASE_URL + requests.getDeleteUpdateUserById(params.userId), {
             headers: head,
             next: { revalidate: 60 },
             credentials: 'include',
             // cache: 'force-cache'
         }).then(res => res.json()),
 
-        await fetch(process.env.BASE_URL + requests.getDeleteUserAllProjects(params.userId), {
+        await fetch(process.env.NEXT_PUBLIC_BASE_URL + requests.getDeleteUserAllProjects(params.userId), {
             headers: head,
             next: { revalidate: 60 },
             credentials: 'include',

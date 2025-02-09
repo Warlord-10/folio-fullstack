@@ -12,7 +12,7 @@ const nextConfig = {
         return [
           {
             source: "/portfolio-v2/:userId",
-            destination: `${process.env.BASE_URL}/bundle/:userId/index.html`,
+            destination: `${process.env.NEXT_PUBLIC_BASE_URL}/bundle/:userId/index.html`,
           },
         ]
     }

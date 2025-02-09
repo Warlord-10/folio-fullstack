@@ -1,13 +1,13 @@
 
 // Static files
 const publicFiles = (path)=>{
-    return `${process.env.BASE_URL}/public/${path}`
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/public/${path}`
 }
 const projectBundles = (url)=>{
-    return `${process.env.BASE_URL}/bundle/${url}`
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/bundle/${url}`
 }
 const bannerFiles = (path)=>{
-    return `${process.env.BASE_URL}/banner/${path}`
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/banner/${path}`
 }
 
 
