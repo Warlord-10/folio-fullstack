@@ -23,12 +23,12 @@ export default function Page() {
             }
             
             const response = await axios.post(requests.userSignIn(), dataToSend);
-            localStorage.setItem("user", JSON.stringify(response.data));
+            localStorage.setItem("user", JSON.stringify(response.data.user));
             // updateUserContext(response.data)
 
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
-                    Login Successful
+                    {response.data.message}
                 </div>
             );
             
@@ -37,7 +37,7 @@ export default function Page() {
         } catch (error) {
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>
-                    {error.response}
+                    {error.response.data || "Something went wrong, please try again!"}
                 </div>
             )
             setTimeout(() => {
