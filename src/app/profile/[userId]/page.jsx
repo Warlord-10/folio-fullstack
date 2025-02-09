@@ -28,7 +28,6 @@ export default async function Page({ params }) {
             // cache: 'force-cache' 
         }).then(res => res.json())
     ])
-    console.log(projectData)
 
     // const [userData, projectData] = await Promise.all([
     //     await axios.get(requests.getDeleteUpdateUserById(params.userId), {
@@ -40,7 +39,7 @@ export default async function Page({ params }) {
     // ])
 
     return (
-        <div className='userEditScreen flex justify-center gap-5 p-2 '>
+        <div className='userEditScreen flex gap-5 p-2 justify-center w-full'>
             <div className="max-w-[400px]">
                 <UserProfilePanel userDataProp={userData} userProjectProp={projectData.data} />
             </div>
