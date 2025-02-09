@@ -1,43 +1,53 @@
-"use client"
 import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
-import UserEditLeftSide from "@/components/UserEditLeftSide";
-import UserEditRightSide from "@/components/UserEditRightSide";
-import { useContext, useEffect, useState } from "react";
-
-import UserDataContext from "@/utils/UserDataContext";
-import UserProjectContext from "@/utils/UserProjectContext";
+import UserProfilePanel from "@/components/ProfileDisplayPanel/UserProfilePanel";
+import UserProjectPanel from "@/components/ProfileDisplayPanel/UserProjectPanel";
+import { cookies } from 'next/headers'
 
 
-export default function Page({ params }) {
-    const [userData, setUserData] = useState(null);
-    const [userPermission, setUserPermission] = useState(null);
-    const [projectData, setProjectData] = useState(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get(requests.getDeleteUpdateUserById(params.userId));
-            
-            setUserData(response.data.data)
-            setUserPermission(response.data.PERMISSION)
-            setProjectData(response.data.data.projects)
-        }
-        fetchData();
-    }, [params])
+export default async function Page({ params }) {
+    const cookieStore = cookies()
+    const head = {
+        Cookie: cookieStore.toString(),
+    }
 
 
-    if(!userData) return null;
-    return(
-        <UserDataContext.Provider value={{userData, setUserData, userPermission, setUserPermission}}>
-            <UserProjectContext.Provider value={{projectData, setProjectData}}>
+    // Caching for 1 minutes only
+    const [userData, projectData] = await Promise.all([
+        await fetch(process.env.NEXT_PUBLIC_BASE_URL + requests.getDeleteUpdateUserById(params.userId), {
+            headers: head,
+            next: { revalidate: 60 },
+            credentials: 'include',
+            // cache: 'force-cache'
+        }).then(res => res.json()),
 
-                <div className='userEditScreen flex font-mono bg-gray-950 text-white justify-center min-h-[100vh] gap-5'>
-                    <UserEditLeftSide/>
-                    <UserEditRightSide/>
-                </div>
+        await fetch(process.env.NEXT_PUBLIC_BASE_URL + requests.getDeleteUserAllProjects(params.userId), {
+            headers: head,
+            next: { revalidate: 60 },
+            credentials: 'include',
+            // cache: 'force-cache' 
+        }).then(res => res.json())
+    ])
+    console.log(projectData)
 
-            </UserProjectContext.Provider>
-        </UserDataContext.Provider>
+    // const [userData, projectData] = await Promise.all([
+    //     await axios.get(requests.getDeleteUpdateUserById(params.userId), {
+    //         headers: head
+    //     }),
+    //     await axios.get(requests.getDeleteUserAllProjects(params.userId), {
+    //         headers: head
+    //     })
+    // ])
+
+    return (
+        <div className='userEditScreen flex justify-center gap-5 p-2 '>
+            <div className="max-w-[400px]">
+                <UserProfilePanel userDataProp={userData} userProjectProp={projectData.data} />
+            </div>
+            <div className="w-full lg:w-[60%]">
+                <UserProjectPanel userProjectProp={projectData} />
+            </div>
+        </div>
     );
 }
 

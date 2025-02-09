@@ -1,19 +1,35 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
-import { CopyBlock, vs2015} from 'react-code-blocks';
+import Editor from '@monaco-editor/react';
+import { Clipboard } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster"
+
+
+
+
+
+const obj = `import React from 'react'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import Home from './Home.jsx'   // Your main component
+import "./styles.css";
+
+const rootElement = document.getElementById('userPageRoot')
+const root = createRoot(rootElement)
+
+root.render(<Home />)
+`;
+
+const obj2 = `@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+`;
 
 function Page5() {
-    const obj = `
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { renderToString } from 'react-dom/server'
-import Home from './Home.jsx'
-const rootElement = document.getElementById('userPageRoot')
-const rootString = renderToString(<Home />)
-rootElement.innerHTML = rootString
-const root = ReactDOM.hydrateRoot(rootElement, <Home />)
-
-`;
+    const { toast } = useToast()
+    const [code, setCode] = useState(obj);
 
     const parentContainer = useRef(null);
     const childToBeAnimated = useRef(null);
@@ -59,23 +75,44 @@ const root = ReactDOM.hydrateRoot(rootElement, <Home />)
                     <h1 className='text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900 font-extrabold'>It&apos;s Simple!!</h1>
                     <h1>With just a click</h1>
                 </div>
-            
-                <div ref={childToBeAnimated} className={`capsule flex flex-col bg-black rounded-lg ${animationState !== 'hidden' ? 'opacity-100' : 'opacity-0'}`}>
-                    <div className='border-b-2 border-gray-700 p-2 flex justify-between bg-gray-900 font-mono rounded-t-lg'>
-                        <div className='flex gap-2 py-2'>
-                            <div className='bg-red-500 rounded-full h-[10px] aspect-square'></div>
-                            <div className='bg-yellow-500 rounded-full h-[10px] aspect-square'></div>
-                            <div className='bg-green-500 rounded-full h-[10px] aspect-square'></div>
+
+                <div ref={childToBeAnimated} className={`capsule flex flex-col bg-black rounded-lg border-2 border-white ${animationState !== 'hidden' ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className='border-b-2 border-gray-700 flex justify-between bg-gray-900 font-mono rounded-t-lg px-4 items-center pt-4'>
+                        {/* <span className='text-gray-400'>index.jsx</span> */}
+                        <div className='flex text-gray-400 gap-2'>
+                            <button className={`p-2 hover:bg-gray-700 rounded-t-sm ${code === obj ? "bg-gray-700" : "bg-gray-900"}`} onClick={() => setCode(obj)}>index.jsx</button>
+                            <button className={`p-2 hover:bg-gray-700 rounded-t-sm ${code === obj2 ? "bg-gray-700" : "bg-gray-900"}`} onClick={() => setCode(obj2)}>styles.css</button>
                         </div>
-                        <span className='text-gray-400'>index.jsx</span>
+                        <button
+                            onClick={() => {
+                                navigator.clipboard.writeText(code);
+                                toast({
+                                    title: "Copied to clipboard!",
+                                    description: "Create a file with the same name in the project's root directory and add the following code to it.",
+                                    className: "text-gray-400 bg-gray-900"
+                                })
+                            }}
+                            className='p-2 hover:bg-gray-700 rounded-t-sm text-gray-400'>
+                            <Clipboard size={16} />
+                        </button>
                     </div>
-                    <div className='code-block rounded-b-lg'>
-                        <CopyBlock
-                            text={obj}
-                            language={"javascript"}
-                            showLineNumbers={false}
-                            wrapLines
-                            theme={vs2015}
+                    <div className='code-block rounded-b-lg overflow-hidden'>
+                        <Editor
+                            height={"15rem"}
+                            language="javascript"
+                            options={{
+                                fontSize: 16,
+                                readOnly: true,
+                                autoIndent: "advanced",
+                                bracketPairColorization: true,
+                                minimap: { enabled: false },
+                                scrollbar: { horizontal: "hidden", vertical: "hidden" },
+                                scrollBeyondLastLine: false,
+                                codeLens: false,
+                            }}
+                            theme='hc-black'
+                            value={code}
+                            loading={<div className='text-2xl'>Loading File...</div>}
                         />
                     </div>
                     <div className='mt-10 text-[1.2rem] flex items-center gap-6 w-full justify-evenly'>
@@ -103,8 +140,9 @@ const root = ReactDOM.hydrateRoot(rootElement, <Home />)
                         </div>
                     </div>
                 </div>
-
+                
             </div>
+            <Toaster />
 
             <div className='h-[300px]'></div>
         </div>

@@ -1,10 +1,13 @@
+// "use client"
+import axios from "@/Networking/Axios";
+import requests from "@/Networking/Requests";
+import React from 'react'
+
 import Banner from '@/DefaultPortfolio/Banner'
 import Navbar from '@/DefaultPortfolio/Navbar'
-import React from 'react'
 import "@/DefaultPortfolio/parallax.css"
 import "@/DefaultPortfolio/default.css"
 import Script from 'next/script'
-import requests from "@/Networking/Requests";
 import StarsCanvas from '@/DefaultPortfolio/StarBackground'
 import ProjectsPage from '@/DefaultPortfolio/projectPage'
 import TechStackPage from '@/DefaultPortfolio/techStackPage'
@@ -33,15 +36,20 @@ function originalFolio() {
 
 export default async function Page({ params }) {
   try {
-    // const response = await axios.get(requests.getUserProfilePage(params.userId));
     return (
       <>
-        <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
-        <Script src={`${requests.userBundles()}${await response.data}`} strategy="afterInteractive" />
-        <div id='userPageRoot'></div>
+        <Script src={requests.projectBundles(`${params.userId}/main.bundle.js`)} strategy="afterInteractive" />
+        <Script src={requests.projectBundles(`${params.userId}/runtime.bundle.js`)} strategy="afterInteractive" />
+        <Script src={requests.projectBundles(`${params.userId}/vendors.bundle.js`)} strategy="afterInteractive" />
+
+        <div id='userPageRoot' className="bg-white min-h-screen">
+          {/* This div will be hydrated by the bundle.js */}
+        </div>
       </>
     );
   } catch (error) {
-    return originalFolio();
+    console.log(error);
+    // return originalFolio();
+    return <div className="text-white bg-red-800">{error.toString()}</div>
   }
 }

@@ -22,12 +22,12 @@ function CodeEditorHomePage({styles}) {
                     <span className='text-green-500'>Index</span>
                     <span className='text-yellow-500'>{"(){"}</span>
                 </div>
-                <div className='line relative left-5'>
+                <Link className='line relative left-5' href={"/home"}>
                     <span>{"<"}</span>
                     <span className='text-blue-500'>Home</span>
                     <span>{" />"}</span>
-                </div>
-                <Link className='line relative left-5' href="/auth/login">
+                </Link>
+                <Link className='line relative left-5' href="/login">
                     <span>{"<"}</span>
                     <span className='text-blue-500'>Login</span>
                     <span>{" />"}</span>

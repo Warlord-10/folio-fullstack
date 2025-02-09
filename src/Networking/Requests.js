@@ -1,16 +1,13 @@
 
 // Static files
-const publicFiles = ()=>{
-    if(process.env.NODE_ENV === "development"){
-        return `${process.env.NEXT_PUBLIC_DEV_URL}public/`
-    }
-    return `${process.env.NEXT_PUBLIC_PROD_URL}public/`
+const publicFiles = (path)=>{
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/public/${path}`
 }
-const userBundles = ()=>{
-    if(process.env.NODE_ENV === "development"){
-        return `${process.env.NEXT_PUBLIC_DEV_URL}test/`
-    }
-    return `${process.env.NEXT_PUBLIC_PROD_URL}test/`
+const projectBundles = (url)=>{
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/bundle/${url}`
+}
+const bannerFiles = (path)=>{
+    return `${process.env.NEXT_PUBLIC_BASE_URL}/banner/${path}`
 }
 
 
@@ -39,8 +36,8 @@ const getSearchUser = (name)=>{
 
 
 // Projects
-const getDeleteUserAllProjects = ()=>{
-    return `/projects`
+const getDeleteUserAllProjects = (uid)=>{
+    return `/projects/${uid}`
 }
 const getUpdateDeleteProjectById = (pid)=>{
     return `/projects/s/${pid}`
@@ -48,46 +45,78 @@ const getUpdateDeleteProjectById = (pid)=>{
 const createUserProject = ()=>{
     return `/projects/s`
 }
-const transpileProject = ()=>{
-    return `/projects/transpile`
+const transpileProject = (pid)=>{
+    return `/projects/transpile/${pid}`
 }
 
 
 // Folders
 const getUpdateDeleteFolderById = (fid)=>{
-    return `repo/folder/${fid}`
+    return `/repo/folder/${fid}`
 } 
 const createFolder = ()=>{
-    return `repo/folder`
+    return `/repo/folder`
 }
 
 
 // Files
 const createFile = ()=>{
-    return `repo/file`
+    return `/repo/file`
 }
-const updateDeleteFile = (fid)=>{
-    return `repo/file/${fid}`;
+const updateDeleteFileById = (fid)=>{
+    return `/repo/file/${fid}`;
 } 
 const getFileData = (fid)=>{
-    return `repo/file/data/${fid}`
+    return `/repo/file/data/${fid}`
 }
 const getFileDetail = (fid)=>{
-    return `repo/file/detail/${fid}`
+    return `/repo/file/detail/${fid}`
 }
 const uploadFile = (fid)=>{
-    return `repo/file/upload/${fid}`
+    return `/repo/file/upload/${fid}`
 }
 
 
-// Test
-const testApi = ()=>{
-    return `/user/test`
+// AI
+const getCodeSuggestions = ()=>{
+    return `/api/copilot`
 }
+
+// v2 APIs
+const getProjectByName = (uid, pname)=>{
+    return `/v2/project/${uid}/${pname}`
+}
+const getFolder_v2 = (uid, pname, repo_path=null)=>{
+    if (repo_path != null) return `/v2/${uid}/${pname}/tree/main/${repo_path}`
+    return `/v2/${uid}/${pname}/tree/main/`
+}
+const getFileDetails_v2 = (uid, pname, repo_path)=>{
+    return `/v2/${uid}/${pname}/blob/main/${repo_path}`
+}
+
+// Portfolio
+const fetchPortfolios_v2 = (page=1)=>{
+    return `/portfolio/all?page=${page}`
+}
+const addPortfolioLike = (portfolio_id)=>{
+    return `/portfolio/like/${portfolio_id}`
+}
+const removePortfolioLike = (portfolio_id)=>{
+    return `/portfolio/like/${portfolio_id}`
+}
+
+
+
+// For testing only
+const forTesting = ()=>{
+    return `/test`
+}
+
 
 export default {
     publicFiles,
-    userBundles,
+    projectBundles,
+    bannerFiles,
 
     userSignIn, 
     userSignUp, 
@@ -106,10 +135,22 @@ export default {
     createFolder,
 
     createFile,
-    updateDeleteFile,
+    updateDeleteFileById,
     getFileData,
     getFileDetail,
     uploadFile,
 
-    testApi
+    getCodeSuggestions,
+
+    getProjectByName,
+    getFolder_v2,
+    getFileDetails_v2,
+
+    fetchPortfolios_v2,
+    addPortfolioLike,
+    removePortfolioLike,
+
+
+
+    forTesting,
 };

@@ -64,7 +64,6 @@ function init() {
     //  var obj = extrude2();
 
     function update() {
-        //  console.log(1);
         pointCloud.rotation.x -= 0.0001;
         //pointCloud.rotation.y -= 0.001;
         pointCloud.rotation.z -= 0.0001;
@@ -108,7 +107,6 @@ function createRock(size, spreadX, maxWidth, maxHeight, maxDepth) {
     })
     var color = '#111111';
     color = ColorLuminance(color, 2 + Math.random() * 10);
-    console.log(color);
     texture = new THREE.MeshStandardMaterial({
         color: color,
         shading: THREE.FlatShading,

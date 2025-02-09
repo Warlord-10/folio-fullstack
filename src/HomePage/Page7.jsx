@@ -16,7 +16,7 @@ function Page7() {
         <div className='text-[1.2rem] flex items-center gap-6'>
           <div className='relative group'>
             <div className='absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt'></div>
-            <Link href={'/auth/login'} className='relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600'>
+            <Link href={'/login'} className='relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600'>
               <span className='flex items-center space-x-5'>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-pink-600 -rotate-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -29,7 +29,7 @@ function Page7() {
 
           <div className='relative group'>
             <div className='absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt'></div>
-            <Link href={'/auth/register'} className='relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600'>
+            <Link href={'/register'} className='relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600'>
               <span className='flex items-center space-x-5'>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600 -rotate-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -41,7 +41,7 @@ function Page7() {
           </div>
         </div>
 
-        <SearchBar />
+        {/* <SearchBar /> */}
       </div>
 
 
