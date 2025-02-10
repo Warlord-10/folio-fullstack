@@ -18,6 +18,7 @@ function UserProfilePanel({ userDataProp, userProjectProp }) {
                 <img
                     className='w-[60%] aspect-square rounded-full border-4 border-purple-500 mb-6 relative z-10'
                     src={userData?.avatar_path ? requests.publicFiles(userData.avatar_path) : "/default.jpg"}
+                    src={userData?.avatar_path ? requests.publicFiles(userData.avatar_path) : "/default.jpg"}
                     alt={userData.name}
                 />
             </div>
@@ -26,9 +27,11 @@ function UserProfilePanel({ userDataProp, userProjectProp }) {
                     <div className='flex justify-between items-center'>
                         <h1 className='text-3xl font-bold text-white'>{userData.name}</h1>
                         {userPermission === "OWNER" && (
+                        {userPermission === "OWNER" && (
                             <button className='' onClick={() => setIsUserEdit(true)} >
                                 <EditIcon size={24} />
                             </button>
+                        )}
                         )}
                     </div>
                     <h2 className='text-lg text-gray-400 flex items-center gap-2'>
