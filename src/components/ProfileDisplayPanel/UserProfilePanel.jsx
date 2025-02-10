@@ -51,6 +51,7 @@ function UserProfilePanel({ userDataProp, userProjectProp }) {
                 )}
             </div>
 
+
             {isUserEdit &&
                 <UserProfileEditPanel
                     userData={userData}
