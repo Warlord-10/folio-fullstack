@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Editor from '@monaco-editor/react';
 import { Clipboard } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
-import { Toaster } from "@/components/ui/toaster"
+import { toast } from 'sonner'
+import {Toaster} from 'sonner'
 
 
 
@@ -17,18 +17,16 @@ import "./styles.css";
 const rootElement = document.getElementById('userPageRoot')
 const root = createRoot(rootElement)
 
-root.render(<Home />)
-`;
+root.render(<Home />)`;
+
 
 const obj2 = `@tailwind base;
 
 @tailwind components;
 
-@tailwind utilities;
-`;
+@tailwind utilities;`;
 
 function Page5() {
-    const { toast } = useToast()
     const [code, setCode] = useState(obj);
 
     const parentContainer = useRef(null);
@@ -86,17 +84,16 @@ function Page5() {
                         <button
                             onClick={() => {
                                 navigator.clipboard.writeText(code);
-                                toast({
-                                    title: "Copied to clipboard!",
-                                    description: "Create a file with the same name in the project's root directory and add the following code to it.",
-                                    className: "text-gray-400 bg-gray-900"
-                                })
+                                toast.message(
+                                    "Copied to clipboard!",
+                                    {description: "Create a file with the same name in the project's root directory and add the following code to it."}
+                                ) 
                             }}
                             className='p-2 hover:bg-gray-700 rounded-t-sm text-gray-400'>
                             <Clipboard size={16} />
                         </button>
                     </div>
-                    <div className='code-block rounded-b-lg overflow-hidden'>
+                    <div className='relative code-block rounded-b-lg overflow-hidden mt-2'>
                         <Editor
                             height={"15rem"}
                             language="javascript"
@@ -114,6 +111,7 @@ function Page5() {
                             value={code}
                             loading={<div className='text-2xl'>Loading File...</div>}
                         />
+                        <div className='absolute inset-0 bg-transparent h-full w-full' />
                     </div>
                     <div className='mt-10 text-[1.2rem] flex items-center gap-6 w-full justify-evenly'>
                         <div className='relative group'>
@@ -142,7 +140,7 @@ function Page5() {
                 </div>
                 
             </div>
-            <Toaster />
+            <Toaster richColors/>
 
             <div className='h-[300px]'></div>
         </div>

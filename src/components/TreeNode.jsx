@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight, File, Folder, Loader2 } from "lucide-react"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import requests from "@/Networking/Requests";
+import { fetchClient } from "@/Networking/FetchInstance"
 
 
 
@@ -22,17 +23,14 @@ export default function TreeNode({ name, level, currPath, redirectUrl }) {
   async function fetchDataload(path) {
     setIsLoading(true)
     try {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + requests.getFolder_v2(params.userId, params.projectName, path),
-        {
+      const res = await fetchClient(requests.getFolder_v2(params.userId, params.projectName, path), {
           method: 'GET',
           next: { revalidate: 60 },
           credentials: "include",
-          cache: "force-cache"
         }
       )
-      const data = await res.json()
-      setNodeData(data)
+
+      setNodeData(res)
     } catch (error) {
       console.error("Error fetching data:", error)
     } finally {

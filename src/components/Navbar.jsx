@@ -13,12 +13,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import LogoutButton from "./LogoutButton";
+import { fetchClient } from "@/Networking/FetchInstance";
+import UserProfileImage from "./UserProfileImage";
 
 export default async function Navbar() {
   try {
     const cookieStore = cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
-
+    
     if (!refreshToken) {
       return (
         <div className='sticky backdrop-blur-md top-0 w-full h-14 bg-gray-950/50 flex text-white items-center px-2 p-1 justify-between z-[50]'>
@@ -28,16 +30,16 @@ export default async function Navbar() {
         </div>
       );
     }
-
-    const userId = jwtDecode(refreshToken);
-    const head = { Cookie: cookieStore.toString() };
+    
+    const userData = jwtDecode(refreshToken);
+    // const head = { Cookie: cookieStore.toString() };
 
     // Fetch user data only when refreshToken exists
-    const userData = await fetch(process.env.NEXT_PUBLIC_BASE_URL + requests.getDeleteUpdateUserById(userId), {
-      headers: head,
-      next: { revalidate: 1800 },
-      credentials: 'include',
-    }).then(res => res.json());
+    // const userData = await fetchClient(requests.getDeleteUpdateUserById(userData.user._id), {
+    //   headers: head,
+    //   next: { revalidate: 1800 },
+    //   credentials: 'include',
+    // });
 
     return (
       <div className='sticky backdrop-blur-md top-0 w-full h-14 bg-gray-950/50 flex text-white items-center px-2 p-1 justify-between z-[50]'>
@@ -47,15 +49,15 @@ export default async function Navbar() {
         <SearchBar />
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="rounded-full h-full">
-            <img alt="profile-pic" src={userData?.avatar_path ? requests.publicFiles(userData.avatar_path) : "/default.jpg"} className="rounded-full h-full aspect-square" />
+          <DropdownMenuTrigger className="rounded-full h-full overflow-hidden">
+            <UserProfileImage userData={userData.user} />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className="bg-gray-900 text-gray-400">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/profile/${userId.userId}`} className="w-full">Profile</Link>
+              <Link href={`/profile/${userData.user._id}`} className="w-full">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <LogoutButton />

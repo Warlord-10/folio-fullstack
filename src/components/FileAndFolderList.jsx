@@ -10,15 +10,17 @@ import DropdownMenu from './DropDownMenu';
 import PopUpBox from './PopUpBox';
 import { FilePlusIcon, FolderPlusIcon, Upload, UploadIcon } from 'lucide-react';
 import UploadFile from './UploadFile';
+import { toast } from 'sonner'
 
 function FileAndFolderList({ permission, rawFolderData }) {
     const pathname = usePathname();
     const router = useRouter();
 
+    const currFolderData = rawFolderData.data
+    const currFolderId = currFolderData._id
+
     const [fileData, setFileData] = useState(rawFolderData.files)
     const [folderData, setFolderData] = useState(rawFolderData.folders)
-    const [currFolderData, setCurrFolderData] = useState(rawFolderData.data)
-    const [currFolderId, setCurrFolderId] = useState(rawFolderData.data._id)
 
     const [showDropDown, setShowDropDown] = useState(false)
     const [isAddingNew, setIsAddingNew] = useState(null)
@@ -39,12 +41,14 @@ function FileAndFolderList({ permission, rawFolderData }) {
     }
 
     const handleAdd = async (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        formData.append("parent", currFolderId)
-        const dataToSend = Object.fromEntries(formData);
-
         try {
+            e.preventDefault()
+            const formData = new FormData(e.target)
+    
+            formData.append("parent_id", currFolderId)
+    
+            const dataToSend = Object.fromEntries(formData);
+            console.log(dataToSend)
             if (isAddingNew == "folder") {
                 const response = await axios.post(requests.createFolder(), dataToSend)
                 setFolderData([...folderData, response.data])
@@ -53,8 +57,13 @@ function FileAndFolderList({ permission, rawFolderData }) {
                 const response = await axios.post(requests.createFile(), dataToSend)
                 setFileData([...fileData, response.data])
             }
+
+            toast.success("Creation successful")
+
             setIsAddingNew(null);
-        } catch (error) { }
+        } catch (error) {
+            toast.error("Creation failed")
+        }
     }
 
     const handleDelete = async (e) => {
@@ -67,8 +76,12 @@ function FileAndFolderList({ permission, rawFolderData }) {
             const lastSlashIndex = pathname.lastIndexOf('/');
             const newUrl = pathname.substring(0, lastSlashIndex).replace("blob", "tree");
 
+            toast.success("Deletion successful")
+
             router.replace(newUrl);
-        } catch (error) { }
+        } catch (error) {
+            toast.error("Deletion failed")
+        }
     }
 
 

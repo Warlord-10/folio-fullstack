@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import axios from "@/Networking/Axios"
 import requests from "@/Networking/Requests"
 import { X, Upload, Trash2, Code } from "lucide-react"
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner'
+import UserProfileImage from "../UserProfileImage";
 
 
 function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) {
@@ -10,36 +12,27 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
 
     const [defaultPage, setDefaultPage] = useState(userData.user_portfolio)
     const [res, setRes] = useState(null)
-    const [avatarPreview, setAvatarPreview] = useState(
-        userData.avatar_path
-            ? requests.publicFiles(userData.avatar_path)
-            : "/default.jpg",
-    )
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [avatarPreview, setAvatarPreview] = useState(<UserProfileImage userData={userData} />)
 
-    
+
     const updateUser = async (e) => {
-        e.preventDefault()
         try {
+            e.preventDefault()
             const formData = new FormData(e.target)
-            const dataToSend = Object.fromEntries(formData);
-            dataToSend.user_portfolio = defaultPage
-            const response = await axios.patch(requests.getDeleteUpdateUserById(userData._id), dataToSend, {
+            // const dataToSend = Object.fromEntries(formData);
+
+            const response = await axios.patch(requests.getDeleteUpdateUserById(userData._id), formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             })
 
-            setRes(<span className="text-green-400 font-semibold">Updated Successfully</span>)
+            toast.success("Profile Updated Successfully")
             setUserData(response.data)
             setDefaultPage(response.data.user_portfolio)
         } catch (error) {
-            setRes(<span className="text-red-400 font-semibold">Error Occurred</span>)
-        } finally {
-            setTimeout(() => {
-                setRes(null)
-                // toClose()
-            }, 2000)
+            toast.error("Error Updating Profile")
         }
     }
 
@@ -48,7 +41,7 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
         if (file) {
             const reader = new FileReader()
             reader.onloadend = () => {
-                setAvatarPreview(reader.result)
+                setAvatarPreview(<img src={reader.result} alt="user" className='aspect-square w-full h-full' />)
             }
             reader.readAsDataURL(file)
         }
@@ -57,11 +50,12 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
     const handleDeleteAccount = async () => {
         try {
             await axios.delete(requests.getDeleteUpdateUserById(userData._id))
-            setRes(<span className="text-green-400 font-semibold">Account Deleted Successfully</span>)
-            // Handle post-deletion logic (e.g., logout, redirect)
+            toast.success("Account Deleted Successfully")
+            // setRes(<span className="text-green-400 font-semibold">Account Deleted Successfully</span>)
             router.replace("/home")
         } catch (error) {
-            setRes(<span className="text-red-400 font-semibold">Error Deleting Account</span>)
+            toast.error("Error Deleting Account")
+            // setRes(<span className="text-red-400 font-semibold">Error Deleting Account</span>)
         } finally {
             setIsDeleteModalOpen(false)
         }
@@ -72,12 +66,20 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             setRes(<span className="text-yellow-400 font-semibold">No default project selected</span>)
             return
         }
-        try {
-            await axios.post(requests.transpileProject(defaultPage))
-            setRes(<span className="text-green-400 font-semibold">Project Transpiled Successfully</span>)
-        } catch (error) {
-            setRes(<span className="text-red-400 font-semibold">Error Transpiling Project</span>)
-        }
+
+        toast.promise(axios.post(requests.transpileProject(defaultPage)), {
+            loading: 'Transpiling project...',
+            success: 'Project transpiled successfully',
+            error: 'Failed to transpile project'
+        });
+
+        // await axios.post(requests.transpileProject(defaultPage))
+        // setRes(<span className="text-green-400 font-semibold">Project Transpiled Successfully</span>)
+
+        // setTimeout(() => {
+        //     setRes(null)
+        // }, 2000)
+        
     }
 
     return (
@@ -97,11 +99,10 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                             <div className="md:col-span-1 space-y-6">
                                 <div className="flex flex-col items-center">
                                     <label className="relative group cursor-pointer" htmlFor="avatar-upload">
-                                        <img
-                                            className="w-40 h-40 rounded-full object-cover border-4 border-purple-600 group-hover:opacity-75 transition-opacity duration-200"
-                                            src={avatarPreview || "/placeholder.svg"}
-                                            alt={userData.name}
-                                        />
+                                        <div className="w-40 h-40 rounded-full object-cover border-4 border-purple-600 group-hover:opacity-75 transition-opacity duration-200 overflow-hidden">
+                                            {avatarPreview}
+                                        </div>
+
                                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                             <div className=" bg-purple-600 text-white p-2 rounded-full">
                                                 <Upload size={24} />
@@ -139,6 +140,7 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                                         {userProjects &&
                                             userProjects.map((p) => (
                                                 <button
+                                                    htmlFor="user_portfolio"
                                                     type="button"
                                                     key={p._id}
                                                     onClick={() => setDefaultPage(defaultPage === p._id ? null : p._id)}
@@ -149,7 +151,9 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                                                 >
                                                     {p.title}
                                                 </button>
-                                            ))}
+                                            ))
+                                        }
+                                        <input name="user_portfolio" id="user_portfolio" value={defaultPage} className="hidden" />
                                     </div>
                                 </div>
                             </div>

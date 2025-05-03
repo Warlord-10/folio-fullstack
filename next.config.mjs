@@ -10,10 +10,17 @@ const nextConfig = {
 
     rewrites: async () => {
         return [
+          // Routing the page to the bundle
           {
             source: "/portfolio-v2/:userId",
-            destination: `${process.env.NEXT_PUBLIC_BASE_URL}/bundle/:userId/index.html`,
+            destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/bundle/:userId/index.html`,
           },
+          
+          // Routing all the backend APIs to the backend server
+          {
+            source: "/backend/:path*",
+            destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/:path*`,
+          }
         ]
     }
 };

@@ -5,6 +5,7 @@ import requests from '@/Networking/Requests';
 import Link from 'next/link';
 import UserProfileEditPanel from './UserProfileEditPanel';
 import { EditIcon, Mail } from 'lucide-react';
+import UserProfileImage from '../UserProfileImage';
 
 function UserProfilePanel({ userDataProp, userProjectProp }) {
     const [userData, setUserData] = useState(userDataProp.data);
@@ -15,12 +16,11 @@ function UserProfilePanel({ userDataProp, userProjectProp }) {
         <div className='flex flex-col h-full bg-gradient-to-t from-zinc-950 to-neutral-900 rounded-lg shadow-lg'>
             <div className='relative p-2'>
                 <div className="absolute top-0 left-0 w-full h-[60%] bg-gradient-to-r from-purple-600 to-blue-600 rounded-t-lg z-10" />
-                <img
-                    className='w-[60%] aspect-square rounded-full border-4 border-purple-500 mb-6 relative z-10'
-                    src={userData?.avatar_path ? requests.publicFiles(userData.avatar_path) : "/default.jpg"}
-                    alt={userData.name}
-                />
+                <div className='w-[40%] aspect-square rounded-full border-4 border-purple-500 mb-6 relative z-10 overflow-hidden'>
+                    <UserProfileImage userData={userData} />
+                </div>
             </div>
+
             <div className='p-6 flex flex-col gap-6'>
                 <div className='flex flex-col'>
                     <div className='flex justify-between items-center'>

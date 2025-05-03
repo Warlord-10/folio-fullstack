@@ -19,6 +19,6 @@ export default function LogoutButton() {
   }
 
   return (
-    <button onClick={logOut}>Logout</button>
+    <button onClick={logOut} className="flex w-full">Logout</button>
   );
 }
