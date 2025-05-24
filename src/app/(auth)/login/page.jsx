@@ -48,7 +48,8 @@ export default function Page() {
             router.push(`/profile/${userData.user_id}`);
             
         } catch (error) {
-            const errorMessage = error.response?.data || error.message || "Something went wrong, please try again!";
+            console.log(error);
+            const errorMessage = error.response?.data?.error || "Something went wrong, please try again!";
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>
                     {errorMessage}

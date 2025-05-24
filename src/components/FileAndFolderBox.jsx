@@ -12,9 +12,11 @@ import { FilePlusIcon, FolderPlusIcon, Upload, UploadIcon } from 'lucide-react';
 import UploadFile from './UploadFile';
 import { toast } from 'sonner'
 
-function FileAndFolderList({ permission, rawFolderData }) {
+function FileAndFolderBox({ permission, rawFolderData }) {
     const pathname = usePathname();
     const router = useRouter();
+
+    console.log(rawFolderData)
 
     const currFolderData = rawFolderData.data
     const currFolderId = currFolderData._id
@@ -89,10 +91,10 @@ function FileAndFolderList({ permission, rawFolderData }) {
         <div className='w-full border-2 border-purple-600 rounded-lg font-mono bg-gray-900 shadow-lg'>
             <div className='p-4 items-center flex justify-between border-gray-950 border-b-4'>
                 <h1 className='text-md font-thin'>
-                    <Link href={`/${currFolderData.relPath.split("\\").slice(0, 2).join("/")}`} className='text-blue-600'>
-                        {currFolderData.relPath.split("\\")[1]}
+                    <Link href={`/${currFolderData.relPath.split("/").slice(0, 2).join("/")}`} className='text-blue-600'>
+                        {currFolderData.relPath.split("/")[1]}
                     </Link>
-                    <span>{"/" + currFolderData.absPath.replace("\\", "/")}</span>
+                    <span>{"/" + currFolderData.absPath}</span>
                 </h1>
 
                 {permission == "OWNER" && (
@@ -102,15 +104,24 @@ function FileAndFolderList({ permission, rawFolderData }) {
                             isOpen={showDropDown}
                             toOpen={() => setShowDropDown(!showDropDown)}
                         >
-                            <button className='flex gap-4 hover:bg-gray-700 transition duration-100 p-1 rounded-md' onClick={() => { setIsAddingNew("file"); setShowDropDown(false) }}>
+                            <button 
+                                className='flex gap-4 hover:bg-gray-700 transition duration-100 p-1 rounded-md' 
+                                onClick={() => { setIsAddingNew("file"); setShowDropDown(false) }}
+                            >
                                 <FilePlusIcon size={24} />
                                 <h1>Add File</h1>
                             </button>
-                            <button className='flex gap-4 hover:bg-gray-700 transition duration-100 p-1 rounded-md' onClick={() => { setIsAddingNew("folder"); setShowDropDown(false) }}>
+                            <button 
+                                className='flex gap-4 hover:bg-gray-700 transition duration-100 p-1 rounded-md' 
+                                onClick={() => { setIsAddingNew("folder"); setShowDropDown(false) }}
+                            >
                                 <FolderPlusIcon size={24} />
                                 <h1>Add Folder</h1>
                             </button>
-                            <button className='flex gap-4 hover:bg-gray-700 transition duration-100 p-1 rounded-md' onClick={() => { setIsUploading(true); setShowDropDown(false) }}>
+                            <button 
+                                className='flex gap-4 hover:bg-gray-700 transition duration-100 p-1 rounded-md' 
+                                onClick={() => { setIsUploading(true); setShowDropDown(false) }}
+                            >
                                 <UploadIcon size={24} />
                                 <h1>Upload Files</h1>
                             </button>
@@ -202,4 +213,4 @@ function FileAndFolderList({ permission, rawFolderData }) {
     )
 }
 
-export default FileAndFolderList
+export default FileAndFolderBox

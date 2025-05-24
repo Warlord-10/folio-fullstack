@@ -16,16 +16,14 @@ export default async function Page({ params }) {
     const [userData, projectData] = await Promise.all([
         await fetchClient(requests.getDeleteUpdateUserById(params.userId), {
             headers: head,
-            next: { revalidate: 10, tags: ['user-profile'] },
+            next: { revalidate: 60, tags: ['user-profile'] },
             credentials: 'include',
-            // cache: 'force-cache'
         }),
 
         await fetchClient(requests.getDeleteUserAllProjects(params.userId), {
             headers: head,
-            next: { revalidate: 10, tags: ['user-projects'] },
+            next: { revalidate: 60, tags: ['user-projects'] },
             credentials: 'include',
-            // cache: 'force-cache' 
         })
     ])
     

@@ -1,6 +1,6 @@
 import React from 'react'
 import requests from "@/Networking/Requests";
-import FileAndFolderList from '@/components/FileAndFolderList';
+import FileAndFolderBox from '@/components/FileAndFolderBox';
 import { cookies } from 'next/headers'
 import CodeEditorPanel from '@/components/CodeEditorPanel';
 import { fetchClient } from '@/Networking/FetchInstance';
@@ -18,7 +18,7 @@ async function Page({ params }) {
 
     return (
       <div className='p-4'>
-        <FileAndFolderList permission={folderData.permission} rawFolderData={folderData} />
+        <FileAndFolderBox permission={folderData.permission} rawFolderData={folderData} />
       </div>
     )
   }
