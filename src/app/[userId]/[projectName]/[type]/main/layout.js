@@ -1,5 +1,5 @@
 import React from 'react'
-import DirectoryTree from '@/components/DirectoryTree';
+import DirectoryTree from '@/components/DirectoryTree/DirectoryTree';
 
 
 function Layout({ children, params }) {

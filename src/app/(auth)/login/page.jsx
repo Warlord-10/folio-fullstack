@@ -1,14 +1,15 @@
 "use client"
-import Link from 'next/link'
-import axios from "@/Networking/Axios";
-import requests from '@/Networking/Requests';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import useAuthStore from '@/Stores/authStore';
 
 export default function Page() {
     const router = useRouter();
     const [apiResponse, setApiResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    const loginFunction = useAuthStore((s) => s.login);
 
     const validateInputs = (email, password) => {
         if (!email || !password) {
@@ -32,23 +33,17 @@ export default function Page() {
 
             const dataToSend = { email, password };
             
-            const response = await axios.post(requests.userSignIn(), dataToSend);
-            const userData = response.data;
-
-            if (!userData) {
-                throw new Error("Invalid response from server");
-            }
+            const response = await loginFunction(dataToSend);
 
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
-                    {userData.message || "Successfully signed in!"}
+                    {response.message || "Successfully signed in!"}
                 </div>
             );
             
-            router.push(`/profile/${userData.user_id}`);
+            router.push(`/profile/${response.user._id}`);
             
         } catch (error) {
-            console.log(error);
             const errorMessage = error.response?.data?.error || "Something went wrong, please try again!";
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>

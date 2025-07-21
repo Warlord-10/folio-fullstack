@@ -1,14 +1,15 @@
 "use client"
-import Link from 'next/link'
-import axios from "@/Networking/Axios";
-import requests from '@/Networking/Requests';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
+import useAuthStore from '@/Stores/authStore';
 
 export default function Page() {
     const router = useRouter();
     const [apiResponse, setApiResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    const registerFunction = useAuthStore((state) => state.register);
 
     const validateInputs = (name, email, password) => {
         if (!name || !email || !password) {
@@ -36,11 +37,7 @@ export default function Page() {
 
             const dataToSend = { name, email, password };
 
-            const response = await axios.post(requests.userSignUp(), dataToSend).then(res => res.data);
-            
-            if (!response) {
-                throw new Error("Invalid response from server");
-            }
+            const response = await registerFunction(dataToSend)
 
             setApiResponse(
                 <div className='text-green-500 text-sm flex justify-center'>
@@ -48,10 +45,10 @@ export default function Page() {
                 </div>
             );
             
-            router.push(`/profile/${response.user_id}`)
+            router.push(`/profile/${response.user._id}`)
 
         } catch (error) {
-            const errorMessage = error.response?.data || error.message || "Something went wrong, please try again!";
+            const errorMessage = error.response?.data?.error || error.message || "Something went wrong, please try again!";
             setApiResponse(
                 <div className='text-red-500 text-sm flex justify-center'>
                     {errorMessage}

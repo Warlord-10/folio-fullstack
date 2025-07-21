@@ -1,8 +1,8 @@
 import React from 'react'
 import requests from "@/Networking/Requests";
-import FileAndFolderBox from '@/components/FileAndFolderBox';
+import FileAndFolderBox from '@/components/ProjectDetail/FileAndFolderBox';
 import { cookies } from 'next/headers'
-import CodeEditorPanel from '@/components/CodeEditorPanel';
+import CodeEditorPanel from '@/components/CodeEditor/CodeEditorPanel';
 import { fetchClient } from '@/Networking/FetchInstance';
 
 async function Page({ params }) {

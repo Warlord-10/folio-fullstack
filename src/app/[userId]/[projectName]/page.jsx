@@ -1,11 +1,11 @@
 import requests from "@/Networking/Requests";
-import FileAndFolderBox from "@/components/FileAndFolderBox";
-import ReadMePanel from "@/components/ReadMePanel";
+import FileAndFolderBox from "@/components/ProjectDetail/FileAndFolderBox";
+import ReadMePanel from "@/components/ProjectDetail/ReadMePanel";
 import { cookies } from 'next/headers'
 import { fetchClient } from "@/Networking/FetchInstance";
 import BannerImagePanel from "@/components/BannerImagePanel";
 import {Toaster} from 'sonner'
-import ProjectPageDetailSection from "@/components/ProjectPageDetailSection";
+import ProjectPageDetailSection from "@/components/ProjectDetail/ProjectPageDetailSection";
 
 
 

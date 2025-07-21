@@ -1,7 +1,5 @@
 "use client"
 import React, { useState } from 'react'
-import axios from "@/Networking/Axios";
-import requests from '@/Networking/Requests';
 import Link from 'next/link';
 import UserProfileEditPanel from './UserProfileEditPanel';
 import { EditIcon, Mail } from 'lucide-react';

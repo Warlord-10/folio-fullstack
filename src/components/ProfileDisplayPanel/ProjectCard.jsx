@@ -17,6 +17,7 @@ function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
 
   const handleDelete = (e) => {
     e.preventDefault()
+    
     toDelete(projectData._id)
     setIsDeleting(false)
   }

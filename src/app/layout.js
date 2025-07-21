@@ -8,15 +8,24 @@ export const metadata = {
   description: "A portfolio app",
 };
 
+import NotificationProvider  from "@/Providers/notificationProvider";
+import Terminal from "@/components/Terminal";
+import AuthProvider from "@/Providers/authProvider";
+
 export default function RootLayout({ children }) {
   return (
       <html lang="en" className="overflow-x-hidden bg-black">
           <head>
             <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
           </head>
-          <body className={inter.className}>
-            {children}
-          </body>
+          <AuthProvider>
+            <NotificationProvider>
+              <body className={inter.className}>
+                {children}
+                <Terminal />
+              </body>
+            </NotificationProvider>
+          </AuthProvider>
       </html>
   );
 }

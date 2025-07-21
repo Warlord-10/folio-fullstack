@@ -2,7 +2,7 @@
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import { useRef, useState } from "react";
 
-function DropdownMenu({ title, children, isOpen, toOpen }) {
+function DropDownMenu({ title, children, isOpen, toOpen }) {
     const DropdownRef = useRef(null)
 
     const handleBlur = (e) => {
@@ -31,4 +31,4 @@ function DropdownMenu({ title, children, isOpen, toOpen }) {
     )
 }
 
-export default DropdownMenu;
+export default DropDownMenu;

@@ -2,7 +2,6 @@ import React from 'react';
 import TreeNode from './TreeNode';
 
 
-
 function DirectoryTree({ params }) {
     return (
         <div className='overflow-y-auto border-r border-[#e2e8f0] h-screen'>

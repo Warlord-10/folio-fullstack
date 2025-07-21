@@ -1,5 +1,5 @@
 import React from 'react'
-import CodeEditorHomePage from '@/components/CodeEditorHomePage'
+import CodeEditorHomePage from '@/HomePage/CodeEditorHomePage'
 
 function Page1() {
   return (
