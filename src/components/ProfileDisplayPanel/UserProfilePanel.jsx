@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import Link from 'next/link';
-import UserProfileEditPanel from './UserProfileEditPanel';
+import UserProfileEditPanel from './ProfileComponents/UserProfileEditPanel';
 import { EditIcon, Mail } from 'lucide-react';
 import UserProfileImage from '../UserProfileImage';
 

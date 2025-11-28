@@ -35,18 +35,19 @@ function Terminal() {
                     transition={{ type: "spring", bounce: 0, duration: 0.5 }}
                     className='fixed z-50 bottom-0 h-72 w-full bg-black text-white border-2 border-white'
                 >
-                    <div className='flex border border-b-white justify-end px-2'>
-                        <button 
+                    <div className='flex border border-b-white justify-between px-2'>
+                        <div>Terminal</div>
+                        <button
                             onClick={handleClose}
                             className="top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-700 transition-colors"
                         > ✕ </button>
                     </div>
-                    <div className='overflow-y-scroll h-full'>
+                    <div className='overflow-y-scroll h-full flex flex-col'>
                         {allNotifications.map((notification, index) => {
-                            if (notification.id && notification.percentage) return (
-                                <div key={notification.id} className='px-2 justify-center w-full'>
-                                    <span>PERCENTAGE: {notification.percentage * 100}%</span>
-                                    <span>STATUS: {notification.status}</span>  
+                            if (notification.id && notification.message) return (
+                                <div key={index} className='px-2 justify-between w-full flex'>
+                                    <span>PERCENTAGE: {(notification.percentage * 100).toFixed(2)}%</span>
+                                    <span>STATUS: {notification.message}</span>
                                 </div>
                             )
                         })}

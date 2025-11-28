@@ -8,12 +8,15 @@ import { fetchClient } from '@/Networking/FetchInstance';
 async function Page({ params }) {
   const cookieStore = cookies()
   const head = {
-    Cookie: cookieStore.toString(),
+    'Cookie': cookieStore.toString(),
+    'Content-Type': 'application/json',
   }
 
+  // If the content is a directory then fetch its content
   if (params.type === "tree") {
-    const folderData = await fetchClient(requests.getFolder_v2(params.userId, params.projectName, params.path?params.path.join("/"):null), {
-      headers: head
+    const folderData = await fetchClient(requests.getFolder_v2(params.userId, params.projectName, params.path ? params.path.join("/") : null), {
+      headers: head,
+      cache: "no-store"
     })
 
     return (
@@ -23,10 +26,11 @@ async function Page({ params }) {
     )
   }
 
-  
+  // If the content is a file then fetch its content
   else if (params.type === "blob") {
     const response = await fetchClient(requests.getFileDetails_v2(params.userId, params.projectName, params.path.join("/")), {
-      headers: head
+      headers: head,
+      cache: "no-store"
     })
 
     return (

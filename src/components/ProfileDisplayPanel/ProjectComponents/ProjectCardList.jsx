@@ -39,14 +39,14 @@ function ProjectCardList({ projects }) {
         } catch (error) {
             // Rollback on error
             setProjectData(previousData);
-            toast.error( error.response?.data?.message || "Failed to delete project")
+            toast.error(error.response?.data?.message || "Failed to delete project")
         }
     }
 
     const editProject = async (dataToSend, pid) => {
         const previousData = [...projectData];
         // Optimistic update
-        setProjectData(prev => prev.map(item => 
+        setProjectData(prev => prev.map(item =>
             item._id === pid ? { ...item, ...dataToSend } : item
         ));
 
@@ -74,7 +74,7 @@ function ProjectCardList({ projects }) {
             ))}
 
             {userPermission === "OWNER" && (
-                <CreateProjectComponent 
+                <CreateProjectComponent
                     onCreateProject={createProject}
                 />
             )}

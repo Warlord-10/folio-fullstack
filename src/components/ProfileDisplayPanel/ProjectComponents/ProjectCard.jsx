@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Link from "next/link";
 import ProjectEditComponent from './ProjectEditComponent';
-import PopUpBox from '../PopUpBox';
+import PopUpBox from '@/components/PopUpBox';
 
 function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -17,7 +17,7 @@ function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
 
   const handleDelete = (e) => {
     e.preventDefault()
-    
+
     toDelete(projectData._id)
     setIsDeleting(false)
   }
@@ -62,14 +62,14 @@ function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
         </div>
       </PopUpBox>
 
-      <PopUpBox 
+      <PopUpBox
         isOpen={isEditing}
         onClose={() => setIsEditing(false)}
         onConfirm={handleEdit}
         title="Edit Project"
         confirmTitle="Save"
       >
-        <ProjectEditComponent projectData={projectData}/>
+        <ProjectEditComponent projectData={projectData} />
       </PopUpBox>
 
     </div>

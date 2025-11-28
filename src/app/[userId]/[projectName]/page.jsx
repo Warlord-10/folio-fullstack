@@ -4,34 +4,32 @@ import ReadMePanel from "@/components/ProjectDetail/ReadMePanel";
 import { cookies } from 'next/headers'
 import { fetchClient } from "@/Networking/FetchInstance";
 import BannerImagePanel from "@/components/BannerImagePanel";
-import {Toaster} from 'sonner'
+import { Toaster } from 'sonner'
 import ProjectPageDetailSection from "@/components/ProjectDetail/ProjectPageDetailSection";
-
-
-
 
 
 export default async function Page({ params }) {
   try {
     const cookieStore = cookies()
     const head = {
-      Cookie: cookieStore.toString(),
+      'Cookie': cookieStore.toString(),
+      'Content-Type': 'application/json',
     }
 
     const response = await fetchClient(requests.getProjectByName(params.userId, params.projectName), {
       headers: head,
-      cache : "no-store"
+      cache: "no-store"
     })
 
     const folderData = await fetchClient(requests.getFolder_v2(params.userId, params.projectName), {
       headers: head,
-      cache : "no-store"
+      cache: "no-store"
     })
 
     const project_data = response.data
-    const owner_data = project_data.owner_id
     const permission = response.permission
     const metadata = response.metadata
+    const owner_data = project_data.owner_id
 
 
     return (
@@ -45,7 +43,7 @@ export default async function Page({ params }) {
             <FileAndFolderBox permission={permission} rawFolderData={folderData} />
 
             <ReadMePanel file={folderData.files.find(file => file.name === "README.md")} />
-            
+
             {project_data.banner_path && (
               <BannerImagePanel url={requests.bannerFiles(project_data.banner_path)} />
             )}
@@ -55,8 +53,8 @@ export default async function Page({ params }) {
             <ProjectPageDetailSection owner_data={owner_data} project_data={project_data} metadata={metadata} />
           </div>
         </div>
-        
-        <Toaster richColors/>
+
+        <Toaster richColors />
       </div>
     )
   } catch (error) {

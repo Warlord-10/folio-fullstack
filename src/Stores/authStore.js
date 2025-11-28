@@ -9,16 +9,20 @@ const useAuthStore = create(
   persist(
     (set) => ({
       userData: undefined,          // non-sensitive profile info
-      status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated',           
+      status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated',
+
+      setUserData: (user) => {
+        set({ userData: user, status: user ? 'authenticated' : 'unauthenticated' });
+      },
 
       login: async (dataToSend) => {
         try {
           set({ status: 'loading' });
           const res = await axios.post(requests.userSignIn(), dataToSend)
-          const resData = res.data;     
-          
+          const resData = res.data;
+
           set({ userData: resData.user, status: 'authenticated' });
-  
+
           return resData
         } catch (error) {
           set({ status: 'unauthenticated' });
@@ -46,9 +50,9 @@ const useAuthStore = create(
           const res = await axios.post(requests.userSignOut());
           set({ userData: undefined, status: 'unauthenticated' });
 
-          return {message: "Successfully logged out!"}
+          return { message: "Successfully logged out!" }
         } catch (error) {
-          return {error: error.message || "Something went wrong, please try again!"}
+          return { error: error.message || "Something went wrong, please try again!" }
         }
       },
 
@@ -59,10 +63,10 @@ const useAuthStore = create(
 
           const user = useAuthStore.getState().userData;
           if (!user) return
-          
+
           const res = await fetchClient(requests.getDeleteUpdateUserById(user._id), { credentials: 'include' });
           if (res) set({ userData: res.data, status: 'authenticated' });
-          
+
         } catch (error) {
           console.log("Error in refresh:", error);
         }

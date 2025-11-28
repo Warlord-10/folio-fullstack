@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import PopUpBox from '../PopUpBox';
+import PopUpBox from '@/components/PopUpBox';
 
 function CreateNewProjectComponent({ onCreateProject }) {
     const [isCreating, setIsCreating] = useState(false);

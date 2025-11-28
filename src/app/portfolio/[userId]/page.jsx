@@ -4,7 +4,6 @@ import requests from "@/Networking/Requests";
 import React from 'react'
 
 import Banner from '@/DefaultPortfolio/Banner'
-import Navbar from '@/DefaultPortfolio/Navbar'
 import "@/DefaultPortfolio/parallax.css"
 import "@/DefaultPortfolio/default.css"
 import Script from 'next/script'
@@ -22,7 +21,6 @@ function originalFolio() {
     <div className='bg-[#030014]'>
       {/* <IntroPage /> */}
       {/* <StarsCanvas /> */}
-      <Navbar />
       <Banner />
       <ProjectsPage />
       <ComplexAnimationPage />
@@ -36,6 +34,7 @@ function originalFolio() {
 
 export default async function Page({ params }) {
   try {
+    // return <div>Hello</div>
     return (
       <>
         <Script src={requests.projectBundles(`${params.userId}/main.bundle.js`)} strategy="afterInteractive" />

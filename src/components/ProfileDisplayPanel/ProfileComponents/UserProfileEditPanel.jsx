@@ -1,17 +1,20 @@
 import React, { useState } from "react"
 import axios from "@/Networking/Axios"
 import requests from "@/Networking/Requests"
-import { X, Upload, Trash2, Code } from "lucide-react"
+import { X, Code, Trash2 } from "lucide-react"
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner'
-import UserProfileImage from "../UserProfileImage";
+import UserProfileImage from "@/components/UserProfileImage";
+import AvatarUpload from "./AvatarUpload";
+import ProjectSelector from "./ProjectSelector";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import InputField from "./InputField";
 
 
 function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) {
     const router = useRouter();
 
     const [defaultPage, setDefaultPage] = useState(userData.user_portfolio)
-    const [res, setRes] = useState(null)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [avatarPreview, setAvatarPreview] = useState(<UserProfileImage userData={userData} />)
 
@@ -20,7 +23,6 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
         try {
             e.preventDefault()
             const formData = new FormData(e.target)
-            // const dataToSend = Object.fromEntries(formData);
 
             const response = await axios.patch(requests.getDeleteUpdateUserById(userData._id), formData, {
                 headers: {
@@ -51,11 +53,9 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
         try {
             await axios.delete(requests.getDeleteUpdateUserById(userData._id))
             toast.success("Account Deleted Successfully")
-            // setRes(<span className="text-green-400 font-semibold">Account Deleted Successfully</span>)
             router.replace("/home")
         } catch (error) {
             toast.error("Error Deleting Account")
-            // setRes(<span className="text-red-400 font-semibold">Error Deleting Account</span>)
         } finally {
             setIsDeleteModalOpen(false)
         }
@@ -63,7 +63,7 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
 
     const handleTranspileProject = async () => {
         if (!defaultPage) {
-            setRes(<span className="text-yellow-400 font-semibold">No default project selected</span>)
+            toast.error("No default project selected")
             return
         }
 
@@ -72,14 +72,6 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             success: 'Project transpiled successfully',
             error: 'Failed to transpile project'
         });
-
-        // await axios.post(requests.transpileProject(defaultPage))
-        // setRes(<span className="text-green-400 font-semibold">Project Transpiled Successfully</span>)
-
-        // setTimeout(() => {
-        //     setRes(null)
-        // }, 2000)
-        
     }
 
     return (
@@ -97,27 +89,10 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                     <div className="relative z-0 flex-grow overflow-y-auto p-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="md:col-span-1 space-y-6">
-                                <div className="flex flex-col items-center">
-                                    <label className="relative group cursor-pointer" htmlFor="avatar-upload">
-                                        <div className="w-40 h-40 rounded-full object-cover border-4 border-purple-600 group-hover:opacity-75 transition-opacity duration-200 overflow-hidden">
-                                            {avatarPreview}
-                                        </div>
-
-                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                            <div className=" bg-purple-600 text-white p-2 rounded-full">
-                                                <Upload size={24} />
-                                            </div>
-                                        </div>
-                                    </label>
-                                    <input
-                                        id="avatar-upload"
-                                        type="file"
-                                        className="hidden"
-                                        name="avatar_path"
-                                        accept="image/*"
-                                        onChange={handleAvatarChange}
-                                    />
-                                </div>
+                                <AvatarUpload
+                                    avatarPreview={avatarPreview}
+                                    handleAvatarChange={handleAvatarChange}
+                                />
                                 <InputField label="Name" name="name" defaultValue={userData.name} />
                                 <InputField label="Email" name="email" defaultValue={userData.email} type="email" />
                             </div>
@@ -134,35 +109,17 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                                         rows={5}
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-300 mb-2">Default portfolio</label>
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-3 bg-gray-800 rounded-md border border-gray-700">
-                                        {userProjects &&
-                                            userProjects.map((p) => (
-                                                <button
-                                                    htmlFor="user_portfolio"
-                                                    type="button"
-                                                    key={p._id}
-                                                    onClick={() => setDefaultPage(defaultPage === p._id ? null : p._id)}
-                                                    className={`w-full text-left px-3 py-2 rounded-md transition duration-200 ${p._id === defaultPage
-                                                        ? "bg-purple-600 text-white"
-                                                        : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                                                        }`}
-                                                >
-                                                    {p.title}
-                                                </button>
-                                            ))
-                                        }
-                                        <input name="user_portfolio" id="user_portfolio" value={defaultPage} className="hidden" />
-                                    </div>
-                                </div>
+                                <ProjectSelector
+                                    userProjects={userProjects}
+                                    defaultPage={defaultPage}
+                                    setDefaultPage={setDefaultPage}
+                                />
                             </div>
                         </div>
                     </div>
 
                     <div className="p-6 border-t border-gray-700 space-y-4">
                         <div className="flex items-center justify-between">
-                            {res && <div className="text-sm">{res}</div>}
                             <div className="flex space-x-4">
                                 <button
                                     type="button"
@@ -196,52 +153,11 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             </div>
 
             {isDeleteModalOpen && (
-                <DeleteConfirmationModal onConfirm={handleDeleteAccount} onCancel={() => setIsDeleteModalOpen(false)} />
+                <DeleteConfirmationModal
+                    onConfirm={handleDeleteAccount}
+                    onCancel={() => setIsDeleteModalOpen(false)}
+                />
             )}
-        </div>
-    )
-}
-
-function InputField({ label, name, defaultValue, type = "text" }) {
-    return (
-        <div>
-            <label htmlFor={name} className="block text-sm font-medium text-gray-300 mb-2">
-                {label}
-            </label>
-            <input
-                id={name}
-                className="w-full px-3 py-2 text-white bg-gray-800 rounded-md border border-gray-700 focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50 transition duration-200"
-                name={name}
-                defaultValue={defaultValue}
-                type={type}
-            />
-        </div>
-    )
-}
-
-function DeleteConfirmationModal({ onConfirm, onCancel }) {
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-xl max-w-md w-full">
-                <h3 className="text-xl font-bold text-white mb-4">Confirm Account Deletion</h3>
-                <p className="text-gray-300 mb-6">
-                    Are you sure you want to delete your account? This action cannot be undone.
-                </p>
-                <div className="flex justify-end space-x-4">
-                    <button
-                        onClick={onCancel}
-                        className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={onConfirm}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
-                    >
-                        Delete Account
-                    </button>
-                </div>
-            </div>
         </div>
     )
 }

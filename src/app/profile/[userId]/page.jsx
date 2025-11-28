@@ -3,13 +3,14 @@ import requests from "@/Networking/Requests";
 import UserProfilePanel from "@/components/ProfileDisplayPanel/UserProfilePanel";
 import UserProjectPanel from "@/components/ProfileDisplayPanel/UserProjectPanel";
 import { cookies } from 'next/headers'
-import {Toaster} from 'sonner'
+import { Toaster } from 'sonner'
 
 
 export default async function Page({ params }) {
     const cookieStore = cookies()
     const head = {
-        Cookie: cookieStore.toString(),
+        'Cookie': cookieStore.toString(),
+        'Content-Type': 'application/json',
     }
 
     // Caching for 1 minutes only
@@ -26,7 +27,7 @@ export default async function Page({ params }) {
             credentials: 'include',
         })
     ])
-    
+
 
     return (
         <div className='userEditScreen flex flex-col md:flex-row gap-5 p-2 justify-center w-full'>
@@ -36,7 +37,7 @@ export default async function Page({ params }) {
             <div className="w-full md:w-[60%]">
                 <UserProjectPanel userProjectProp={projectData} />
             </div>
-            <Toaster richColors/>
+            <Toaster richColors />
         </div>
     );
 }

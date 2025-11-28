@@ -1,4 +1,4 @@
-import ProjectCardList from './ProjectCardList';
+import ProjectCardList from './ProjectComponents/ProjectCardList';
 
 async function UserProjectPanel({ userProjectProp }) {
     return (
@@ -7,7 +7,7 @@ async function UserProjectPanel({ userProjectProp }) {
                 <h1 className='text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>Your Projects</h1>
             </div>
 
-            <ProjectCardList projects={userProjectProp}/>
+            <ProjectCardList projects={userProjectProp} />
         </div>
     )
 }
