@@ -1,5 +1,4 @@
 // "use client"
-import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
 import React from 'react'
 
@@ -7,12 +6,10 @@ import Banner from '@/DefaultPortfolio/Banner'
 import "@/DefaultPortfolio/parallax.css"
 import "@/DefaultPortfolio/default.css"
 import Script from 'next/script'
-import StarsCanvas from '@/DefaultPortfolio/StarBackground'
 import ProjectsPage from '@/DefaultPortfolio/projectPage'
 import TechStackPage from '@/DefaultPortfolio/techStackPage'
 import ComplexAnimationPage from '@/DefaultPortfolio/animationPage'
 import Footer from '@/DefaultPortfolio/footer'
-import IntroPage from '@/DefaultPortfolio/introPage'
 import Home from '@/DefaultPortfolio/test'
 
 

@@ -2,8 +2,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import requests from '@/Networking/Requests';
-import axios from "@/Networking/Axios";
-import { fetchClient } from '@/Networking/FetchInstance';
+import { fetchClient } from '@/Networking/FetchInstanceClient';
 
 const useAuthStore = create(
   persist(
@@ -18,8 +17,11 @@ const useAuthStore = create(
       login: async (dataToSend) => {
         try {
           set({ status: 'loading' });
-          const res = await axios.post(requests.userSignIn(), dataToSend)
-          const resData = res.data;
+          const resData = await fetchClient(requests.userSignIn(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSend),
+          });
 
           set({ userData: resData.user, status: 'authenticated' });
 
@@ -33,8 +35,11 @@ const useAuthStore = create(
       register: async (dataToSend) => {
         try {
           set({ status: 'loading' });
-          const res = await axios.post(requests.userSignUp(), dataToSend)
-          const resData = res.data;
+          const resData = await fetchClient(requests.userSignUp(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSend),
+          });
 
           set({ userData: resData.user, status: 'authenticated' });
 
@@ -47,7 +52,7 @@ const useAuthStore = create(
 
       logout: async () => {
         try {
-          const res = await axios.post(requests.userSignOut());
+          await fetchClient(requests.userSignOut(), { method: 'POST' });
           set({ userData: undefined, status: 'unauthenticated' });
 
           return { message: "Successfully logged out!" }
@@ -58,17 +63,17 @@ const useAuthStore = create(
 
       refresh: async () => {
         try {
-          console.log("trying to refresh")
+          ("trying to refresh")
           set({ status: 'loading' });
 
           const user = useAuthStore.getState().userData;
           if (!user) return
 
-          const res = await fetchClient(requests.getDeleteUpdateUserById(user._id), { credentials: 'include' });
+          const res = await fetchClient(requests.getDeleteUpdateUserById(user._id));
           if (res) set({ userData: res.data, status: 'authenticated' });
 
         } catch (error) {
-          console.log("Error in refresh:", error);
+          ("Error in refresh:", error);
         }
       },
     }),

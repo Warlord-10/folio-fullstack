@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import axios from "@/Networking/Axios"
+import { fetchClient } from '@/Networking/FetchInstanceClient'
 import requests from "@/Networking/Requests"
 import { X, Code, Trash2 } from "lucide-react"
 import { useRouter } from 'next/navigation';
@@ -7,15 +7,16 @@ import { toast } from 'sonner'
 import UserProfileImage from "@/components/UserProfileImage";
 import AvatarUpload from "./AvatarUpload";
 import ProjectSelector from "./ProjectSelector";
-import DeleteConfirmationModal from "./DeleteConfirmationModal";
+// import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import InputField from "./InputField";
+import { usePopUp } from '@/hooks/usePopUp';
 
 
 function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) {
     const router = useRouter();
 
     const [defaultPage, setDefaultPage] = useState(userData.user_portfolio)
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const { PopUp: DeletePopup, open: openDeleteModal, close: closeDeleteModal } = usePopUp();
     const [avatarPreview, setAvatarPreview] = useState(<UserProfileImage userData={userData} />)
 
 
@@ -24,10 +25,9 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             e.preventDefault()
             const formData = new FormData(e.target)
 
-            const response = await axios.patch(requests.getDeleteUpdateUserById(userData._id), formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            const response = await fetchClient(requests.getDeleteUpdateUserById(userData._id), {
+                method: "PATCH",
+                data: formData,
             })
 
             toast.success("Profile Updated Successfully")
@@ -49,15 +49,18 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
         }
     }
 
-    const handleDeleteAccount = async () => {
+    const handleDeleteAccount = async (e) => {
+        if (e) e.preventDefault();
         try {
-            await axios.delete(requests.getDeleteUpdateUserById(userData._id))
+            await fetchClient(requests.getDeleteUpdateUserById(userData._id), {
+                method: "DELETE",
+            })
             toast.success("Account Deleted Successfully")
             router.replace("/home")
         } catch (error) {
             toast.error("Error Deleting Account")
         } finally {
-            setIsDeleteModalOpen(false)
+            closeDeleteModal()
         }
     }
 
@@ -67,7 +70,12 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             return
         }
 
-        toast.promise(axios.post(requests.transpileProject(defaultPage)), {
+        toast.promise(fetchClient(requests.transpileProject(defaultPage), {
+            method: "POST",
+            data: {
+                projectId: defaultPage
+            }
+        }), {
             loading: 'Transpiling project...',
             success: 'Project transpiled successfully',
             error: 'Failed to transpile project'
@@ -141,7 +149,7 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                             <h3 className="text-lg font-semibold text-red-500 mb-2">Danger Zone</h3>
                             <button
                                 type="button"
-                                onClick={() => setIsDeleteModalOpen(true)}
+                                onClick={() => openDeleteModal()}
                                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition duration-200 flex items-center"
                             >
                                 <Trash2 size={18} className="mr-2" />
@@ -152,12 +160,15 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
                 </form>
             </div>
 
-            {isDeleteModalOpen && (
-                <DeleteConfirmationModal
-                    onConfirm={handleDeleteAccount}
-                    onCancel={() => setIsDeleteModalOpen(false)}
-                />
-            )}
+            <DeletePopup
+                onConfirm={handleDeleteAccount}
+                title="Confirm Account Deletion"
+                confirmTitle="Delete Account"
+            >
+                <div className='flex flex-col items-center justify-center'>
+                    <p className='text-gray-300'>Are you sure you want to delete your account? This action cannot be undone.</p>
+                </div>
+            </DeletePopup>
         </div>
     )
 }

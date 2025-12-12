@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import ProjectCard from './ProjectCard';
 import CreateProjectComponent from './CreateProjectComponent';
-import axios from "@/Networking/Axios";
+import { fetchClient } from '@/Networking/FetchInstanceClient'
 import requests from "@/Networking/Requests";
 import { toast } from 'sonner'
 
@@ -18,44 +18,49 @@ function ProjectCardList({ projects }) {
         }
 
         try {
-            const response = await axios.post(requests.createUserProject(), dataToSend);
-            toast.success("Project created successfully")
+            const response = await fetchClient(requests.createUserProject(), {
+                method: "POST",
+                body: JSON.stringify(dataToSend),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
 
-            setProjectData(prev => [...prev, response.data.data])
+            toast.success("Project created successfully")
+            setProjectData(prev => [...prev, response.data])
         } catch (error) {
-            console.log(error)
             toast.error(error.response?.data?.message || "Failed to create project")
         }
     }
 
     const deleteProject = async (pid) => {
-        // Optimistic update
-        const previousData = [...projectData];
-        setProjectData(prev => prev.filter(project => project._id !== pid));
-
         try {
-            await axios.delete(requests.getUpdateDeleteProjectById(pid));
+            await fetchClient(requests.getUpdateDeleteProjectById(pid), {
+                method: "DELETE",
+            })
+
             toast.success("Project deleted successfully")
+            setProjectData(prev => prev.filter(project => project._id !== pid));
         } catch (error) {
-            // Rollback on error
-            setProjectData(previousData);
             toast.error(error.response?.data?.message || "Failed to delete project")
         }
     }
 
     const editProject = async (dataToSend, pid) => {
-        const previousData = [...projectData];
-        // Optimistic update
-        setProjectData(prev => prev.map(item =>
-            item._id === pid ? { ...item, ...dataToSend } : item
-        ));
-
         try {
-            const response = await axios.patch(requests.getUpdateDeleteProjectById(pid), dataToSend)
+            const response = await fetchClient(requests.getUpdateDeleteProjectById(pid), {
+                method: "PATCH",
+                body: JSON.stringify(dataToSend),
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+
             toast.success("Project updated successfully")
+            setProjectData(prev => prev.map(project =>
+                project._id === pid ? { ...project, ...dataToSend } : project
+            ));
         } catch (error) {
-            // Rollback on error
-            setProjectData(previousData);
             toast.error(error.response?.data?.message || "Failed to update project")
         }
     }

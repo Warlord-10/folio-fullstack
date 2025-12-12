@@ -1,27 +1,31 @@
 "use client"
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Heart, ExternalLink } from "lucide-react"
-import axios from "@/Networking/Axios";
 import requests from "@/Networking/Requests";
 import Link from 'next/link';
+import { fetchClient } from "@/Networking/FetchInstanceClient";
 
 function PortfolioCard({ id, username, isLiked, totalLikes }) {
-    const [like, setLike] = useState(isLiked)
-    const [likeCount, setLikeCount] = useState(totalLikes)
+  const [like, setLike] = useState(isLiked)
+  const [likeCount, setLikeCount] = useState(totalLikes)
 
 
-    const toggleLike = async () => {
-        if (like) {
-            const res = await axios.delete(requests.removePortfolioLike(id))
-            setLike(false)
-            setLikeCount(res.data.totalLikes)
-        }
-        else{
-            const res = await axios.post(requests.addPortfolioLike(id))
-            setLike(true)
-            setLikeCount(res.data.totalLikes)
-        }
+  const toggleLike = async () => {
+    if (like) {
+      const res = await fetchClient(requests.removePortfolioLike(id), {
+        method: "DELETE",
+      })
+      setLike(false)
+      setLikeCount(res.data.totalLikes)
     }
+    else {
+      const res = await fetchClient(requests.addPortfolioLike(id), {
+        method: "POST",
+      })
+      setLike(true)
+      setLikeCount(res.data.totalLikes)
+    }
+  }
 
   return (
     <div className="w-full overflow-hidden bg-gray-900 text-white rounded-lg shadow-lg">

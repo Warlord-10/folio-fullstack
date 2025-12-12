@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
 import Link from "next/link";
 import ProjectEditComponent from './ProjectEditComponent';
-import PopUpBox from '@/components/PopUpBox';
+import { usePopUp } from '@/hooks/usePopUp';
 
 function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
+  const { PopUp: DeletePopup, open: openDelete, close: closeDelete } = usePopUp();
+  const { PopUp: EditPopup, open: openEdit, close: closeEdit } = usePopUp();
+
 
   const handleEdit = (e) => {
     e.preventDefault()
     const formData = new FormData(e.target)
 
-    toEdit(formData, projectData._id)
-    setIsEditing(false)
+    toEdit(Object.fromEntries(formData), projectData._id)
+    closeEdit()
   }
 
   const handleDelete = (e) => {
     e.preventDefault()
 
     toDelete(projectData._id)
-    setIsDeleting(false)
+    closeDelete()
   }
 
   return (
@@ -37,12 +38,12 @@ function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
         {userPermission === "OWNER" &&
           <div className='flex justify-end space-x-2 mt-4'>
             <button
-              onClick={(e) => { e.preventDefault(); setIsDeleting(true) }}
+              onClick={(e) => { e.preventDefault(); openDelete() }}
               className='bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition duration-200'>
               Delete
             </button>
             <button
-              onClick={(e) => { e.preventDefault(); setIsEditing(true) }}
+              onClick={(e) => { e.preventDefault(); openEdit() }}
               className='bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-200'>
               Edit
             </button>
@@ -50,9 +51,7 @@ function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
         }
       </Link>
 
-      <PopUpBox
-        isOpen={isDeleting}
-        onClose={() => setIsDeleting(false)}
+      <DeletePopup
         onConfirm={handleDelete}
         title="Confirm Delete?"
         confirmTitle="Delete"
@@ -60,17 +59,15 @@ function ProjectCard({ projectData, userPermission, toDelete, toEdit }) {
         <div className='flex flex-col items-center justify-center'>
           <p className='text-gray-300'>Are you sure you want to delete project <span className='text-red-400 font-semibold text-lg'>&quot;{projectData.title}&quot;</span> ? Once deleted, it cannot be recovered.</p>
         </div>
-      </PopUpBox>
+      </DeletePopup>
 
-      <PopUpBox
-        isOpen={isEditing}
-        onClose={() => setIsEditing(false)}
-        onConfirm={handleEdit}
+      <EditPopup
+        onConfirm={(e) => handleEdit(e)}
         title="Edit Project"
         confirmTitle="Save"
       >
         <ProjectEditComponent projectData={projectData} />
-      </PopUpBox>
+      </EditPopup>
 
     </div>
   )

@@ -1,28 +1,20 @@
 import requests from "@/Networking/Requests";
 import FileAndFolderBox from "@/components/ProjectDetail/FileAndFolderBox";
 import ReadMePanel from "@/components/ProjectDetail/ReadMePanel";
-import { cookies } from 'next/headers'
-import { fetchClient } from "@/Networking/FetchInstance";
+import { fetchServer } from "@/Networking/FetchInstanceServer";
 import BannerImagePanel from "@/components/BannerImagePanel";
-import { Toaster } from 'sonner'
 import ProjectPageDetailSection from "@/components/ProjectDetail/ProjectPageDetailSection";
 
 
 export default async function Page({ params }) {
   try {
-    const cookieStore = cookies()
-    const head = {
-      'Cookie': cookieStore.toString(),
-      'Content-Type': 'application/json',
-    }
-
-    const response = await fetchClient(requests.getProjectByName(params.userId, params.projectName), {
-      headers: head,
+    const response = await fetchServer(requests.getProjectByName(params.userId, params.projectName), {
+      method: 'GET',
       cache: "no-store"
     })
 
-    const folderData = await fetchClient(requests.getFolder_v2(params.userId, params.projectName), {
-      headers: head,
+    const folderData = await fetchServer(requests.getFolder_v2(params.userId, params.projectName), {
+      method: 'GET',
       cache: "no-store"
     })
 
@@ -53,8 +45,6 @@ export default async function Page({ params }) {
             <ProjectPageDetailSection owner_data={owner_data} project_data={project_data} metadata={metadata} />
           </div>
         </div>
-
-        <Toaster richColors />
       </div>
     )
   } catch (error) {

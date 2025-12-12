@@ -1,6 +1,6 @@
 "use client"
 import { React, useRef, useState, useEffect } from 'react'
-import axios from "@/Networking/Axios";
+import { fetchClient } from '@/Networking/FetchInstanceClient'
 import requests from "@/Networking/Requests";
 import Link from 'next/link';
 import "./SearchBar.css"
@@ -11,7 +11,7 @@ const SearchBar = () => {
     const [searchData, setSearchData] = useState(null);
     const [lastApiCall, setLastApiCall] = useState(Date.now());
     const [isListVisible, setIsListVisible] = useState(false);
-    
+
     const containerRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -54,7 +54,9 @@ const SearchBar = () => {
             return;
         }
         setLastApiCall(now);
-        const response = await axios.get(requests.getSearchUser(name));
+        const response = await fetchClient(requests.getSearchUser(name), {
+            method: "GET",
+        });
         setSearchData(response.data);
         setIsListVisible(true);
     }
@@ -80,7 +82,7 @@ const SearchBar = () => {
                     className='text-gray-400 bg-transparent px-3 hover:text-white transition-colors duration-200'
                     onClick={handleClear}
                 >
-                    {searchValue ? 'X' : 
+                    {searchValue ? 'X' :
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
