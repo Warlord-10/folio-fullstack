@@ -1,21 +1,15 @@
 import React from 'react'
 import requests from "@/Networking/Requests";
 import FileAndFolderBox from '@/components/ProjectDetail/FileAndFolderBox';
-import { cookies } from 'next/headers'
 import CodeEditorPanel from '@/components/CodeEditor/CodeEditorPanel';
-import { fetchClient } from '@/Networking/FetchInstance';
+import { fetchServer } from '@/Networking/FetchInstanceServer';
 
 async function Page({ params }) {
-  const cookieStore = cookies()
-  const head = {
-    'Cookie': cookieStore.toString(),
-    'Content-Type': 'application/json',
-  }
 
   // If the content is a directory then fetch its content
   if (params.type === "tree") {
-    const folderData = await fetchClient(requests.getFolder_v2(params.userId, params.projectName, params.path ? params.path.join("/") : null), {
-      headers: head,
+    const folderData = await fetchServer(requests.getFolder_v2(params.userId, params.projectName, params.path ? params.path.join("/") : null), {
+      method: 'GET',
       cache: "no-store"
     })
 
@@ -28,8 +22,8 @@ async function Page({ params }) {
 
   // If the content is a file then fetch its content
   else if (params.type === "blob") {
-    const response = await fetchClient(requests.getFileDetails_v2(params.userId, params.projectName, params.path.join("/")), {
-      headers: head,
+    const response = await fetchServer(requests.getFileDetails_v2(params.userId, params.projectName, params.path.join("/")), {
+      method: 'GET',
       cache: "no-store"
     })
 

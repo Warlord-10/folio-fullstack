@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import axios from "@/Networking/Axios";
+import { fetchClient } from '@/Networking/FetchInstanceClient'
 import requests from '@/Networking/Requests';
 
 import { usePathname, useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import Editor from '@monaco-editor/react';
 import { registerCompletion } from 'monacopilot';
+import { toast } from 'sonner';
 
 import EditorToolbar from './EditorToolbar';
 import FileDeletePopup from './FileDeletePopup';
@@ -19,13 +20,15 @@ function CodeEditorPanel({ fileDetails, permission }) {
     const [currFileData, setCurrFileData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const [responseData, setResponseData] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(requests.getFileData(fileDetails._id));
-                setCurrFileData(response.data);
+                const response = await fetchClient(requests.getFileData(fileDetails._id), {
+                    method: "GET",
+                    responseType: "text",
+                });
+                setCurrFileData(response);
             } catch (error) {
                 console.error("Failed to fetch file data", error);
             }
@@ -35,6 +38,7 @@ function CodeEditorPanel({ fileDetails, permission }) {
     }, [fileDetails._id]);
 
     const handleEditorDidMount = (editor, monaco) => {
+        return 0;
         editorRef.current = editor;
         const completion = registerCompletion(monaco, editor, {
             endpoint: requests.getCodeSuggestions(),
@@ -45,25 +49,41 @@ function CodeEditorPanel({ fileDetails, permission }) {
         return () => completion.deregister();
     };
 
-    const handleSave = async () => {
-        try {
-            await axios.patch(requests.updateDeleteFileById(fileDetails._id), { data: currFileData });
-            setResponseData("Saved");
-        } catch {
-            setResponseData("Failed to save");
-        } finally {
-            setTimeout(() => setResponseData(null), 2000);
-        }
+    const handleSave = () => {
+        toast.promise(fetchClient(requests.updateDeleteFileById(fileDetails._id), {
+            method: "PATCH",
+            body: JSON.stringify({ content: currFileData }),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }), {
+            loading: 'Saving file...',
+            success: 'File saved successfully',
+            error: 'Failed to save file'
+        });
     };
 
     const handleDelete = async () => {
         try {
-            await axios.delete(requests.updateDeleteFileById(fileDetails._id));
+            await fetchClient(requests.updateDeleteFileById(fileDetails._id), {
+                method: "DELETE",
+            });
+            toast.success("File deleted successfully");
             const newUrl = pathname.substring(0, pathname.lastIndexOf('/')).replace("blob", "tree");
             router.replace(newUrl);
         } catch (error) {
             console.error("File delete failed", error);
+            toast.error("Failed to delete file");
         }
+    };
+
+    const handleSetIsEditing = (value) => {
+        if (value) {
+            toast.info("Editing mode enabled");
+        } else {
+            toast.info("Editing mode disabled");
+        }
+        setIsEditing(value);
     };
 
     return (
@@ -74,12 +94,11 @@ function CodeEditorPanel({ fileDetails, permission }) {
                     <p className="text-gray-400 text-sm">
                         Updated At: {format(new Date(fileDetails.updatedAt), "dd/MM/yy, HH:mm")}
                     </p>
-                    {responseData && <span className="text-sm text-yellow-400">{responseData}</span>}
                 </div>
 
                 <EditorToolbar
                     isEditing={isEditing}
-                    setIsEditing={setIsEditing}
+                    setIsEditing={handleSetIsEditing}
                     onSave={handleSave}
                     onDelete={() => setIsDeleting(true)}
                     permission={permission}

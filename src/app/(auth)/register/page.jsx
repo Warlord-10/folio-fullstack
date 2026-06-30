@@ -9,6 +9,11 @@ export default function Page() {
     const [apiResponse, setApiResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const userData = useAuthStore((s) => s.userData);
+    if (userData) {
+        router.push("/profile/" + userData._id);
+    }
+
     const registerFunction = useAuthStore((state) => state.register);
 
     const validateInputs = (name, email, password) => {
@@ -44,7 +49,7 @@ export default function Page() {
                     {response.message || "Successfully registered!"}
                 </div>
             );
-            
+
             router.push(`/profile/${response.user._id}`)
 
         } catch (error) {
@@ -68,9 +73,9 @@ export default function Page() {
 
             <div className='flex flex-col'>
                 <label htmlFor="name" className='text-base font-thin'>Full Name</label>
-                <input 
+                <input
                     id="name"
-                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none' 
+                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none'
                     type='text'
                     name='name'
                     placeholder='Name'
@@ -81,23 +86,23 @@ export default function Page() {
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="email" className='text-base font-thin'>Email Id</label>
-                <input 
+                <input
                     id="email"
-                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none' 
-                    type='email' 
+                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none'
+                    type='email'
                     name='email'
                     placeholder='Email'
                     required
                     disabled={isLoading}
                     autoComplete="email"
                 />
-            </div>            
+            </div>
             <div className='flex flex-col'>
                 <label htmlFor="password" className='text-base font-thin'>Password</label>
-                <input 
+                <input
                     id="password"
-                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none' 
-                    type='password'  
+                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none'
+                    type='password'
                     name='password'
                     placeholder='Password'
                     required
@@ -106,19 +111,19 @@ export default function Page() {
                 />
             </div>
             {apiResponse}
-            <button 
+            <button
                 type="submit"
                 disabled={isLoading}
                 className={`text-white border-white border-2 rounded-md hover:border-4 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            > 
+            >
                 {isLoading ? 'Signing Up...' : 'Sign Up'}
             </button>
             <div className='text-base'>
                 <span>Have an account? </span>
-                <Link 
-                    className='cursor-pointer underline' 
+                <Link
+                    className='cursor-pointer underline'
                     href="./login">
-                        Sign In.
+                    Sign In.
                 </Link>
             </div>
         </form>

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react'
-import axios from "@/Networking/Axios"
+import { fetchClient } from '@/Networking/FetchInstanceClient';
 import requests from "@/Networking/Requests"
 import { usePathname, useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -30,8 +30,9 @@ function FileAndFolderBox({ permission, rawFolderData }) {
 
     const handleUploadFiles = async (dataToSend) => {
         try {
-            await axios.post(requests.uploadFile(currFolderId), dataToSend, {
-                headers: { 'Content-Type': 'multipart/form-data' }
+            await fetchClient(requests.uploadFile(currFolderId), {
+                method: 'POST',
+                body: dataToSend,
             });
             toast.success("Upload successful");
         } catch (error) {
@@ -49,11 +50,19 @@ function FileAndFolderBox({ permission, rawFolderData }) {
 
         try {
             if (isAddingNew === "folder") {
-                const response = await axios.post(requests.createFolder(), dataToSend);
-                setFolderData([...folderData, response.data]);
+                const response = await fetchClient(requests.createFolder(), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataToSend),
+                });
+                setFolderData([...folderData, response]);
             } else {
-                const response = await axios.post(requests.createFile(), dataToSend);
-                setFileData([...fileData, response.data]);
+                const response = await fetchClient(requests.createFile(), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataToSend),
+                });
+                setFileData([...fileData, response]);
             }
 
             toast.success("Creation successful");
@@ -67,7 +76,9 @@ function FileAndFolderBox({ permission, rawFolderData }) {
     const handleDelete = async (e) => {
         e.preventDefault();
         try {
-            await axios.delete(requests.getUpdateDeleteFolderById(currFolderData._id));
+            await fetchClient(requests.getUpdateDeleteFolderById(currFolderData._id), {
+                method: 'DELETE',
+            });
             setFolderData(folderData.filter(folder => folder._id !== currFolderData._id));
             setIsDeleting(false);
 

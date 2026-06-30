@@ -1,32 +1,26 @@
-import { fetchClient } from "@/Networking/FetchInstance";
+import { fetchServer } from "@/Networking/FetchInstanceServer";
 import requests from "@/Networking/Requests";
 import UserProfilePanel from "@/components/ProfileDisplayPanel/UserProfilePanel";
 import UserProjectPanel from "@/components/ProfileDisplayPanel/UserProjectPanel";
-import { cookies } from 'next/headers'
 import { Toaster } from 'sonner'
 
 
 export default async function Page({ params }) {
-    const cookieStore = cookies()
-    const head = {
-        'Cookie': cookieStore.toString(),
-        'Content-Type': 'application/json',
-    }
-
     // Caching for 1 minutes only
     const [userData, projectData] = await Promise.all([
-        await fetchClient(requests.getDeleteUpdateUserById(params.userId), {
-            headers: head,
+        fetchServer(requests.getDeleteUpdateUserById(params.userId), {
+            method: 'GET',
             next: { revalidate: 60, tags: ['user-profile'] },
-            credentials: 'include',
         }),
 
-        await fetchClient(requests.getDeleteUserAllProjects(params.userId), {
-            headers: head,
+        fetchServer(requests.getDeleteUserAllProjects(params.userId), {
+            method: 'GET',
             next: { revalidate: 60, tags: ['user-projects'] },
-            credentials: 'include',
         })
-    ])
+    ]).catch((error) => {
+        console.log("Error fetching user data or projects:", error);
+        return [null, null];
+    });
 
 
     return (
