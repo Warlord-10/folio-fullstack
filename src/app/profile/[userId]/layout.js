@@ -1,7 +1,7 @@
 export default function Layout({ children }) {
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="font-mono text-white bg-zinc-950 grow flex">
+    <div className="flex min-h-screen flex-col">
+      <div className="flex grow bg-background text-foreground">
         {children}
       </div>
     </div>

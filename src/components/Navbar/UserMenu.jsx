@@ -14,7 +14,7 @@ import Link from "next/link";
 export default function UserMenu({ user }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="rounded-full h-full overflow-hidden">
+      <DropdownMenuTrigger className="rounded-full h-full overflow-hidden p-2">
         <UserProfileImage userData={user} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-gray-900 text-gray-400">

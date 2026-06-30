@@ -28,32 +28,40 @@ function PortfolioCard({ id, username, isLiked, totalLikes }) {
   }
 
   return (
-    <div className="w-full overflow-hidden bg-gray-900 text-white rounded-lg shadow-lg">
-      <div className="flex h-[400px]">
-        <div className="w-3/4 relative bg-white">
-          <iframe src={requests.projectBundles(`${id}/index.html`)} className="absolute inset-0 w-full h-full border-0" />
-          <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-all duration-300">
-            <div className="absolute inset-0 bg-black/50"></div>
-          </div>
+    <div className="group w-full overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-lg transition-all duration-300 hover:border-primary/40 hover:shadow-primary/10">
+      <div className="flex h-[400px] flex-col md:flex-row">
+        <div className="relative h-48 w-full bg-white md:h-auto md:w-3/4">
+          <iframe
+            src={requests.projectBundles(`${id}/index.html`)}
+            title={`${username}'s portfolio preview`}
+            className="absolute inset-0 h-full w-full border-0"
+            loading="lazy"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         </div>
-        <div className="w-1/4 flex flex-col justify-between p-6">
-          <div className="flex items-center space-x-4">
-            <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-primary">
-              <img src={requests.publicFiles(`${id}/avatar.jpeg`)} alt={username} width={64} height={64} />
-            </div>
-            <div>
-              <Link href={`/profile/${id}`} className="text-xl font-bold hover:text-blue-500">{username}</Link>
-              {/* <p className="text-sm text-gray-400">Portfolio Showcase</p> */}
-            </div>
-          </div>
+        <div className="flex w-full flex-col justify-between gap-6 p-6 md:w-1/4">
           <div className="flex items-center gap-4">
-            <Link href={`/portfolio/${id}`} className="w-full bg-white text-gray-900 py-2 px-4 rounded-md font-semibold hover:bg-gray-300 transition-colors flex justify-between items-center" target="_blank">
-              <h1>View Full Portfolio</h1>
-              <ExternalLink />
+            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-primary">
+              <img src={requests.publicFiles(`${id}/avatar.jpeg`)} alt={username} width={64} height={64} className="h-full w-full object-cover" />
+            </div>
+            <Link href={`/profile/${id}`} className="text-xl font-bold transition-colors hover:text-primary">{username}</Link>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/portfolio/${id}`}
+              target="_blank"
+              className="flex flex-1 items-center justify-between gap-2 rounded-md bg-primary px-4 py-2 font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <span>View Portfolio</span>
+              <ExternalLink size={18} />
             </Link>
-            <button onClick={toggleLike}>
-              <Heart className='hover:scale-125 transition-transform duration-200' fill={like ? 'red' : 'none'} />
-              <h1>{likeCount}</h1>
+            <button
+              onClick={toggleLike}
+              aria-label={like ? "Unlike" : "Like"}
+              className="flex flex-col items-center rounded-md px-2 py-1 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Heart className='transition-transform duration-200 hover:scale-125' fill={like ? 'hsl(var(--destructive))' : 'none'} stroke={like ? 'hsl(var(--destructive))' : 'currentColor'} />
+              <span className="text-sm">{likeCount}</span>
             </button>
           </div>
         </div>

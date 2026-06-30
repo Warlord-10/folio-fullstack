@@ -7,28 +7,33 @@ import SearchBar from "../SearchBar";
 import useSettingStore from "@/Stores/settingStore";
 import useAuthStore from "@/Stores/authStore";
 
-export default function NavbarAuthenticated() {
+export default function NavbarAuthenticated({ serverUser }) {
     const settings = useSettingStore((state) => state.settings);
     const setSettings = useSettingStore((state) => state.setSettings);
-    const userData = useAuthStore((state) => state.userData) || "";
+    // Prefer the richer client store (has avatar etc.), fall back to the cookie-derived user
+    const userData = useAuthStore((state) => state.userData) || serverUser || "";
 
   return (
-    <div className="sticky backdrop-blur-md top-0 w-full h-14 bg-gray-950/50 flex text-white items-center px-2 p-1 justify-between z-[50]">
+    <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between gap-4 border-b border-border bg-background/70 px-4 backdrop-blur-xl">
       <Link
         href="/home"
-        className="font-[Anta] text-[1.5rem] text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900"
+        className="font-[Anta] bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-2xl text-transparent"
       >
         Folio
       </Link>
 
       <SearchBar />
 
-      <div className="flex gap-8 items-center h-full justify-center">
-        <button onClick={() => setSettings({ isTerminalOpen: !settings.isTerminalOpen })}>
-          <Inbox size={36} strokeWidth={1} />
+      <div className="flex h-full items-center justify-center gap-4">
+        <button
+          aria-label="Toggle terminal"
+          onClick={() => setSettings({ isTerminalOpen: !settings.isTerminalOpen })}
+          className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+        >
+          <Inbox size={22} strokeWidth={1.75} />
         </button>
         <UserMenu user={userData}/>
       </div>
-    </div>
+    </header>
   );
 }
