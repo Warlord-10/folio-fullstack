@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import { Heart, ExternalLink } from "lucide-react"
+import Image from 'next/image'
 import requests from "@/Networking/Requests";
 import Link from 'next/link';
 import { fetchClient } from "@/Networking/FetchInstanceClient";
@@ -42,7 +43,7 @@ function PortfolioCard({ id, username, isLiked, totalLikes }) {
         <div className="flex w-full flex-col justify-between gap-6 p-6 md:w-1/4">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-primary">
-              <img src={requests.publicFiles(`${id}/avatar.jpeg`)} alt={username} width={64} height={64} className="h-full w-full object-cover" />
+              <Image src={requests.publicFiles(`${id}/avatar.jpeg`)} alt={username} width={64} height={64} className="h-full w-full object-cover" />
             </div>
             <Link href={`/profile/${id}`} className="text-xl font-bold transition-colors hover:text-primary">{username}</Link>
           </div>

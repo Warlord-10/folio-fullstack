@@ -8,7 +8,7 @@ const useAuthStore = create(
   persist(
     (set) => ({
       userData: undefined,          // non-sensitive profile info
-      status: 'idle' | 'loading' | 'authenticated' | 'unauthenticated',
+      status: 'idle',               // 'idle' | 'loading' | 'authenticated' | 'unauthenticated'
 
       setUserData: (user) => {
         set({ userData: user, status: user ? 'authenticated' : 'unauthenticated' });

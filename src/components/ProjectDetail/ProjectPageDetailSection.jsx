@@ -1,5 +1,6 @@
 import requests from "@/Networking/Requests";
 import React from 'react'
+import Image from 'next/image'
 import { format, set } from 'date-fns';
 import { CircleIcon, User } from "lucide-react";
 import Link from "next/link";
@@ -45,7 +46,7 @@ function ProjectPageDetailSection({ owner_data, project_data, metadata }) {
                     <HoverCardContent className="p-2 w-full bg-gray-800">
                         <Link href={`/profile/${owner_data._id}`} className="flex items-center gap-2 justify-between hover:text-blue-400">
                             <h1 className="text-lg font-semibold"> {owner_data.name}</h1>
-                            <img className="w-10 h-10 rounded-full border-black border-2" src={requests.publicFiles(`${owner_data._id}/avatar.jpeg`) || "#"} alt="profile pic" />
+                            <Image className="h-10 w-10 rounded-full border-2 border-black object-cover" src={requests.publicFiles(`${owner_data._id}/avatar.jpeg`)} alt="profile pic" width={40} height={40} />
                         </Link>
                     </HoverCardContent>
                 </HoverCard>

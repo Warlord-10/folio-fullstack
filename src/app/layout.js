@@ -33,10 +33,8 @@ import NotificationProvider from "@/Providers/notificationProvider";
 import Terminal from "@/components/Terminal";
 import Navbar from '@/components/Navbar/Navbar';
 import AuthProvider from "@/Providers/authProvider";
-import { fetchCurrentUser } from "@/Networking/ServerFetch";
 
-export default async function RootLayout({ children }) {
-  // const user = await fetchCurrentUser();
+export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark overflow-x-hidden">
       <head>
