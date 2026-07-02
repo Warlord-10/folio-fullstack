@@ -30,22 +30,16 @@ function originalFolio() {
 
 
 export default async function Page({ params }) {
-  try {
-    // return <div>Hello</div>
-    return (
-      <>
-        <Script src={requests.projectBundles(`${params.userId}/main.bundle.js`)} strategy="afterInteractive" />
-        <Script src={requests.projectBundles(`${params.userId}/runtime.bundle.js`)} strategy="afterInteractive" />
-        <Script src={requests.projectBundles(`${params.userId}/vendors.bundle.js`)} strategy="afterInteractive" />
+  // No await here — nothing to catch. Any real failure bubbles to error.jsx.
+  return (
+    <>
+      <Script src={requests.projectBundles(`${params.userId}/main.bundle.js`)} strategy="afterInteractive" />
+      <Script src={requests.projectBundles(`${params.userId}/runtime.bundle.js`)} strategy="afterInteractive" />
+      <Script src={requests.projectBundles(`${params.userId}/vendors.bundle.js`)} strategy="afterInteractive" />
 
-        <div id='userPageRoot' className="bg-white min-h-screen">
-          {/* This div will be hydrated by the bundle.js */}
-        </div>
-      </>
-    );
-  } catch (error) {
-    console.log(error);
-    // return originalFolio();
-    return <div className="text-white bg-red-800">{error.toString()}</div>
-  }
+      <div id='userPageRoot' className="min-h-screen bg-white">
+        {/* This div will be hydrated by the bundle.js */}
+      </div>
+    </>
+  );
 }

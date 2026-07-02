@@ -11,41 +11,44 @@ function UserProfilePanel({ userDataProp, userProjectProp }) {
     const userPermission = userDataProp.permission
 
     return (
-        <div className='flex flex-col h-full bg-gradient-to-t from-zinc-950 to-neutral-900 rounded-lg shadow-lg'>
-            <div className='relative p-2'>
-                <div className="absolute top-0 left-0 w-full h-[60%] bg-gradient-to-r from-purple-600 to-blue-600 rounded-t-lg z-10" />
-                <div className='w-[40%] aspect-square rounded-full border-4 border-purple-500 mb-6 relative z-10 overflow-hidden'>
+        <div className='flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-lg'>
+            <div className='relative h-28 bg-gradient-to-r from-primary to-violet-500'>
+                <div className='absolute -bottom-12 left-6 aspect-square w-28 overflow-hidden rounded-full border-4 border-card bg-card'>
                     <UserProfileImage userData={userData} />
                 </div>
             </div>
 
-            <div className='p-6 flex flex-col gap-6'>
-                <div className='flex flex-col'>
-                    <div className='flex justify-between items-center'>
-                        <h1 className='text-3xl font-bold text-white'>{userData.name}</h1>
+            <div className='flex flex-col gap-6 p-6 pt-16'>
+                <div className='flex flex-col gap-1'>
+                    <div className='flex items-center justify-between'>
+                        <h1 className='text-2xl font-bold tracking-tight'>{userData.name}</h1>
                         {userPermission === "OWNER" && (
-                            <button className='' onClick={() => setIsUserEdit(true)} >
-                                <EditIcon size={24} />
+                            <button
+                                aria-label="Edit profile"
+                                onClick={() => setIsUserEdit(true)}
+                                className='rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground'
+                            >
+                                <EditIcon size={20} />
                             </button>
                         )}
                     </div>
-                    <h2 className='text-lg text-gray-400 flex items-center gap-2'>
-                        <Mail size={16} />
+                    <h2 className='flex items-center gap-2 text-sm text-muted-foreground'>
+                        <Mail size={15} />
                         <span>{userData.email}</span>
                     </h2>
                 </div>
                 {userData.about && (
-                    <p className='text-gray-300 border-y-2 py-4'>
+                    <p className='border-y border-border py-4 text-sm leading-relaxed text-muted-foreground'>
                         {userData.about}
                     </p>
                 )}
                 {userData.user_portfolio ? (
                     <Link href={`/portfolio-v2/${userData._id}`} target='_blank'
-                        className='py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 text-center'>
-                        Portfolio
+                        className='rounded-md bg-primary px-4 py-2 text-center font-semibold text-primary-foreground transition-colors hover:bg-primary/90'>
+                        View Portfolio
                     </Link>
                 ) : (
-                    <h1 className='text-gray-400'>No Portfolio Set</h1>
+                    <p className='text-sm text-muted-foreground'>No portfolio set yet.</p>
                 )}
             </div>
 

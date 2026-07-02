@@ -1,23 +1,40 @@
-import React from 'react';
+"use client";
+import { useEffect, useRef } from 'react';
 
 export default function DeleteConfirmationModal({ onConfirm, onCancel }) {
+    const cancelRef = useRef(null);
+
+    useEffect(() => {
+        cancelRef.current?.focus(); // land on the safe (Cancel) action, not Delete
+        const onKeyDown = (e) => { if (e.key === 'Escape') onCancel(); };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [onCancel]);
+
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-xl max-w-md w-full">
-                <h3 className="text-xl font-bold text-white mb-4">Confirm Account Deletion</h3>
-                <p className="text-gray-300 mb-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={onCancel}>
+            <div
+                role="alertdialog"
+                aria-modal="true"
+                aria-labelledby="delete-account-title"
+                className="w-full max-w-md rounded-lg bg-card p-6 shadow-xl"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <h3 id="delete-account-title" className="mb-4 text-xl font-bold">Confirm Account Deletion</h3>
+                <p className="mb-6 text-muted-foreground">
                     Are you sure you want to delete your account? This action cannot be undone.
                 </p>
                 <div className="flex justify-end space-x-4">
                     <button
+                        ref={cancelRef}
                         onClick={onCancel}
-                        className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200"
+                        className="rounded-md bg-secondary px-4 py-2 text-secondary-foreground transition duration-200 hover:bg-secondary/80"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+                        className="rounded-md bg-destructive px-4 py-2 text-destructive-foreground transition duration-200 hover:bg-destructive/90"
                     >
                         Delete Account
                     </button>

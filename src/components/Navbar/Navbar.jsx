@@ -4,17 +4,29 @@ import NavbarAuthenticated from "./NavbarAuthenticated";
 import NavbarUnauthenticated from "./NavbarUnauthenticated";
 
 export default async function Navbar() {
-  try {
-    const cookieStore = cookies();
-    const refreshToken = cookieStore.get("refreshToken")?.value;
+  const refreshToken = cookies().get("refreshToken")?.value;
+  if (!refreshToken) {
+    return <NavbarUnauthenticated />;
+  }
 
-    if (!refreshToken) {
+  try {
+    const decoded = jwtDecode(refreshToken);
+
+    // jwtDecode only decodes — it does NOT validate expiry. Check it ourselves,
+    // otherwise an expired refresh token still renders as "logged in".
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
       return <NavbarUnauthenticated />;
     }
 
-    const userData = jwtDecode(refreshToken);
+    // Cookie is the source of truth for identity, so seed the client menu from it.
+    // The store (sessionStorage) is empty on a fresh tab; this keeps the profile link valid.
+    const serverUser = {
+      _id: decoded._id || decoded.id || decoded.userId,
+      name: decoded.name,
+      avatar_path: decoded.avatar_path,
+    };
 
-    return <NavbarAuthenticated />;
+    return <NavbarAuthenticated serverUser={serverUser} />;
   } catch (error) {
     console.log(error);
     return <NavbarUnauthenticated />;

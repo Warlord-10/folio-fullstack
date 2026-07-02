@@ -21,13 +21,14 @@ export async function middleware(request) {
             });
 
             if (refreshRes.ok) {
-                const setCookieHeader = refreshRes.headers.get("set-cookie");
+                // getSetCookie() returns each Set-Cookie as its own string — safe to parse.
+                // The old .split(',') broke on the comma inside `Expires=Wed, 09 Jun...`.
+                const setCookies = refreshRes.headers.getSetCookie();
 
                 // Parse the new access token to pass it to the CURRENT request
                 // This ensures the Server Component gets the new token immediately
-                const newAccessToken = setCookieHeader
-                    ?.split(',')
-                    .find(c => c.trim().startsWith('accessToken='))
+                const newAccessToken = setCookies
+                    .find(c => c.startsWith('accessToken='))
                     ?.split(';')[0]
                     ?.split('=')[1];
 
@@ -42,8 +43,8 @@ export async function middleware(request) {
                         },
                     });
 
-                    // Also set the cookies on the response so the browser saves them
-                    nextRes.headers.set("set-cookie", setCookieHeader);
+                    // Also set each cookie on the response so the browser saves them
+                    setCookies.forEach(c => nextRes.headers.append("set-cookie", c));
 
                     return nextRes;
                 }

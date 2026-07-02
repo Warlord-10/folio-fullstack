@@ -13,6 +13,7 @@ export default function LogoutButton() {
 
       if (response.message) {
         router.replace("/home");
+        router.refresh(); // re-render the server-side Navbar now that cookies are cleared
       }
     } catch (error) {
       console.error("Logout failed:", error);

@@ -3,21 +3,20 @@ import Link from "next/link";
 
 export default function NavbarUnauthenticated() {
     return (
-      <div className="sticky backdrop-blur-md top-0 w-full h-14 bg-gray-950/50 flex text-white items-center px-2 p-1 justify-between z-[50]">
+      <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between gap-4 border-b border-border bg-background/70 px-4 backdrop-blur-xl">
         <Link
           href="/home"
-          className="font-[Anta] text-[1.5rem] text-transparent bg-clip-text bg-gradient-to-r from-red-900 to-blue-900"
+          className="font-[Anta] bg-gradient-to-r from-primary to-violet-400 bg-clip-text text-2xl text-transparent"
         >
           Folio
         </Link>
         <SearchBar />
         <Link
-          className="p-2 bg-gray-900 text-gray-400 rounded-md hover:bg-gray-700 font-semibold"
+          className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           href="/login"
         >
           Login
         </Link>
-      </div>
+      </header>
     );
   }
-  

@@ -7,7 +7,7 @@ import ProjectPageDetailSection from "@/components/ProjectDetail/ProjectPageDeta
 
 
 export default async function Page({ params }) {
-  try {
+    // Don't swallow errors — let a 500/404 bubble to error.jsx so the user sees a real state
     const response = await fetchServer(requests.getProjectByName(params.userId, params.projectName), {
       method: 'GET',
       cache: "no-store"
@@ -47,7 +47,4 @@ export default async function Page({ params }) {
         </div>
       </div>
     )
-  } catch (error) {
-    console.log(error)
-  }
 }

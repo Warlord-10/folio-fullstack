@@ -4,6 +4,28 @@ import UserProfilePanel from "@/components/ProfileDisplayPanel/UserProfilePanel"
 import UserProjectPanel from "@/components/ProfileDisplayPanel/UserProjectPanel";
 import { Toaster } from 'sonner'
 
+export async function generateMetadata({ params }) {
+    try {
+        const userData = await fetchServer(requests.getDeleteUpdateUserById(params.userId), {
+            method: 'GET',
+            next: { revalidate: 60, tags: ['user-profile'] },
+        });
+        const name = userData?.data?.name;
+        if (!name) return { title: "Profile" };
+        const description = userData.data.about || `${name}'s developer portfolio and projects on Folio.`;
+        return {
+            title: `${name}'s Portfolio`,
+            description,
+            openGraph: {
+                title: `${name} · Folio`,
+                description,
+                images: [requests.publicFiles(`${params.userId}/avatar.jpeg`)],
+            },
+        };
+    } catch {
+        return { title: "Profile" };
+    }
+}
 
 export default async function Page({ params }) {
     // Caching for 1 minutes only

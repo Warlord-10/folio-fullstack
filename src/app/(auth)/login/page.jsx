@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import useAuthStore from '@/Stores/authStore';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
 export default function Page() {
     const router = useRouter();
@@ -14,7 +17,6 @@ export default function Page() {
         router.push("/profile/" + userData._id);
     }
 
-
     const loginFunction = useAuthStore((s) => s.login);
 
     const validateInputs = (email, password) => {
@@ -24,92 +26,62 @@ export default function Page() {
         if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
             throw new Error("Please enter a valid email address");
         }
-        // if (password.length < 6) {
-        //     throw new Error("Password must be at least 6 characters long");
-        // }
     };
 
     const signInFunction = async (e) => {
         setIsLoading(true);
+        setApiResponse(null);
         try {
             const email = e.get("email")?.trim();
             const password = e.get("password")?.trim();
 
             validateInputs(email, password);
 
-            const dataToSend = { email, password };
+            const response = await loginFunction({ email, password });
 
-            const response = await loginFunction(dataToSend);
-
-            setApiResponse(
-                <div className='text-green-500 text-sm flex justify-center'>
-                    {response.message || "Successfully signed in!"}
-                </div>
-            );
-
+            setApiResponse({ type: "success", message: response.message || "Successfully signed in!" });
             router.push(`/profile/${response.user._id}`);
-
+            router.refresh(); // re-render the server-side Navbar with the new cookie
         } catch (error) {
-            const errorMessage = error.response?.data?.error || "Something went wrong, please try again!";
-            setApiResponse(
-                <div className='text-red-500 text-sm flex justify-center'>
-                    {errorMessage}
-                </div>
-            );
-            setTimeout(() => {
-                setApiResponse(null);
-            }, 3000);
+            const errorMessage = error.response?.data?.error || error.message || "Something went wrong, please try again!";
+            setApiResponse({ type: "error", message: errorMessage });
+            setTimeout(() => setApiResponse(null), 3000);
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <form action={signInFunction} className='border-2 border-white rounded-lg flex flex-col p-5 text-2xl space-y-5 bg-slate-950 text-white font-mono w-96'>
-            <h1 className='text-3xl font-bold underline decoration-1 pb-1'>Sign In</h1>
+        <form action={signInFunction} className='flex w-full flex-col gap-5 rounded-2xl border border-border bg-card/80 p-8 shadow-2xl backdrop-blur-xl'>
+            <div className='flex flex-col gap-1'>
+                <h1 className='text-2xl font-bold tracking-tight'>Welcome back</h1>
+                <p className='text-sm text-muted-foreground'>Sign in to continue to your portfolio.</p>
+            </div>
 
-            <div className='flex flex-col'>
-                <label htmlFor="email" className='text-base font-thin'>Email Id</label>
-                <input
-                    id="email"
-                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none'
-                    type='email'
-                    name='email'
-                    placeholder='Email'
-                    required
-                    disabled={isLoading}
-                    autoComplete="email"
-                />
+            <div className='flex flex-col gap-1.5'>
+                <label htmlFor="email" className='text-sm font-medium text-muted-foreground'>Email</label>
+                <Input id="email" type='email' name='email' placeholder='you@example.com' required disabled={isLoading} autoComplete="email" />
             </div>
-            <div className='flex flex-col'>
-                <label htmlFor="password" className='text-base font-thin'>Password</label>
-                <input
-                    id="password"
-                    className='text-black p-2 border-2 rounded-lg text-sm border-black outline-none'
-                    type='password'
-                    name='password'
-                    placeholder='Password'
-                    required
-                    disabled={isLoading}
-                    autoComplete="current-password"
-                />
+
+            <div className='flex flex-col gap-1.5'>
+                <label htmlFor="password" className='text-sm font-medium text-muted-foreground'>Password</label>
+                <Input id="password" type='password' name='password' placeholder='••••••••' required disabled={isLoading} autoComplete="current-password" />
             </div>
-            {apiResponse}
-            <button
-                type="submit"
-                disabled={isLoading}
-                className={`text-white border-white border-2 rounded-md hover:border-4 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-                {isLoading ? 'Signing In...' : 'Sign In'}
-            </button>
-            <div className='text-base'>
-                <span>Don&apos;t have an account? </span>
-                <Link
-                    className='cursor-pointer underline'
-                    href="./register">
-                    Sign up now.
-                </Link>
-            </div>
+
+            {apiResponse && (
+                <p className={`text-center text-sm ${apiResponse.type === "error" ? "text-destructive" : "text-success"}`}>
+                    {apiResponse.message}
+                </p>
+            )}
+
+            <Button type="submit" disabled={isLoading} className='h-11 w-full text-base'>
+                {isLoading ? <><Loader2 className='animate-spin' /> Signing in…</> : "Sign in"}
+            </Button>
+
+            <p className='text-center text-sm text-muted-foreground'>
+                Don&apos;t have an account?{' '}
+                <Link className='font-medium text-primary hover:underline' href="./register">Sign up</Link>
+            </p>
         </form>
-    )
+    );
 }
