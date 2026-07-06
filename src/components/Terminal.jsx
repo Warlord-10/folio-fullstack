@@ -42,14 +42,22 @@ function Terminal() {
                             className="top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-700 transition-colors"
                         > ✕ </button>
                     </div>
-                    <div className='overflow-y-scroll h-full flex flex-col'>
-                        {allNotifications.map((notification, index) => {
-                            if (notification.id && notification.message) return (
-                                <div key={index} className='px-2 justify-between w-full flex'>
-                                    <span>PERCENTAGE: {(notification.percentage * 100).toFixed(2)}%</span>
-                                    <span>STATUS: {notification.message}</span>
-                                </div>
-                            )
+                    <div className='overflow-y-scroll h-full flex flex-col font-mono text-sm'>
+                        {allNotifications.map((n, index) => {
+                            if (n.type === 'log') {
+                                // data is either a string (docker) or { percentage, message } (thread worker)
+                                const text = typeof n.data === 'string'
+                                    ? n.data
+                                    : `${((n.data?.percentage || 0) * 100).toFixed(0)}% ${n.data?.message || ''}`.trim();
+                                return <div key={index} className='px-2 w-full whitespace-pre-wrap'>{text}</div>
+                            }
+                            if (n.type === 'done') {
+                                return <div key={index} className='px-2 w-full text-green-400'>✓ Build completed</div>
+                            }
+                            if (n.type === 'error') {
+                                return <div key={index} className='px-2 w-full text-red-400'>✗ Build failed{n.code != null ? ` (code ${n.code})` : ''}</div>
+                            }
+                            return null
                         })}
                     </div>
                 </motion.div>

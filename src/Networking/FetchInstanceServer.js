@@ -24,7 +24,8 @@ export const fetchServer = async (url, options = {}) => {
   // Error Handling
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || `Request failed with status ${response.status}`);
+    // Backend errorHandler responds with { error, code }; keep .message as a fallback.
+    throw new Error(errorData.error || errorData.message || `Request failed with status ${response.status}`);
   }
 
   if (response.status === 204) {

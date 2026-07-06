@@ -12,7 +12,9 @@ export default function NotificationProvider({ children }) {
   useEffect(() => {
       if(!userId) return;
       console.log("started listening", userId)
-      const stop = initSSE((notif) => addNotification(notif), userId);   // start listening
+      // Build logs arrive as envelopes { type: 'log'|'done'|'error', ... }.
+      // Ignore the connection greeting string and anything without a type.
+      const stop = initSSE((notif) => { if (notif && notif.type) addNotification(notif) }, userId);
       return stop;
   }, [addNotification, userId]);
 

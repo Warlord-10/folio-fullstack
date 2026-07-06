@@ -10,12 +10,14 @@ import ProjectSelector from "./ProjectSelector";
 // import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import InputField from "./InputField";
 import { usePopUp } from '@/hooks/usePopUp';
+import useSettingStore from '@/Stores/settingStore';
 
 
 function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) {
     const router = useRouter();
 
     const [defaultPage, setDefaultPage] = useState(userData.user_portfolio)
+    const setSettings = useSettingStore((state) => state.setSettings)
     const { PopUp: DeletePopup, open: openDeleteModal, close: closeDeleteModal } = usePopUp();
     const [avatarPreview, setAvatarPreview] = useState(<UserProfileImage userData={userData} />)
 
@@ -70,16 +72,15 @@ function UserProfileEditPanel({ userData, userProjects, toClose, setUserData }) 
             return
         }
 
-        toast.promise(fetchClient(requests.transpileProject(defaultPage), {
-            method: "POST",
-            data: {
-                projectId: defaultPage
-            }
-        }), {
-            loading: 'Transpiling project...',
-            success: 'Project transpiled successfully',
-            error: 'Failed to transpile project'
-        });
+        try {
+            // Returns as soon as the build is QUEUED; live progress streams to the Terminal.
+            await fetchClient(requests.transpileProject(defaultPage), { method: "POST" });
+            setSettings({ isTerminalOpen: true }); // surface the live build log
+            toast.success("Build queued — watch the terminal for progress");
+        } catch (error) {
+            // e.g. 429 "Build limit reached. Try again in N minutes."
+            toast.error(error.message || "Failed to start build");
+        }
     }
 
     return (
