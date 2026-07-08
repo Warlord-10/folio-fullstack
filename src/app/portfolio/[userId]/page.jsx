@@ -11,6 +11,7 @@ import TechStackPage from '@/DefaultPortfolio/techStackPage'
 import ComplexAnimationPage from '@/DefaultPortfolio/animationPage'
 import Footer from '@/DefaultPortfolio/footer'
 import Home from '@/DefaultPortfolio/test'
+import TrackView from '@/components/Analytics/TrackView'
 
 
 function originalFolio() {
@@ -33,6 +34,7 @@ export default async function Page({ params }) {
   // No await here — nothing to catch. Any real failure bubbles to error.jsx.
   return (
     <>
+      <TrackView type="portfolio_view" id={params.userId} />
       <Script src={requests.projectBundles(`${params.userId}/main.bundle.js`)} strategy="afterInteractive" />
       <Script src={requests.projectBundles(`${params.userId}/runtime.bundle.js`)} strategy="afterInteractive" />
       <Script src={requests.projectBundles(`${params.userId}/vendors.bundle.js`)} strategy="afterInteractive" />

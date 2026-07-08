@@ -50,6 +50,12 @@ function UserProfilePanel({ userDataProp, userProjectProp }) {
                 ) : (
                     <p className='text-sm text-muted-foreground'>No portfolio set yet.</p>
                 )}
+                {userPermission === "OWNER" && (
+                    <Link href={`/profile/${userData._id}/analytics`}
+                        className='rounded-md border border-border px-4 py-2 text-center font-semibold transition-colors hover:bg-accent'>
+                        View Analytics
+                    </Link>
+                )}
             </div>
 
 

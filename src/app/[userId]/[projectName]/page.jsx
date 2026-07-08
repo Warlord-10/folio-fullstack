@@ -4,6 +4,7 @@ import ReadMePanel from "@/components/ProjectDetail/ReadMePanel";
 import { fetchServer } from "@/Networking/FetchInstanceServer";
 import BannerImagePanel from "@/components/BannerImagePanel";
 import ProjectPageDetailSection from "@/components/ProjectDetail/ProjectPageDetailSection";
+import TrackView from "@/components/Analytics/TrackView";
 
 
 export default async function Page({ params }) {
@@ -26,6 +27,7 @@ export default async function Page({ params }) {
 
     return (
       <div className="flex flex-col px-20">
+        <TrackView type="project_view" id={project_data._id} />
         <div className="flex justify-between items-center">
           <h1 className='py-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600'>{project_data.title}</h1>
         </div>

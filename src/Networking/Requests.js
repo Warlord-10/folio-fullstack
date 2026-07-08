@@ -106,6 +106,15 @@ const removePortfolioLike = (portfolio_id) => {
 }
 
 
+// Analytics
+const analyticsCollect = () => {
+    return `/analytics/collect`
+}
+const getAnalyticsSummary = (range = "30d") => {
+    return `/analytics/summary?range=${range}`
+}
+
+
 
 // For testing only
 const forTesting = () => {
@@ -149,6 +158,9 @@ export default {
     fetchPortfolios_v2,
     addPortfolioLike,
     removePortfolioLike,
+
+    analyticsCollect,
+    getAnalyticsSummary,
 
 
 

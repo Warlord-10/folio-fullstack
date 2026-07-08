@@ -3,6 +3,7 @@ import requests from "@/Networking/Requests";
 import UserProfilePanel from "@/components/ProfileDisplayPanel/UserProfilePanel";
 import UserProjectPanel from "@/components/ProfileDisplayPanel/UserProjectPanel";
 import { Toaster } from 'sonner'
+import TrackView from "@/components/Analytics/TrackView";
 
 export async function generateMetadata({ params }) {
     try {
@@ -47,6 +48,7 @@ export default async function Page({ params }) {
 
     return (
         <div className='userEditScreen flex flex-col md:flex-row gap-5 p-2 justify-center w-full'>
+            <TrackView type="profile_view" id={params.userId} />
             <div className="w-full md:w-[30%]">
                 <UserProfilePanel userDataProp={userData} userProjectProp={projectData.data} />
             </div>
